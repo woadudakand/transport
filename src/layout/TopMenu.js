@@ -11,7 +11,9 @@ const TopMenu = () => {
       const megaMenu = active.closest('.megaMenu-wrapper');
       const hasSubMenuLeft = active.closest('.has-subMenu-left');
       if (!megaMenu) {
-        active.closest('ul').previousSibling.classList.add('active');
+        if (active.closest('ul').previousSibling) {
+          active.closest('ul').previousSibling.classList.add('active');
+        }
         if (hasSubMenuLeft) hasSubMenuLeft.closest('ul').previousSibling.classList.add('active');
       } else {
         active.closest('.megaMenu-wrapper').previousSibling.classList.add('active');
@@ -29,7 +31,9 @@ const TopMenu = () => {
     const hasSubMenuLeft = event.currentTarget.closest('.has-subMenu-left');
     const megaMenu = event.currentTarget.closest('.megaMenu-wrapper');
     if (!megaMenu) {
-      event.currentTarget.closest('ul').previousSibling.classList.add('active');
+      if (event.currentTarget.closest('ul').previousSibling) {
+        event.currentTarget.closest('ul').previousSibling.classList.add('active');
+      }
       if (hasSubMenuLeft) hasSubMenuLeft.closest('ul').previousSibling.classList.add('active');
     } else {
       event.currentTarget.closest('.megaMenu-wrapper').previousSibling.classList.add('active');
@@ -40,11 +44,11 @@ const TopMenu = () => {
       <div className="strikingDash-top-menu">
         <ul>
           <ul>
-            <li>
-              <NavLink to={`${path}/social`} onClick={addParentActive}>
+            {/* <li>
+              <NavLink to={`${path}/`} onClick={addParentActive}>
                 Dashboard
               </NavLink>
-            </li>
+            </li> */}
             <li className="has-subMenu">
               <Link to="#" className="parent">
                 Users
