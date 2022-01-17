@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation } from 'react-router-dom';
-import SaveArticle from './SaveArticles';
+import SavePlace from './SavePlaces';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 
-const Articles = () => {
+const Places = () => {
   const [visible, setVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
@@ -95,12 +95,12 @@ const Articles = () => {
     <>
       <PageHeader
         ghost
-        title="Articles List"
+        title="Place List"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={showModal} size="small" type="primary">
               <FeatherIcon icon="plus" size={14} />
-              Add Articles
+              Add Place
             </Button>
           </div>,
         ]}
@@ -128,10 +128,10 @@ const Articles = () => {
             </Cards>
           </Col>
         </Row>
-        <SaveArticle onCancel={onCancel} visible={visible} />
+        <SavePlace onCancel={onCancel} visible={visible} />
       </Main>
     </>
   );
 };
 
-export default Articles;
+export default Places;

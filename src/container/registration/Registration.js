@@ -110,7 +110,7 @@ const Dashboard = () => {
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <Select
             showSearch
-            style={{ width: 200 }}
+            style={{ width: 200, marginBottom: 15 }}
             placeholder="Select a person"
             optionFilterProp="children"
             filterOption={(input, option) => option.props.children.toLowerCase().indexOf(input.toLowerCase()) >= 0}

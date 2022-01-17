@@ -77,7 +77,7 @@ const Permission = () => {
       <PageHeader ghost title="User Permission" />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <Select defaultValue="" style={{ width: '30%' }}>
+          <Select defaultValue="" style={{ width: '30%', marginBottom: 15 }}>
             <Select.Option value="">Choose Branch</Select.Option>
             <Select.Option value="pune">Pune</Select.Option>
             <Select.Option value="kallam">Kallam</Select.Option>
