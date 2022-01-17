@@ -18,7 +18,7 @@ const Dashboard = () => {
       sn: 1,
       action: (
         <div className="table-actions">
-          <Link className="edit">
+          <Link to="#" className="edit">
             <FeatherIcon icon="edit" size={14} />
           </Link>
           &nbsp;&nbsp;&nbsp;
@@ -34,7 +34,7 @@ const Dashboard = () => {
       sn: 2,
       action: (
         <div className="table-actions">
-          <Link className="edit">
+          <Link to="#" className="edit">
             <FeatherIcon icon="edit" size={14} />
           </Link>
           &nbsp;&nbsp;&nbsp;
