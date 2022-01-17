@@ -2,14 +2,14 @@ import React, { useState, useEffect } from 'react';
 import { Row, Col, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation } from 'react-router-dom';
-import SavePlace from './SavePlaces';
+import SavePlace from './SaveBranches';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 
-const Places = () => {
+const Branches = () => {
   const [visible, setVisible] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
@@ -57,12 +57,22 @@ const Places = () => {
       key: 'sn',
     },
     {
-      title: 'Place Name',
+      title: 'Code',
+      dataIndex: 'code',
+      key: 'code',
+    },
+    {
+      title: 'Name',
       dataIndex: 'name',
       key: 'name',
     },
     {
-      title: 'Place Abbreviation',
+      title: 'Abbreviation',
+      dataIndex: 'abbreviation',
+      key: 'abbreviation',
+    },
+    {
+      title: 'Description',
       dataIndex: 'description',
       key: 'description',
     },
@@ -95,12 +105,12 @@ const Places = () => {
     <>
       <PageHeader
         ghost
-        title="Place List"
+        title="Branch List"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={showModal} size="small" type="primary">
               <FeatherIcon icon="plus" size={14} />
-              Add Place
+              Add Branch
             </Button>
           </div>,
         ]}
@@ -134,4 +144,4 @@ const Places = () => {
   );
 };
 
-export default Places;
+export default Branches;

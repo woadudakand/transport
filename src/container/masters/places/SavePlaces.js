@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-
-const { Option } = Select;
 
 const SavePlaces = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
@@ -39,7 +37,7 @@ const SavePlaces = ({ visible, onCancel }) => {
   return (
     <Modal
       type={state.modalType}
-      title="Save Articles"
+      title="Save Place"
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
@@ -56,23 +54,11 @@ const SavePlaces = ({ visible, onCancel }) => {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="createProject" onFinish={handleOk}>
-            <Form.Item name="branch" initialValue="" label="">
-              <Select style={{ width: '100%' }}>
-                <Option value="">Choose Branch</Option>
-                <Option value="pune">Pune</Option>
-                <Option value="kallam">Kallam</Option>
-                <Option value="latur">Latur</Option>
-                <Option value="kaij">Kaij</Option>
-                <Option value="gulai,latur">Gulai, Latur</Option>
-                <Option value="thane,mumbai">Thane, Mumbai</Option>
-              </Select>
-            </Form.Item>
-
             <Form.Item name="name" label="">
-              <Input placeholder="Article Name" />
+              <Input placeholder="Place Name" />
             </Form.Item>
-            <Form.Item name="description" label="">
-              <Input.TextArea placeholder="Write article description here" />
+            <Form.Item name="abbreviation" label="">
+              <Input placeholder="Place abbreviation" />
             </Form.Item>
           </Form>
         </BasicFormWrapper>
