@@ -8,6 +8,8 @@ const Permission = lazy(() => import('../../container/registration/Permission'))
 const Articles = lazy(() => import('../../container/masters/articles/Articles'));
 const Places = lazy(() => import('../../container/masters/places/Places'));
 const Branches = lazy(() => import('../../container/masters/branches/Branches'));
+const Customers = lazy(() => import('../../container/masters/customers/Customers'));
+const SaveCustomers = lazy(() => import('../../container/masters/customers/SaveCustomers'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -20,6 +22,8 @@ const DashboardRoutes = () => {
       <Route path={`${path}/articles`} component={Articles} />
       <Route path={`${path}/places`} component={Places} />
       <Route path={`${path}/branches`} component={Branches} />
+      <Route path={`${path}/customers`} component={Customers} />
+      <Route path={`${path}/save-customers`} component={SaveCustomers} />
     </Switch>
   );
 };
