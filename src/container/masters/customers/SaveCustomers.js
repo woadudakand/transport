@@ -147,7 +147,7 @@ const SavePlaces = () => {
           <BasicFormWrapper>
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
-                <Col md={8} sm={12}>
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
                   <Form.Item name="name" label="">
                     <Input placeholder="Name" />
                   </Form.Item>
@@ -181,7 +181,8 @@ const SavePlaces = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col md={8} sm={12}>
+
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
                   <Form.Item name="correspondenceAddress" label="">
                     <Input placeholder="correspondence Address" />
                   </Form.Item>
@@ -216,7 +217,8 @@ const SavePlaces = () => {
                     </Col>
                   </Row>
                 </Col>
-                <Col md={8} sm={12}>
+
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
                   <Form.Item name="telephone" label="">
                     <Input placeholder="Telephone" />
                   </Form.Item>
@@ -238,12 +240,7 @@ const SavePlaces = () => {
                     <Input placeholder="ECC No" />
                   </Form.Item>
                 </Col>
-              </Row>
-
-              <br />
-              <br />
-              <Row gutter={24}>
-                <Col sm={8}>
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
                     <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
                     <br /> <br />
@@ -265,7 +262,7 @@ const SavePlaces = () => {
                     </Button>
                   </Cards>
                 </Col>
-                <Col sm={16}>
+                <Col style={{ marginBottom: '20px' }} md={16} sm={24}>
                   <TableWrapper className="table-data-view table-responsive">
                     <Table
                       className="table-responsive"
@@ -276,7 +273,7 @@ const SavePlaces = () => {
                   </TableWrapper>
                 </Col>
               </Row>
-              <br />
+
               <Form.Item label="">
                 <Button type="primary" htmlType="submit">
                   Add Customer
