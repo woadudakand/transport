@@ -19,6 +19,8 @@ const SaveVehicles = lazy(() => import('../../container/masters/vehicles/SaveVeh
 const VehiclesType = lazy(() => import('../../container/masters/vehicleType/VehicleType'));
 const Supplier = lazy(() => import('../../container/masters/supplier/Supplier'));
 const SaveSupplier = lazy(() => import('../../container/masters/supplier/SaveSupplier'));
+const Bank = lazy(() => import('../../container/masters/bank/Bank'));
+const BankAccount = lazy(() => import('../../container/masters/bankAccount/Accounts'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -43,6 +45,8 @@ const DashboardRoutes = () => {
       <Route path={`${path}/vehiclesType`} component={VehiclesType} />
       <Route path={`${path}/supplier`} component={Supplier} />
       <Route path={`${path}/save-supplier`} component={SaveSupplier} />
+      <Route path={`${path}/bankList`} component={Bank} />
+      <Route path={`${path}/bankAccountList`} component={BankAccount} />
     </Switch>
   );
 };
