@@ -1,11 +1,9 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input, Select } from 'antd';
+import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-
-const { Option } = Select;
 
 const SaveArticles = ({ visible, onCancel }) => {
   const [form] = Form.useForm();

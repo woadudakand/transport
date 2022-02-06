@@ -22,6 +22,9 @@ const SaveSupplier = lazy(() => import('../../container/masters/supplier/SaveSup
 const Bank = lazy(() => import('../../container/masters/bank/Bank'));
 const BankAccount = lazy(() => import('../../container/masters/bankAccount/Accounts'));
 
+const LorryReceipt = lazy(() => import('../../container/transactions/lr/LR'));
+const SaveLorry = lazy(() => import('../../container/transactions/lr/SaveLR'));
+
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
   return (
@@ -39,7 +42,6 @@ const DashboardRoutes = () => {
       <Route path={`${path}/save-drivers`} component={SaveDrivers} />
       <Route path={`${path}/employees`} component={Employees} />
       <Route path={`${path}/save-employees`} component={SaveEmployees} />
-
       <Route path={`${path}/vehicles`} component={Vehicles} />
       <Route path={`${path}/save-vehicle`} component={SaveVehicles} />
       <Route path={`${path}/vehiclesType`} component={VehiclesType} />
@@ -47,6 +49,9 @@ const DashboardRoutes = () => {
       <Route path={`${path}/save-supplier`} component={SaveSupplier} />
       <Route path={`${path}/bankList`} component={Bank} />
       <Route path={`${path}/bankAccountList`} component={BankAccount} />
+
+      <Route path={`${path}/lorryReceipt`} component={LorryReceipt} />
+      <Route path={`${path}/save-lr`} component={SaveLorry} />
     </Switch>
   );
 };
