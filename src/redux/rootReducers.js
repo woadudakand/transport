@@ -1,10 +1,10 @@
 import { combineReducers } from 'redux';
 import authReducer from './authentication/reducers';
 import ChangeLayoutMode from './themeLayout/reducers';
-import { userReducer } from './users/reducers';
+import UsersReducer from './users/reducers';
 
 const rootReducers = combineReducers({
-  users: userReducer,
+  users: UsersReducer,
   auth: authReducer,
   ChangeLayoutMode,
 });

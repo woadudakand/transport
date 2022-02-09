@@ -5,11 +5,11 @@ import { useDispatch } from 'react-redux';
 import { Button } from '../../components/buttons/buttons';
 import { Modal } from '../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../styled';
-import { registerUser } from '../../redux/users/actionCreator';
+import { updateUser } from '../../redux/users/actionCreator';
 
 const { Option } = Select;
 
-const AddUser = ({ visible, onCancel }) => {
+const UpdateUser = ({ visible, onCancel, user }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -32,7 +32,7 @@ const AddUser = ({ visible, onCancel }) => {
 
   const handleOk = async values => {
     const customValues = {
-      userId: new Date().getTime(),
+      id: user.id,
       branch: values.branch,
       employee: values.employee,
       password: values.password,
@@ -41,7 +41,7 @@ const AddUser = ({ visible, onCancel }) => {
     };
 
     if (customValues.branch) {
-      dispatch(registerUser(customValues));
+      dispatch(updateUser(customValues));
       onCancel();
     }
   };
@@ -50,16 +50,23 @@ const AddUser = ({ visible, onCancel }) => {
     onCancel();
   };
 
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue(user);
+    }
+  }, [form, user, visible]);
+
   return (
     <Modal
       type={state.modalType}
       title="User Registration"
       visible={state.visible}
+      forcerender="true"
       footer={[
         <div key="1" className="project-modal-footer">
-          <Form form={form} name="createProject" onFinish={handleOk}>
+          <Form form={form} name="updateProject" onFinish={handleOk}>
             <Button htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
-              User Add
+              User Update
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
               Cancel
@@ -71,8 +78,8 @@ const AddUser = ({ visible, onCancel }) => {
     >
       <div className="project-modal">
         <BasicFormWrapper>
-          <Form form={form} name="createProject" onFinish={handleOk}>
-            <Form.Item name="branch" initialValue="" label="Branches">
+          <Form form={form} name="updateProject" onFinish={handleOk}>
+            <Form.Item name="branch" initialValue={user.branch} label="Branches">
               <Select style={{ width: '100%' }}>
                 <Option value="">Choose Branch</Option>
                 <Option value="pune">Pune</Option>
@@ -83,14 +90,14 @@ const AddUser = ({ visible, onCancel }) => {
                 <Option value="thane,mumbai">Thane, Mumbai</Option>
               </Select>
             </Form.Item>
-            <Form.Item name="role" initialValue="" label="Role">
+            <Form.Item name="role" initialValue={user.role} label="Role">
               <Select style={{ width: '100%' }}>
                 <Option value="">User Type</Option>
                 <Option value="admin">Admin</Option>
                 <Option value="user">User</Option>
               </Select>
             </Form.Item>
-            <Form.Item name="employee" initialValue="" label="Employee">
+            <Form.Item name="employee" initialValue={user.employee} label="Employee">
               <Select style={{ width: '100%' }}>
                 <Option value="">Select Employee</Option>
                 <Option value="ravis">Ravis</Option>
@@ -99,12 +106,13 @@ const AddUser = ({ visible, onCancel }) => {
               </Select>
             </Form.Item>
 
-            <Form.Item name="username" label="User Name">
+            <Form.Item name="username" initialValue={user.username} label="User Name">
               <Input placeholder="Username" />
             </Form.Item>
             <Form.Item
               name="password"
               label="Password"
+              initialValue={user.password}
               rules={[
                 {
                   required: true,
@@ -119,6 +127,7 @@ const AddUser = ({ visible, onCancel }) => {
             <Form.Item
               name="confirm"
               label="Confirm Password"
+              initialValue={user.password}
               dependencies={['password']}
               hasFeedback
               rules={[
@@ -146,9 +155,10 @@ const AddUser = ({ visible, onCancel }) => {
   );
 };
 
-AddUser.propTypes = {
+UpdateUser.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
+  user: propTypes.object,
 };
 
-export default AddUser;
+export default UpdateUser;
