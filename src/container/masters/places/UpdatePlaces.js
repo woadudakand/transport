@@ -5,9 +5,9 @@ import { useDispatch } from 'react-redux';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-import { placeAddDispatch } from '../../../redux/places/actionCreator';
+import { updatePlace } from '../../../redux/places/actionCreator';
 
-const SavePlaces = ({ visible, onCancel }) => {
+const SavePlaces = ({ visible, onCancel, place }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -30,12 +30,13 @@ const SavePlaces = ({ visible, onCancel }) => {
 
   const handleOk = async values => {
     const customValues = {
+      id: place.id,
       name: values.name,
       abbreviation: values.abbreviation,
     };
 
     if (customValues.name) {
-      dispatch(placeAddDispatch(customValues));
+      dispatch(updatePlace(customValues));
       onCancel();
     }
   };
@@ -44,16 +45,23 @@ const SavePlaces = ({ visible, onCancel }) => {
     onCancel();
   };
 
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue(place);
+    }
+  }, [form, place, visible]);
+
   return (
     <Modal
       type={state.modalType}
       title="Save Place"
       visible={state.visible}
+      forcerender
       footer={[
         <div key="1" className="project-modal-footer">
-          <Form form={form} name="addPlace" onFinish={handleOk}>
+          <Form form={form} name="updatePlace" onFinish={handleOk}>
             <Button htmlType="submit" size="default" type="primary" key="submit">
-              Save
+              Update
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
               Cancel
@@ -65,11 +73,11 @@ const SavePlaces = ({ visible, onCancel }) => {
     >
       <div className="project-modal">
         <BasicFormWrapper>
-          <Form form={form} name="addPlace" onFinish={handleOk}>
-            <Form.Item name="name" label="">
+          <Form form={form} name="updatePlace" onFinish={handleOk}>
+            <Form.Item initialValue={place.name} name="name" label="">
               <Input placeholder="Place Name" />
             </Form.Item>
-            <Form.Item name="abbreviation" label="">
+            <Form.Item initialValue={place.abbreviation} name="abbreviation" label="">
               <Input placeholder="Place abbreviation" />
             </Form.Item>
           </Form>
@@ -82,6 +90,7 @@ const SavePlaces = ({ visible, onCancel }) => {
 SavePlaces.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
+  place: propTypes.object,
 };
 
 export default SavePlaces;

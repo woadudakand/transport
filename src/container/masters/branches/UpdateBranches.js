@@ -5,12 +5,11 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-import { branchAddDispatch } from '../../../redux/branch/actionCreator';
-import { getPlacesDispatch } from '../../../redux/places/actionCreator';
+import { updateBranch } from '../../../redux/branch/actionCreator';
 
 const { Option } = Select;
 
-const SaveBranch = ({ visible, onCancel }) => {
+const UpdateBranch = ({ visible, onCancel, branch }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { places } = useSelector(state => {
@@ -36,14 +35,9 @@ const SaveBranch = ({ visible, onCancel }) => {
     };
   }, [visible]);
 
-  useEffect(() => {
-    if (dispatch) {
-      dispatch(getPlacesDispatch());
-    }
-  }, [dispatch]);
-
   const handleOk = values => {
     const customValues = {
+      id: branch.id,
       name: values.name,
       abbreviation: values.abbreviation,
       description: values.description,
@@ -56,7 +50,7 @@ const SaveBranch = ({ visible, onCancel }) => {
     };
 
     if (customValues.name) {
-      dispatch(branchAddDispatch(customValues));
+      dispatch(updateBranch(customValues));
       onCancel();
     }
   };
@@ -65,11 +59,18 @@ const SaveBranch = ({ visible, onCancel }) => {
     onCancel();
   };
 
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue(branch);
+    }
+  }, [form, branch, visible]);
+
   return (
     <Modal
       type={state.modalType}
       title="Save Branches"
       visible={state.visible}
+      forcerender
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="addBranch" onFinish={handleOk}>
@@ -96,10 +97,12 @@ const SaveBranch = ({ visible, onCancel }) => {
               ]}
               name="code"
               label="Code"
+              initialValue={branch.code}
             >
               <Input placeholder="Code" />
             </Form.Item>
             <Form.Item
+              initialValue={branch.abbreviation}
               rules={[
                 {
                   required: true,
@@ -112,6 +115,7 @@ const SaveBranch = ({ visible, onCancel }) => {
               <Input placeholder="Abbreviation" />
             </Form.Item>
             <Form.Item
+              initialValue={branch.name}
               rules={[
                 {
                   required: true,
@@ -124,6 +128,7 @@ const SaveBranch = ({ visible, onCancel }) => {
               <Input placeholder="Name" />
             </Form.Item>
             <Form.Item
+              initialValue={branch.description}
               rules={[
                 {
                   required: true,
@@ -136,6 +141,7 @@ const SaveBranch = ({ visible, onCancel }) => {
               <Input.TextArea placeholder="Write article description here" />
             </Form.Item>
             <Form.Item
+              initialValue={branch.card}
               rules={[
                 {
                   required: true,
@@ -143,7 +149,6 @@ const SaveBranch = ({ visible, onCancel }) => {
                 },
               ]}
               name="place"
-              initialValue=""
               label="Place"
             >
               <Select style={{ width: '100%' }}>
@@ -156,6 +161,7 @@ const SaveBranch = ({ visible, onCancel }) => {
               </Select>
             </Form.Item>
             <Form.Item
+              initialValue={branch.oBalance ? JSON.parse(branch.oBalance).balance : ''}
               rules={[
                 {
                   required: true,
@@ -168,6 +174,7 @@ const SaveBranch = ({ visible, onCancel }) => {
               <Input placeholder="Opening Balance" />
             </Form.Item>
             <Form.Item
+              initialValue={branch.oBalance ? JSON.parse(branch.oBalance).card : ''}
               rules={[
                 {
                   required: true,
@@ -175,7 +182,6 @@ const SaveBranch = ({ visible, onCancel }) => {
                 },
               ]}
               name="card"
-              initialValue=""
               label=""
             >
               <Select style={{ width: '100%' }}>
@@ -191,9 +197,10 @@ const SaveBranch = ({ visible, onCancel }) => {
   );
 };
 
-SaveBranch.propTypes = {
+UpdateBranch.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
+  branch: propTypes.object,
 };
 
-export default SaveBranch;
+export default UpdateBranch;
