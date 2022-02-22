@@ -10,23 +10,23 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  branchSearch,
-  branchAddBegin,
-  branchAddSuccess,
-  branchAddErr,
-  getBranchBegin,
-  getBranchSuccess,
-  getBranchErr,
+  articleSearch,
+  articleAddBegin,
+  articleAddSuccess,
+  articleAddErr,
+  getArticleBegin,
+  getArticleSuccess,
+  getArticleErr,
 } = actions;
 
-const branchAddDispatch = place => {
+const articlesAddDispatch = place => {
   return async dispatch => {
     try {
-      dispatch(branchAddBegin());
-      const res = await DataService.post('/branch', place);
+      dispatch(articleAddBegin());
+      const res = await DataService.post('/articles', place);
       if (res.data.status === 200) {
         await dispatch(
-          branchAddSuccess({
+          articleAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -36,7 +36,7 @@ const branchAddDispatch = place => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          branchAddErr({
+          articleAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -47,7 +47,7 @@ const branchAddDispatch = place => {
     } catch (err) {
       console.log(err);
       dispatch(
-        branchAddErr({
+        articleAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -57,15 +57,15 @@ const branchAddDispatch = place => {
   };
 };
 
-const getBranchesDispatch = () => {
+const getArticlesDispatch = () => {
   return async dispatch => {
     try {
-      dispatch(getBranchBegin());
-      const res = await DataService.get(`/branch`);
+      dispatch(getArticleBegin());
+      const res = await DataService.get(`/articles`);
 
       if (res.data.status === 200) {
         await dispatch(
-          getBranchSuccess({
+          getArticleSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -73,15 +73,16 @@ const getBranchesDispatch = () => {
         );
       } else {
         await dispatch(
-          getBranchErr({
+          getArticleErr({
             message: res.data.message,
             type: res.data.type,
           }),
         );
       }
     } catch (err) {
+      console.log(err);
       dispatch(
-        getBranchErr({
+        getArticleErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -90,14 +91,14 @@ const getBranchesDispatch = () => {
   };
 };
 
-const deleteBranch = id => {
+const deleteArticle = id => {
   return async dispatch => {
     try {
-      dispatch(getBranchBegin());
-      const res = await DataService.delete(`/branch?id=${id}`);
+      dispatch(getArticleBegin());
+      const res = await DataService.delete(`/articles?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
-          getBranchSuccess({
+          getArticleSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -107,7 +108,7 @@ const deleteBranch = id => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          getBranchErr({
+          getArticleErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -117,7 +118,7 @@ const deleteBranch = id => {
       }
     } catch (err) {
       dispatch(
-        getBranchErr({
+        getArticleErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -127,20 +128,20 @@ const deleteBranch = id => {
   };
 };
 
-const getBranchDispatch = value => {
+const getArticleDispatch = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/branch/query?data=${value}`);
+      const res = await DataService.get(`/articles/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(
-          branchSearch({
+          articleSearch({
             result: res.data.data,
           }),
         );
       } else {
         await dispatch(
-          getBranchErr({
+          getArticleErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -148,7 +149,7 @@ const getBranchDispatch = value => {
       }
     } catch (err) {
       dispatch(
-        getBranchErr({
+        getArticleErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -157,14 +158,14 @@ const getBranchDispatch = value => {
   };
 };
 
-const updateBranch = place => {
+const updateArticle = place => {
   return async dispatch => {
     try {
-      dispatch(branchAddBegin());
-      const res = await DataService.put('/branch', place);
+      dispatch(articleAddBegin());
+      const res = await DataService.put('/articles', place);
       if (res.data.status === 200) {
         await dispatch(
-          branchAddSuccess({
+          articleAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -174,7 +175,7 @@ const updateBranch = place => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          branchAddErr({
+          articleAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -184,7 +185,7 @@ const updateBranch = place => {
       }
     } catch (err) {
       dispatch(
-        branchAddErr({
+        articleAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -194,4 +195,4 @@ const updateBranch = place => {
   };
 };
 
-export { getBranchesDispatch, branchAddDispatch, getBranchDispatch, deleteBranch, updateBranch };
+export { getArticlesDispatch, articlesAddDispatch, getArticleDispatch, deleteArticle, updateArticle };

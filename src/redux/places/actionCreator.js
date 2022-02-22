@@ -42,9 +42,11 @@ const placeAddDispatch = place => {
             type: res.data.type,
           }),
         );
+        console.log(res);
         openNotificationWithIcon('error', res.data.message, res.data.description);
       }
     } catch (err) {
+      console.log(err);
       dispatch(
         placesAddErr({
           message: 'Record Submit failed! Please check your connection',

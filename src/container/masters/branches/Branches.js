@@ -22,10 +22,10 @@ const openNotificationWithIcon = () => {
 
 const Branches = () => {
   const [visible, setVisible] = useState(false);
-  const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
+  const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [updateBranch, setUpdateBranch] = useState({});
 
   const dispatch = useDispatch();

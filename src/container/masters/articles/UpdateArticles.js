@@ -1,16 +1,16 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from 'antd';
 import propTypes from 'prop-types';
-import { useSelector, useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
+import { updateArticle } from '../../../redux/articles/actionCreator';
 import { getBranchesDispatch } from '../../../redux/branch/actionCreator';
-import { articlesAddDispatch } from '../../../redux/articles/actionCreator';
 
 const { Option } = Select;
 
-const SaveArticles = ({ visible, onCancel }) => {
+const UpdateArticles = ({ visible, onCancel, article }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { branches } = useSelector(state => {
@@ -18,7 +18,6 @@ const SaveArticles = ({ visible, onCancel }) => {
       branches: state.branches.branches,
     };
   });
-
   const [state, setState] = useState({
     visible,
     modalType: 'primary',
@@ -45,13 +44,14 @@ const SaveArticles = ({ visible, onCancel }) => {
 
   const handleOk = values => {
     const customValues = {
+      id: article.id,
       name: values.name,
       description: values.description,
       branch: values.branch,
     };
 
     if (customValues.name) {
-      dispatch(articlesAddDispatch(customValues));
+      dispatch(updateArticle(customValues));
       onCancel();
     }
   };
@@ -60,11 +60,18 @@ const SaveArticles = ({ visible, onCancel }) => {
     onCancel();
   };
 
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue(article);
+    }
+  }, [form, article, visible]);
+
   return (
     <Modal
       type={state.modalType}
       title="Save Articles"
       visible={state.visible}
+      forcerender
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="createArticle" onFinish={handleOk}>
@@ -134,9 +141,10 @@ const SaveArticles = ({ visible, onCancel }) => {
   );
 };
 
-SaveArticles.propTypes = {
+UpdateArticles.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
+  article: propTypes.object,
 };
 
-export default SaveArticles;
+export default UpdateArticles;
