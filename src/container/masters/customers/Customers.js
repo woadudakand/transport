@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table } from 'antd';
+import { Row, Col, Table, notification } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { Main, TableWrapper } from '../../styled';
@@ -7,11 +7,23 @@ import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
+import { DataService } from '../../../config/dataService/dataService';
+import DataLoader from '../../../components/utilities/DataLoader';
+
+const openNotificationWithIcon = () => {
+  notification.error({
+    message: 'Deleted!',
+    description: 'Please Select minimum one row.',
+  });
+};
 
 const Customers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
+
+  const [data, setData] = useState([]);
+  const [isLoading, setLoading] = useState(false);
 
   useEffect(() => {
     if (window.innerWidth <= 375) {
@@ -21,42 +33,49 @@ const Customers = () => {
     }
   }, [pathname]);
 
-  const dataSource = [
-    {
-      key: '1',
-      sn: 1,
-      name: 'Ravi',
-      address: 'Latur',
-      email: 'transport@gmail.com',
-      city: 'latur',
-      contact: '12345',
+  useEffect(() => {
+    async function getDataFromServer() {
+      try {
+        setLoading(true);
+        const res = await DataService.get(`/customer`);
+
+        setLoading(false);
+        if (res.data.status === 200) {
+          setData(res.data.data);
+        }
+      } catch (err) {
+        console.log(err);
+        setLoading(false);
+      }
+    }
+
+    if (pathname) {
+      getDataFromServer();
+    }
+  }, [pathname]);
+
+  const dataSource = [];
+
+  data.map((customer, key) => {
+    const { name, address, id, email, city, telephone } = customer;
+    return dataSource.push({
+      key: id,
+      sn: key + 1,
+      name,
+      address,
+      email,
+      city,
+      telephone,
       lrCreate: '15',
       action: (
         <div className="table-actions">
-          <Link to="#" className="edit">
+          <Link to={`/admin/update-customers/${id}`} className="edit">
             <FeatherIcon icon="edit" size={14} />
           </Link>
         </div>
       ),
-    },
-    {
-      key: '2',
-      sn: 2,
-      name: 'Amit',
-      address: 'Waraj',
-      email: 'Amit@gmail.com',
-      city: 'Waraj',
-      contact: '12345',
-      lrCreate: '13',
-      action: (
-        <div className="table-actions">
-          <Link to="#" className="edit">
-            <FeatherIcon icon="edit" size={14} />
-          </Link>
-        </div>
-      ),
-    },
-  ];
+    });
+  });
 
   const columns = [
     {
@@ -87,8 +106,8 @@ const Customers = () => {
     },
     {
       title: 'Contact Number',
-      dataIndex: 'contact',
-      key: 'contact',
+      dataIndex: 'telephone',
+      key: 'telephone',
     },
     {
       title: 'Total LR Created',
@@ -115,8 +134,45 @@ const Customers = () => {
     onChange: onSelectChange,
   };
 
+  const handleDeleted = async () => {
+    if (selectedRowKeys.length) {
+      // dispatch(deleteBranch(selectedRowKeys.toString()));
+      setLoading(true);
+      const res = await DataService.delete(`/customer?id=${selectedRowKeys.toString()}`);
+      if (res.data.status === 200) {
+        setLoading(false);
+        setData(res.data.data);
+      } else {
+        setLoading(false);
+        console.log('data not found');
+      }
+    } else {
+      setLoading(false);
+      openNotificationWithIcon();
+    }
+  };
+
+  const handleSearch = async value => {
+    try {
+      setLoading(true);
+      const res = await DataService.get(`/customer/query?data=${value}`);
+
+      if (res.data.status === 200) {
+        setLoading(false);
+        setData(res.data.data);
+      } else {
+        setLoading(false);
+        console.log('data not found');
+      }
+    } catch (err) {
+      setLoading(false);
+      console.log(err);
+    }
+  };
+
   return (
     <>
+      {isLoading ? <DataLoader /> : null}
       <PageHeader
         ghost
         title="Customer List"
@@ -131,8 +187,8 @@ const Customers = () => {
       />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <AutoComplete placeholder="Search..." onSearch={data => console.log(data)} width="200px" patterns />
-          <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+          <AutoComplete placeholder="Search..." onSearch={handleSearch} width="200px" patterns />
+          <Button onClick={handleDeleted} block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
             Delete
           </Button>
         </Row>

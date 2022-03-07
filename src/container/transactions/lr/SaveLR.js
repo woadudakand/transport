@@ -148,7 +148,7 @@ const SavePlaces = () => {
             <Form form={form} name="lorryReceipt" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="lrNo" label="">
+                  <Form.Item name="lrNo" label="LR No:">
                     <Input placeholder="LR No: " />
                   </Form.Item>
                   <Form.Item name="date" label="">

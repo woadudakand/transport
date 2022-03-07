@@ -10,6 +10,7 @@ const Places = lazy(() => import('../../container/masters/places/Places'));
 const Branches = lazy(() => import('../../container/masters/branches/Branches'));
 const Customers = lazy(() => import('../../container/masters/customers/Customers'));
 const SaveCustomers = lazy(() => import('../../container/masters/customers/SaveCustomers'));
+const UpdateCustomers = lazy(() => import('../../container/masters/customers/EditCustomer'));
 const Drivers = lazy(() => import('../../container/masters/drivers/Drivers'));
 const SaveDrivers = lazy(() => import('../../container/masters/drivers/SaveDrivers'));
 const Employees = lazy(() => import('../../container/masters/Employee/Employee'));
@@ -38,6 +39,8 @@ const DashboardRoutes = () => {
       <Route path={`${path}/branches`} component={Branches} />
       <Route path={`${path}/customers`} component={Customers} />
       <Route path={`${path}/save-customers`} component={SaveCustomers} />
+      <Route path={`${path}/save-customers`} component={SaveCustomers} />
+      <Route path={`${path}/update-customers/:id`} component={UpdateCustomers} />
       <Route path={`${path}/drivers`} component={Drivers} />
       <Route path={`${path}/save-drivers`} component={SaveDrivers} />
       <Route path={`${path}/employees`} component={Employees} />

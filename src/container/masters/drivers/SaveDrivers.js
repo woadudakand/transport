@@ -24,16 +24,16 @@ const SaveDrivers = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="name" label="">
+                  <Form.Item name="name" label="Driver Name">
                     <Input placeholder="Name" />
                   </Form.Item>
-                  <Form.Item name="birth" label="">
+                  <Form.Item name="birth" label="Date of Birth">
                     <DatePicker style={{ width: '100%' }} placeholder="yyyy/mm/dd" />
                   </Form.Item>
-                  <Form.Item name="referenced" label="">
+                  <Form.Item name="reference" label="Referenced By">
                     <Input placeholder="Referenced By" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="licenseType" label="">
+                  <Form.Item initialValue="" name="licenseType" label="License Type">
                     <Select>
                       <Select.Option value="">Select License Type</Select.Option>
                       <Select.Option value="Higher-Heavy">Higher-Heavy</Select.Option>
@@ -42,7 +42,7 @@ const SaveDrivers = () => {
                       <Select.Option value="Normal">Normal</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="blood" label="">
+                  <Form.Item initialValue="" name="blood" label="Blood Group">
                     <Select>
                       <Select.Option value="">Blood Group</Select.Option>
                       <Select.Option value="A-">A-</Select.Option>
@@ -55,43 +55,48 @@ const SaveDrivers = () => {
                       <Select.Option value="O+">O+</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="remark" label="">
+                  <Form.Item name="remark" label="Remark">
                     <Input placeholder="Remark" />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="address" label="">
+                  <Form.Item name="cAddress" label="Correspondence Address">
                     <Input placeholder="Correspondence Address" />
                   </Form.Item>
-                  <Form.Item name="eyesight" label="">
-                    <Input placeholder="Eyesight" />
+                  <Form.Item initialValue="" name="eyesight" label="Eyesight">
+                    <Select>
+                      <Select.Option value="">Select</Select.Option>
+                      <Select.Option value="Normal">Normal</Select.Option>
+                      <Select.Option value="Good">Good</Select.Option>
+                    </Select>
                   </Form.Item>
-                  <Form.Item name="telephone" label="">
+
+                  <Form.Item name="telephone" label="Telephone">
                     <Input placeholder="Telephone" />
                   </Form.Item>
-                  <Form.Item name="qualification" label="">
+                  <Form.Item name="qualifications" label="Qualification">
                     <Input placeholder="Qualification" />
                   </Form.Item>
-                  <Form.Item name="renew" label="">
-                    <DatePicker style={{ width: '100%' }} placeholder="Renew Date" />
+                  <Form.Item name="renew" label="Renew Date">
+                    <DatePicker style={{ width: '100%' }} placeholder="yyyy/mm/dd" />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="pAddress" label="">
+                  <Form.Item name="pAddress" label="Permanent Address">
                     <Input placeholder="Permanent Address" />
                   </Form.Item>
-                  <Form.Item name="fName" label="">
+                  <Form.Item name="fName" label="Father Name">
                     <Input placeholder="Father Name" />
                   </Form.Item>
-                  <Form.Item name="licenseNo" label="">
+                  <Form.Item name="license" label="License No.">
                     <Input placeholder="License No." />
                   </Form.Item>
-                  <Form.Item name="join" label="">
+                  <Form.Item name="joinDate" label="Join Date">
                     <DatePicker style={{ width: '100%' }} placeholder="Joining Date" />
                   </Form.Item>
-                  <Form.Item name="expiry" label="">
+                  <Form.Item name="expireDate" label="Expiry Date">
                     <DatePicker style={{ width: '100%' }} placeholder="Expiry Date" />
                   </Form.Item>
                 </Col>

@@ -1,27 +1,59 @@
 import React, { useState } from 'react';
-import { Col, Form, Input, Row, Select, Table } from 'antd';
+import { Col, Form, Input, Row, Select, Table, notification, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
+import { DataService } from '../../../config/dataService/dataService';
+
+const openNotificationWithIcon = (type, message, description) => {
+  notification[type]({
+    message,
+    description,
+  });
+};
 
 const SavePlaces = () => {
   const [form] = Form.useForm();
   const [info, setInfo] = useState({});
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const [branch, setBranch] = useState('');
+  const [isLoading, setLoading] = useState(false);
 
-  const handleFinish = values => {
-    console.log({
+  const handleFinish = async values => {
+    const customer = {
       ...values,
-      openBalance: {
+      branch,
+      oBalance: JSON.stringify({
         balance: values.oBalance,
         card: values.oCard,
-      },
-      info: dataSource,
-    });
+      }),
+      cBalance: JSON.stringify({
+        balance: values.cBalance,
+        card: values.cCard,
+      }),
+      contactPerson: JSON.stringify(dataSource),
+    };
+
+    try {
+      setLoading(true);
+
+      const res = await DataService.post('/customer', customer);
+      if (res.data.status === 200) {
+        openNotificationWithIcon('success', res.data.message, res.data.description);
+        setLoading(false);
+      } else {
+        setLoading(false);
+        openNotificationWithIcon('error', res.data.message, res.data.description);
+      }
+    } catch (err) {
+      console.log(err);
+      setLoading(false);
+      openNotificationWithIcon('error', 'Add Customer!', err.toString());
+    }
   };
   const infoTableData = [];
 
@@ -130,6 +162,10 @@ const SavePlaces = () => {
       setDataSource(newData);
     }
   };
+  // { name: "Woadud", fax: "580", state: "pune", vCode: "33345", oBalance: "{\"balance\":\"5000\",\"card\":\"credit\"}", oCard: "credit", correspondenceAddress: "jjajflaj jalfjalj", cst: "76", city: "pune", vat: "5", … }
+  const handleBranch = value => {
+    setBranch(value);
+  };
 
   return (
     <>
@@ -137,7 +173,7 @@ const SavePlaces = () => {
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
-          <Select style={{ width: '250px' }} defaultValue="">
+          <Select onChange={handleBranch} style={{ width: '250px' }} defaultValue="">
             <Select.Option value="">Select Branch</Select.Option>
             <Select.Option value="pune">Pune</Select.Option>
             <Select.Option value="kallam">Kallam</Select.Option>
@@ -148,30 +184,30 @@ const SavePlaces = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="name" label="">
+                  <Form.Item name="name" label="Customer Name">
                     <Input placeholder="Name" />
                   </Form.Item>
-                  <Form.Item name="fax" label="">
+                  <Form.Item name="fax" label="Fax No">
                     <Input placeholder="Fax No" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="state" label="">
+                  <Form.Item initialValue="" name="state" label="Select State">
                     <Select>
                       <Select.Option value="">Select State</Select.Option>
                       <Select.Option value="pune">Pune</Select.Option>
                       <Select.Option value="kallam">Kallam</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="vCode" label="">
+                  <Form.Item name="vCode" label="Vendor Code">
                     <Input placeholder="Vendor Code" />
                   </Form.Item>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="oBalance" label="">
+                      <Form.Item name="oBalance" label="Opening Balance">
                         <Input placeholder="Opening Balance" />
                       </Form.Item>
                     </Col>
                     <Col xs={12}>
-                      <Form.Item name="oCard" initialValue="" label="">
+                      <Form.Item name="oCard" initialValue="" label="Select Card">
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -183,31 +219,31 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="correspondenceAddress" label="">
+                  <Form.Item name="correspondenceAddress" label="Correspondence Address">
                     <Input placeholder="correspondence Address" />
                   </Form.Item>
-                  <Form.Item name="cst" label="">
+                  <Form.Item name="cst" label="CST No.">
                     <Input placeholder="CST No." />
                   </Form.Item>
-                  <Form.Item initialValue="" name="city" label="">
+                  <Form.Item initialValue="" name="city" label="Select City">
                     <Select>
                       <Select.Option value="">Select City</Select.Option>
                       <Select.Option value="pune">Pune</Select.Option>
                       <Select.Option value="kallam">Kallam</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="vat" label="">
+                  <Form.Item name="vat" label="Vat No">
                     <Input placeholder="Vat No" />
                   </Form.Item>
 
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="cBalance" label="">
+                      <Form.Item name="cBalance" label="Closing Balance">
                         <Input placeholder="Closing Balance" />
                       </Form.Item>
                     </Col>
                     <Col xs={12}>
-                      <Form.Item name="cCard" initialValue="" label="">
+                      <Form.Item name="cCard" initialValue="" label="Select Card">
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -219,10 +255,10 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="telephone" label="">
+                  <Form.Item name="telephone" label="Telephone">
                     <Input placeholder="Telephone" />
                   </Form.Item>
-                  <Form.Item name="gst" label="">
+                  <Form.Item name="gst" label="GST No.">
                     <Input placeholder="GST No." />
                   </Form.Item>
                   <Form.Item
@@ -232,11 +268,11 @@ const SavePlaces = () => {
                         type: 'email',
                       },
                     ]}
-                    label=""
+                    label="Email"
                   >
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item name="ecc" label="">
+                  <Form.Item name="ecc" label="ECC No">
                     <Input placeholder="ECC No" />
                   </Form.Item>
                 </Col>
@@ -276,7 +312,7 @@ const SavePlaces = () => {
 
               <Form.Item label="">
                 <Button type="primary" htmlType="submit">
-                  Add Customer
+                  Add Customer {isLoading && <Spin />}
                 </Button>
               </Form.Item>
             </Form>
