@@ -157,14 +157,14 @@ const SaveVehicle = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item initialValue="" name="owner" label="">
+                  <Form.Item initialValue="" name="owner" label="Select Owner">
                     <Select showSearch>
                       <Select.Option value="">Select Owner</Select.Option>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="kamal">kamal</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="type" label="">
+                  <Form.Item initialValue="" name="type" label="Select Vehicle Type">
                     <Select>
                       <Select.Option value="">Select Vehicle Type</Select.Option>
                       <Select.Option value="Mrf">Mrf</Select.Option>
@@ -172,43 +172,43 @@ const SaveVehicle = () => {
                       <Select.Option value="Mini">Mini</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="vNo" label="">
+                  <Form.Item name="vNo" label="Vehicle NO">
                     <Input placeholder="Vehicle NO" />
                   </Form.Item>
-                  <Form.Item name="capacity" label="">
+                  <Form.Item name="capacity" label="capacity">
                     <Input placeholder="capacity" />
                   </Form.Item>
-                  <Form.Item name="make" label="">
+                  <Form.Item name="make" label="Make">
                     <Input placeholder="Make" />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="Description" label="">
+                  <Form.Item name="Description" label="Description">
                     <Input placeholder="description" />
                   </Form.Item>
-                  <Form.Item name="regDate" label="">
+                  <Form.Item name="regDate" label="Reg Date">
                     <DatePicker style={{ width: '100%' }} placeholder="Reg Date" />
                   </Form.Item>
-                  <Form.Item name="expDate" label="">
+                  <Form.Item name="expDate" label="Exp Date">
                     <DatePicker style={{ width: '100%' }} placeholder="Exp Date" />
                   </Form.Item>
-                  <Form.Item name="Engine No" label="">
+                  <Form.Item name="Engine No" label="Engine No">
                     <Input placeholder="engineNo" />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="chasisNo" label="">
+                  <Form.Item name="chasisNo" label="Chasis No">
                     <Input placeholder="Chasis No" />
                   </Form.Item>
-                  <Form.Item name="pUCno" label="">
+                  <Form.Item name="pUCno" label="PUC No">
                     <Input placeholder="PUC No" />
                   </Form.Item>
-                  <Form.Item name="pUCExp" label="">
+                  <Form.Item name="pUCExp" label="PUC Exp. Date">
                     <DatePicker style={{ width: '100%' }} placeholder="PUC Exp. Date" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="body" label="">
+                  <Form.Item initialValue="" name="body" label="Select Body">
                     <Select>
                       <Select.Option value="">Select Body</Select.Option>
                       <Select.Option value="Open">Open</Select.Option>

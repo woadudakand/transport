@@ -151,10 +151,10 @@ const SavePlaces = () => {
                   <Form.Item name="lrNo" label="LR No:">
                     <Input placeholder="LR No: " />
                   </Form.Item>
-                  <Form.Item name="date" label="">
+                  <Form.Item name="date" label="Date">
                     <DatePicker style={{ width: '100%' }} placeholder="date" />
                   </Form.Item>
-                  <Form.Item name="invoice" label="">
+                  <Form.Item name="invoice" label="Invoice No:">
                     <Input placeholder="Invoice No:" />
                   </Form.Item>
                   <Form.Item initialValue="MH 13 AA 1881" name="state" label="Truck/Tempo No:">
@@ -172,13 +172,13 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="gst" label="">
+                  <Form.Item name="gst" label="Consignor's GST No">
                     <Input placeholder="Consignor's GST No" />
                   </Form.Item>
-                  <Form.Item name="cst" label="">
+                  <Form.Item name="cst" label="CST No">
                     <Input placeholder="CST No." />
                   </Form.Item>
-                  <Form.Item name="address" label="">
+                  <Form.Item name="address" label="Consignee Address:">
                     <Input placeholder="Consignee Address:" />
                   </Form.Item>
 
@@ -205,10 +205,10 @@ const SavePlaces = () => {
                       <Select.Option value="Amit">Amit</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="telephone" label="">
+                  <Form.Item name="telephone" label="Telephone">
                     <Input placeholder="Telephone" />
                   </Form.Item>
-                  <Form.Item name="gst" label="">
+                  <Form.Item name="gst" label="GST No">
                     <Input placeholder="GST No." />
                   </Form.Item>
                   <Form.Item
@@ -218,11 +218,11 @@ const SavePlaces = () => {
                         type: 'email',
                       },
                     ]}
-                    label=""
+                    label="Email"
                   >
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item name="ecc" label="">
+                  <Form.Item name="ecc" label="ECC No">
                     <Input placeholder="ECC No" />
                   </Form.Item>
                 </Col>

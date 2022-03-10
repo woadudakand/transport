@@ -142,13 +142,13 @@ const SaveSupplier = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="name" label="">
+                  <Form.Item name="name" label="Supplier Name">
                     <Input placeholder="Supplier Name" />
                   </Form.Item>
-                  <Form.Item name="address" label="">
+                  <Form.Item name="address" label="Address">
                     <Input placeholder="Address" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="type" label="">
+                  <Form.Item initialValue="" name="type" label="Supplier Type">
                     <Select>
                       <Select.Option value="">Supplier Type</Select.Option>
                       <Select.Option value="Vehicle">Vehicle</Select.Option>
@@ -156,7 +156,7 @@ const SaveSupplier = () => {
                       <Select.Option value="Pump">Pump</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="state" label="">
+                  <Form.Item initialValue="" name="state" label="Select State">
                     <Select>
                       <Select.Option value="">Select State</Select.Option>
                       <Select.Option value="Pune">Pune</Select.Option>
@@ -164,7 +164,7 @@ const SaveSupplier = () => {
                       <Select.Option value="Rajastan">Rajastan</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="city" label="">
+                  <Form.Item initialValue="" name="city" label="Select City">
                     <Select>
                       <Select.Option value="">Select City</Select.Option>
                       <Select.Option value="pune">Pune</Select.Option>
@@ -174,7 +174,7 @@ const SaveSupplier = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="contact" label="">
+                  <Form.Item name="contact" label="Telephone">
                     <Input placeholder="Telephone" />
                   </Form.Item>
                   <Form.Item
@@ -184,37 +184,37 @@ const SaveSupplier = () => {
                         type: 'email',
                       },
                     ]}
-                    label=""
+                    label="Email"
                   >
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item name="pan" label="">
+                  <Form.Item name="pan" label="PAN No">
                     <Input placeholder="PAN No" />
                   </Form.Item>
-                  <Form.Item name="vendorCode" label="">
+                  <Form.Item name="vendorCode" label="Vendor Code">
                     <Input placeholder="Vendor Code" />
                   </Form.Item>
-                  <Form.Item name="cst" label="">
+                  <Form.Item name="cst" label="CST No">
                     <Input placeholder="CST No." />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="vat" label="">
+                  <Form.Item name="vat" label="Vat No">
                     <Input placeholder="Vat No." />
                   </Form.Item>
 
-                  <Form.Item name="ecc" label="">
+                  <Form.Item name="ecc" label="ECC No">
                     <Input placeholder="ECC No" />
                   </Form.Item>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="oBalance" label="">
+                      <Form.Item name="oBalance" label="Opening Balance">
                         <Input placeholder="Opening Balance" />
                       </Form.Item>
                     </Col>
                     <Col xs={12}>
-                      <Form.Item name="oCard" initialValue="" label="">
+                      <Form.Item name="oCard" initialValue="" label="Select Card">
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -223,20 +223,20 @@ const SaveSupplier = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ margin: '25px 0' }} xs={24}>
-                      <Form.Item name="oDate" label="">
+                      <Form.Item name="oDate" label="Date">
                         <DatePicker style={{ width: '100%' }} placeholder="Date" />
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="cBalance" label="">
+                      <Form.Item name="cBalance" label="Closing Balance">
                         <Input placeholder="Closing Balance" />
                       </Form.Item>
                     </Col>
 
                     <Col xs={12}>
-                      <Form.Item name="cCard" initialValue="" label="">
+                      <Form.Item name="cCard" initialValue="" label="Select Card">
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -245,7 +245,7 @@ const SaveSupplier = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ marginTop: '20px' }} xs={24}>
-                      <Form.Item name="cDate" label="">
+                      <Form.Item name="cDate" label="Date">
                         <DatePicker style={{ width: '100%' }} placeholder="Date" />
                       </Form.Item>
                     </Col>

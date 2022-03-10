@@ -24,19 +24,19 @@ const SaveEmployee = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} sm={12}>
-                  <Form.Item name="name" label="">
+                  <Form.Item name="name" label="Employee Name">
                     <Input placeholder="Employee Name" />
                   </Form.Item>
-                  <Form.Item name="birth" label="">
+                  <Form.Item name="birth" label="Date of Birth">
                     <DatePicker style={{ width: '100%' }} placeholder="yyyy/mm/dd" />
                   </Form.Item>
-                  <Form.Item name="mobile" label="">
+                  <Form.Item name="mobile" label="Mobile">
                     <Input placeholder="Mobile" />
                   </Form.Item>
-                  <Form.Item name="joining" label="">
+                  <Form.Item name="joining" label="Join Date">
                     <DatePicker style={{ width: '100%' }} placeholder="yyyy/mm/dd" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="blood" label="">
+                  <Form.Item initialValue="" name="blood" label="Blood Group">
                     <Select>
                       <Select.Option value="">Blood Group</Select.Option>
                       <Select.Option value="A-">A-</Select.Option>
@@ -52,19 +52,19 @@ const SaveEmployee = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} sm={12}>
-                  <Form.Item name="address" label="">
+                  <Form.Item name="address" label="Correspondence Address">
                     <Input placeholder="Correspondence Address" />
                   </Form.Item>
-                  <Form.Item name="pAddress" label="">
+                  <Form.Item name="pAddress" label="Permanent Address">
                     <Input placeholder="Permanent Address" />
                   </Form.Item>
-                  <Form.Item name="email" label="">
+                  <Form.Item name="email" label="EmailId">
                     <Input placeholder="EmailId" />
                   </Form.Item>
-                  <Form.Item name="qualification" label="">
+                  <Form.Item name="qualification" label="Qualification">
                     <Input placeholder="Qualification" />
                   </Form.Item>
-                  <Form.Item name="designation" label="">
+                  <Form.Item name="designation" label="Designation">
                     <Input placeholder="Designation" />
                   </Form.Item>
                 </Col>
