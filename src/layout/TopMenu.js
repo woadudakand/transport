@@ -140,8 +140,8 @@ const TopMenu = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={`${path}/loadingShipList`} onClick={addParentActive}>
-                    Loading Ship List
+                  <NavLink to={`${path}/loadingSlipList`} onClick={addParentActive}>
+                    Loading Slip List
                   </NavLink>
                 </li>
                 <li>
@@ -217,7 +217,7 @@ const TopMenu = () => {
                     Payment Collection Report
                   </NavLink>
                 </li>
-                <li>
+                {/* <li>
                   <NavLink to={`${path}/cashMemoList`} onClick={addParentActive}>
                     Cash Memo List
                   </NavLink>
@@ -241,7 +241,7 @@ const TopMenu = () => {
                   <NavLink to={`${path}/pettyCashHistory`} onClick={addParentActive}>
                     Petty Cash History
                   </NavLink>
-                </li>
+                </li> */}
               </ul>
             </li>
           </ul>

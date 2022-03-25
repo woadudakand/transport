@@ -25,6 +25,8 @@ const BankAccount = lazy(() => import('../../container/masters/bankAccount/Accou
 
 const LorryReceipt = lazy(() => import('../../container/transactions/lr/LR'));
 const SaveLorry = lazy(() => import('../../container/transactions/lr/SaveLR'));
+const LoadingShipList = lazy(() => import('../../container/transactions/slip_list/LSL'));
+const SaveShipList = lazy(() => import('../../container/transactions/slip_list/SaveLSL'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -55,6 +57,8 @@ const DashboardRoutes = () => {
 
       <Route path={`${path}/lorryReceipt`} component={LorryReceipt} />
       <Route path={`${path}/save-lr`} component={SaveLorry} />
+      <Route path={`${path}/loadingSlipList`} component={LoadingShipList} />
+      <Route path={`${path}/save-lsl`} component={SaveShipList} />
     </Switch>
   );
 };
