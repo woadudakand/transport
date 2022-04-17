@@ -95,6 +95,7 @@ const SaveArticles = ({ visible, onCancel }) => {
             >
               <Select style={{ width: '100%' }}>
                 <Option value="">Choose Branch</Option>
+                <Option value="kolkata">Kolkata</Option>
                 {branches.map((branch, key) => (
                   <Option key={key + 1} value={branch.name}>
                     {branch.name}

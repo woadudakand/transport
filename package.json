@@ -28,7 +28,7 @@
     "redux-thunk": "^2.3.0",
     "styled-components": "^4.4.1"
   },
-  "homepage": "/transport",
+  "homepage": "/transport-app",
   "scripts": {
     "start": "react-app-rewired start",
     "build": "set \"GENERATE_SOURCEMAP=false\" && react-app-rewired --max-old-space-size=4096 build",
