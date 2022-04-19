@@ -7,6 +7,7 @@ import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { DataService } from '../../../config/dataService/dataService';
+import indianStates from '../../../demoData/indianStats.json';
 
 const openNotificationWithIcon = (type, message, description) => {
   notification[type]({
@@ -193,8 +194,13 @@ const SavePlaces = () => {
                   <Form.Item initialValue="" name="state" label="Select State">
                     <Select>
                       <Select.Option value="">Select State</Select.Option>
-                      <Select.Option value="pune">Pune</Select.Option>
-                      <Select.Option value="kallam">Kallam</Select.Option>
+                      {Object.keys(indianStates).map(key => {
+                        return (
+                          <Select.Option key={key} value={key}>
+                            {indianStates[key]}
+                          </Select.Option>
+                        );
+                      })}
                     </Select>
                   </Form.Item>
                   <Form.Item name="vCode" label="Vendor Code">

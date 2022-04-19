@@ -8,10 +8,14 @@ const {
   GET_BRANCH_BEGIN,
   GET_BRANCH_SUCCESS,
   GET_BRANCH_ERR,
+  GET_BRANCH_LIST_BEGIN,
+  GET_BRANCH_LIST_SUCCESS,
+  GET_BRANCH_LIST_ERR,
 } = actions;
 
 const initState = {
   branches: [],
+  list: [],
   loading: false,
   error: null,
 };
@@ -55,6 +59,23 @@ const BranchesReducer = (state = initState, action) => {
         loading: false,
       };
     case GET_BRANCH_ERR:
+      return {
+        ...state,
+        error: err,
+        loading: false,
+      };
+    case GET_BRANCH_LIST_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+    case GET_BRANCH_LIST_SUCCESS:
+      return {
+        ...state,
+        list: data.result,
+        loading: false,
+      };
+    case GET_BRANCH_LIST_ERR:
       return {
         ...state,
         error: err,

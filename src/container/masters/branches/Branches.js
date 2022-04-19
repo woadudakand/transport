@@ -62,11 +62,11 @@ const Branches = () => {
   const dataSource = [];
 
   branches.map((branch, key) => {
-    const { id, name, abbreviation, code, description } = branch;
+    const { id, title, abbrevation, code, description } = branch;
     return dataSource.push({
       key: id,
-      name,
-      abbreviation,
+      name: title,
+      abbreviation: abbrevation,
       code,
       description,
       sn: key + 1,

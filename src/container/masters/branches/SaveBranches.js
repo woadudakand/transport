@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from 'antd';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
@@ -44,18 +45,17 @@ const SaveBranch = ({ visible, onCancel }) => {
 
   const handleOk = values => {
     const customValues = {
-      name: values.name,
-      abbreviation: values.abbreviation,
+      title: values.title,
+      abbrevation: values.abbrevation,
       description: values.description,
       code: values.code,
-      place: values.place,
-      oBalance: JSON.stringify({
-        balance: values['o-balance'],
-        card: values.card,
-      }),
+      place_id: values.place_id,
+      payment_type: values.payment_type,
+      opening_balance: values.opening_balance,
+      created_at: moment().format('YYYY-MM-DD'),
     };
 
-    if (customValues.name) {
+    if (customValues.title) {
       dispatch(branchAddDispatch(customValues));
       onCancel();
     }
@@ -106,7 +106,7 @@ const SaveBranch = ({ visible, onCancel }) => {
                   message: 'Please input your Abbreviation!',
                 },
               ]}
-              name="abbreviation"
+              name="abbrevation"
               label="Abbreviation"
             >
               <Input placeholder="Abbreviation" />
@@ -115,13 +115,13 @@ const SaveBranch = ({ visible, onCancel }) => {
               rules={[
                 {
                   required: true,
-                  message: 'Please input your Name!',
+                  message: 'Please input your Title!',
                 },
               ]}
-              name="name"
-              label="Name"
+              name="title"
+              label="Title"
             >
-              <Input placeholder="Name" />
+              <Input placeholder="Title" />
             </Form.Item>
             <Form.Item
               rules={[
@@ -133,7 +133,7 @@ const SaveBranch = ({ visible, onCancel }) => {
               name="description"
               label="Description"
             >
-              <Input.TextArea placeholder="Write article description here" />
+              <Input.TextArea placeholder="Write Branch description here" />
             </Form.Item>
             <Form.Item
               rules={[
@@ -142,15 +142,15 @@ const SaveBranch = ({ visible, onCancel }) => {
                   message: 'Please input your Place!',
                 },
               ]}
-              name="place"
+              name="place_id"
               initialValue=""
               label="Place"
             >
               <Select style={{ width: '100%' }}>
                 <Option value="">Place</Option>
                 {places.map((place, key) => (
-                  <Option key={key + 1} value={place.name}>
-                    {place.name}
+                  <Option key={key + 1} value={place.id}>
+                    {place.title}
                   </Option>
                 ))}
               </Select>
@@ -162,7 +162,7 @@ const SaveBranch = ({ visible, onCancel }) => {
                   message: 'Please input your Balance!',
                 },
               ]}
-              name="o-balance"
+              name="opening_balance"
               label="Opening Balance"
             >
               <Input placeholder="Opening Balance" />
@@ -174,7 +174,7 @@ const SaveBranch = ({ visible, onCancel }) => {
                   message: 'Please input your Card!',
                 },
               ]}
-              name="card"
+              name="payment_type"
               initialValue=""
               label=""
             >

@@ -15,7 +15,7 @@ const SaveArticles = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
   const { branches } = useSelector(state => {
     return {
-      branches: state.branches.branches,
+      branches: state.branches.list,
     };
   });
 

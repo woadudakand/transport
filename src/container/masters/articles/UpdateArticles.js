@@ -15,7 +15,7 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
   const [form] = Form.useForm();
   const { branches } = useSelector(state => {
     return {
-      branches: state.branches.branches,
+      branches: state.branches.list,
     };
   });
   const [state, setState] = useState({
@@ -42,7 +42,7 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
       title: values.title,
       description: values.description,
       branches_id: values.branches_id,
-      updated_at: moment().format('YYYY-MM-DD'),
+      created_at: moment().format('YYYY-MM-DD'),
     };
 
     if (customValues.title) {

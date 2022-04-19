@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from 'antd';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
@@ -38,18 +39,17 @@ const UpdateBranch = ({ visible, onCancel, branch }) => {
   const handleOk = values => {
     const customValues = {
       id: branch.id,
-      name: values.name,
-      abbreviation: values.abbreviation,
+      title: values.title,
+      abbrevation: values.abbrevation,
       description: values.description,
       code: values.code,
-      place: values.place,
-      oBalance: JSON.stringify({
-        balance: values['o-balance'],
-        card: values.card,
-      }),
+      place_id: values.place_id,
+      payment_type: values.payment_type,
+      opening_balance: values.opening_balance,
+      updated_at: moment().format('YYYY-MM-DD'),
     };
 
-    if (customValues.name) {
+    if (customValues.title) {
       dispatch(updateBranch(customValues));
       onCancel();
     }
@@ -88,102 +88,32 @@ const UpdateBranch = ({ visible, onCancel, branch }) => {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="addBranch" onFinish={handleOk}>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Code!',
-                },
-              ]}
-              name="code"
-              label="Code"
-              initialValue={branch.code}
-            >
+            <Form.Item name="code" label="Code">
               <Input placeholder="Code" />
             </Form.Item>
-            <Form.Item
-              initialValue={branch.abbreviation}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Abbreviation!',
-                },
-              ]}
-              name="abbreviation"
-              label="Abbreviation"
-            >
+            <Form.Item name="abbrevation" label="Abbreviation">
               <Input placeholder="Abbreviation" />
             </Form.Item>
-            <Form.Item
-              initialValue={branch.name}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Name!',
-                },
-              ]}
-              name="name"
-              label="Name"
-            >
-              <Input placeholder="Name" />
+            <Form.Item name="title" label="Title">
+              <Input placeholder="Title" />
             </Form.Item>
-            <Form.Item
-              initialValue={branch.description}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Description!',
-                },
-              ]}
-              name="description"
-              label="Description"
-            >
-              <Input.TextArea placeholder="Write article description here" />
+            <Form.Item name="description" label="Description">
+              <Input.TextArea placeholder="Write Branch description here" />
             </Form.Item>
-            <Form.Item
-              initialValue={branch.card}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Place!',
-                },
-              ]}
-              name="place"
-              label="Place"
-            >
+            <Form.Item name="place_id" label="Place">
               <Select style={{ width: '100%' }}>
                 <Option value="">Place</Option>
                 {places.map((place, key) => (
-                  <Option key={key + 1} value={place.name}>
-                    {place.name}
+                  <Option key={key + 1} value={`${place.id}`}>
+                    {place.title}
                   </Option>
                 ))}
               </Select>
             </Form.Item>
-            <Form.Item
-              initialValue={branch.oBalance ? JSON.parse(branch.oBalance).balance : ''}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Balance!',
-                },
-              ]}
-              name="o-balance"
-              label="Opening Balance"
-            >
+            <Form.Item name="opening_balance" label="Opening Balance">
               <Input placeholder="Opening Balance" />
             </Form.Item>
-            <Form.Item
-              initialValue={branch.oBalance ? JSON.parse(branch.oBalance).card : ''}
-              rules={[
-                {
-                  required: true,
-                  message: 'Please input your Card!',
-                },
-              ]}
-              name="card"
-              label=""
-            >
+            <Form.Item name="payment_type" label="">
               <Select style={{ width: '100%' }}>
                 <Option value="">Chose Card</Option>
                 <Option value="credit">Credit</Option>

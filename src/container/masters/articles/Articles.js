@@ -12,7 +12,7 @@ import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 import { getArticleDispatch, deleteArticle, getArticlesDispatch } from '../../../redux/articles/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
-import { getBranchesDispatch } from '../../../redux/branch/actionCreator';
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 
 const openNotificationWithIcon = () => {
   notification.error({
@@ -115,7 +115,7 @@ const Articles = () => {
   useEffect(() => {
     if (dispatch) {
       dispatch(getArticlesDispatch());
-      dispatch(getBranchesDispatch());
+      dispatch(getBranchListDispatch());
     }
   }, [dispatch]);
 

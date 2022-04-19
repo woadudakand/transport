@@ -17,6 +17,9 @@ const {
   getBranchBegin,
   getBranchSuccess,
   getBranchErr,
+  getBranchListBegin,
+  getBranchListSuccess,
+  getBranchListErr,
 } = actions;
 
 const branchAddDispatch = place => {
@@ -61,7 +64,7 @@ const getBranchesDispatch = () => {
   return async dispatch => {
     try {
       dispatch(getBranchBegin());
-      const res = await DataService.get(`/branch/list`);
+      const res = await DataService.get(`/branch`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -82,6 +85,39 @@ const getBranchesDispatch = () => {
     } catch (err) {
       dispatch(
         getBranchErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+    }
+  };
+};
+
+const getBranchListDispatch = () => {
+  return async dispatch => {
+    try {
+      dispatch(getBranchListBegin());
+      const res = await DataService.get(`/branch/list`);
+
+      if (res.data.status === 200) {
+        await dispatch(
+          getBranchListSuccess({
+            result: res.data.data,
+            message: res.data.message,
+            type: res.data.type,
+          }),
+        );
+      } else {
+        await dispatch(
+          getBranchListErr({
+            message: res.data.message,
+            type: res.data.type,
+          }),
+        );
+      }
+    } catch (err) {
+      dispatch(
+        getBranchListErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -194,4 +230,4 @@ const updateBranch = place => {
   };
 };
 
-export { getBranchesDispatch, branchAddDispatch, getBranchDispatch, deleteBranch, updateBranch };
+export { getBranchListDispatch, getBranchesDispatch, branchAddDispatch, getBranchDispatch, deleteBranch, updateBranch };
