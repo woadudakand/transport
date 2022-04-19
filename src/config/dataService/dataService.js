@@ -1,8 +1,8 @@
 import axios from 'axios';
 import { getItem } from '../../utility/localStorageControl';
 
-// const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
-const API_ENDPOINT = 'http://localhost:9000/transport';
+const API_ENDPOINT = process.env.REACT_APP_API_ENDPOINT;
+// const API_ENDPOINT = 'http://localhost:9000/';
 
 const authHeader = () => ({
   Authorization: `Bearer ${getItem('access_token')}`,

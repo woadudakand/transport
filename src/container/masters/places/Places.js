@@ -60,11 +60,11 @@ const Places = () => {
   };
 
   places.map((place, key) => {
-    const { id, name, abbreviation } = place;
+    const { id, title, placeabbre } = place;
     return dataSource.push({
       key: id,
-      name,
-      abbreviation,
+      title,
+      placeabbre,
       sn: key + 1,
       action: (
         <div className="table-actions">
@@ -84,13 +84,13 @@ const Places = () => {
     },
     {
       title: 'Place Name',
-      dataIndex: 'name',
-      key: 'name',
+      dataIndex: 'title',
+      key: 'title',
     },
     {
       title: 'Place Abbreviation',
-      dataIndex: 'abbreviation',
-      key: 'abbreviation',
+      dataIndex: 'placeabbre',
+      key: 'placeabbre',
     },
 
     {

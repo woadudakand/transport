@@ -2,10 +2,10 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from 'antd';
 import propTypes from 'prop-types';
 import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-import { getBranchesDispatch } from '../../../redux/branch/actionCreator';
 import { articlesAddDispatch } from '../../../redux/articles/actionCreator';
 
 const { Option } = Select;
@@ -26,12 +26,6 @@ const SaveArticles = ({ visible, onCancel }) => {
   });
 
   useEffect(() => {
-    if (dispatch) {
-      dispatch(getBranchesDispatch());
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
     let unmounted = false;
     if (!unmounted) {
       setState({
@@ -45,12 +39,13 @@ const SaveArticles = ({ visible, onCancel }) => {
 
   const handleOk = values => {
     const customValues = {
-      name: values.name,
+      title: values.title,
       description: values.description,
-      branch: values.branch,
+      branches_id: values.branches_id,
+      created_at: moment().format('YYYY-MM-DD'),
     };
 
-    if (customValues.name) {
+    if (customValues.title) {
       dispatch(articlesAddDispatch(customValues));
       onCancel();
     }
@@ -89,16 +84,15 @@ const SaveArticles = ({ visible, onCancel }) => {
                   message: 'Select Branch',
                 },
               ]}
-              name="branch"
+              name="branches_id"
               initialValue=""
               label="Branch"
             >
               <Select style={{ width: '100%' }}>
                 <Option value="">Choose Branch</Option>
-                <Option value="kolkata">Kolkata</Option>
                 {branches.map((branch, key) => (
-                  <Option key={key + 1} value={branch.name}>
-                    {branch.name}
+                  <Option key={key + 1} value={branch.id}>
+                    {branch.title}
                   </Option>
                 ))}
               </Select>
@@ -111,7 +105,7 @@ const SaveArticles = ({ visible, onCancel }) => {
                   message: 'Input Article name',
                 },
               ]}
-              name="name"
+              name="title"
               label="Article Name"
             >
               <Input placeholder="" />

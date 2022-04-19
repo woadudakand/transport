@@ -2,11 +2,11 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from 'antd';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
 import { updateArticle } from '../../../redux/articles/actionCreator';
-import { getBranchesDispatch } from '../../../redux/branch/actionCreator';
 
 const { Option } = Select;
 
@@ -25,12 +25,6 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
   });
 
   useEffect(() => {
-    if (dispatch) {
-      dispatch(getBranchesDispatch());
-    }
-  }, [dispatch]);
-
-  useEffect(() => {
     let unmounted = false;
     if (!unmounted) {
       setState({
@@ -45,12 +39,13 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
   const handleOk = values => {
     const customValues = {
       id: article.id,
-      name: values.name,
+      title: values.title,
       description: values.description,
-      branch: values.branch,
+      branches_id: values.branches_id,
+      updated_at: moment().format('YYYY-MM-DD'),
     };
 
-    if (customValues.name) {
+    if (customValues.title) {
       dispatch(updateArticle(customValues));
       onCancel();
     }
@@ -89,49 +84,21 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="createArticle" onFinish={handleOk}>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Select Branch',
-                },
-              ]}
-              name="branch"
-              initialValue=""
-              label="Branch"
-            >
+            <Form.Item name="branches_id" label="Branch">
               <Select style={{ width: '100%' }}>
                 <Option value="">Choose Branch</Option>
                 {branches.map((branch, key) => (
-                  <Option key={key + 1} value={branch.name}>
-                    {branch.name}
+                  <Option key={key + 1} value={branch.id}>
+                    {branch.title}
                   </Option>
                 ))}
               </Select>
             </Form.Item>
 
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input Article name',
-                },
-              ]}
-              name="name"
-              label="Article Name"
-            >
+            <Form.Item name="title" label="Article Name">
               <Input placeholder="" />
             </Form.Item>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input Description',
-                },
-              ]}
-              name="description"
-              label="Description"
-            >
+            <Form.Item name="description" label="Description">
               <Input.TextArea placeholder="Write article description here" />
             </Form.Item>
           </Form>

@@ -2,6 +2,7 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
 import { useDispatch } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
@@ -30,11 +31,12 @@ const SavePlaces = ({ visible, onCancel }) => {
 
   const handleOk = async values => {
     const customValues = {
-      name: values.name,
-      abbreviation: values.abbreviation,
+      title: values.title,
+      placeabbre: values.placeabbre,
+      created_at: moment().format('YYYY-MM-DD'),
     };
 
-    if (customValues.name) {
+    if (customValues.title) {
       dispatch(placeAddDispatch(customValues));
       onCancel();
     }
@@ -66,10 +68,10 @@ const SavePlaces = ({ visible, onCancel }) => {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="addPlace" onFinish={handleOk}>
-            <Form.Item name="name" label="">
+            <Form.Item name="title" label="">
               <Input placeholder="Place Name" />
             </Form.Item>
-            <Form.Item name="abbreviation" label="">
+            <Form.Item name="placeabbre" label="">
               <Input placeholder="Place abbreviation" />
             </Form.Item>
           </Form>

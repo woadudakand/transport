@@ -12,6 +12,7 @@ import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 import { getArticleDispatch, deleteArticle, getArticlesDispatch } from '../../../redux/articles/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
+import { getBranchesDispatch } from '../../../redux/branch/actionCreator';
 
 const openNotificationWithIcon = () => {
   notification.error({
@@ -55,11 +56,10 @@ const Articles = () => {
 
   const dataSource = [];
   articles.map((article, key) => {
-    const { id, name, branch, description } = article;
+    const { id, title, description } = article;
     return dataSource.push({
       key: id,
-      name,
-      branch,
+      name: title,
       description,
       sn: key + 1,
       action: (
@@ -115,6 +115,7 @@ const Articles = () => {
   useEffect(() => {
     if (dispatch) {
       dispatch(getArticlesDispatch());
+      dispatch(getBranchesDispatch());
     }
   }, [dispatch]);
 

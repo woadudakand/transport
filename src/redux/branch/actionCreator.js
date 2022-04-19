@@ -61,7 +61,7 @@ const getBranchesDispatch = () => {
   return async dispatch => {
     try {
       dispatch(getBranchBegin());
-      const res = await DataService.get(`/branch`);
+      const res = await DataService.get(`/branch/list`);
 
       if (res.data.status === 200) {
         await dispatch(
