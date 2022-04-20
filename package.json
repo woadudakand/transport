@@ -13,6 +13,7 @@
     "d3-scale": "^3.2.3",
     "d3-scale-chromatic": "^1.5.0",
     "date-fns": "^2.16.1",
+    "dayjs": "^1.11.1",
     "emoji-picker-react": "^3.4.2",
     "feather-icons-react": "^0.4.3",
     "js-cookie": "^2.2.1",

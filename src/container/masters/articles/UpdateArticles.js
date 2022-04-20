@@ -65,14 +65,14 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
   return (
     <Modal
       type={state.modalType}
-      title="Save Articles"
+      title="Edit Articles"
       visible={state.visible}
       forcerender
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="createArticle" onFinish={handleOk}>
             <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
-              Save
+              Update
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
               Cancel

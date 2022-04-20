@@ -1,17 +1,35 @@
-import React, { useState, useEffect } from 'react';
-import { Row, Col, Table } from 'antd';
+import React, { useState, useEffect, memo } from 'react';
+import { Row, Col, Table, notification } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useDispatch, useSelector } from 'react-redux';
+import dayjs from 'dayjs';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
+import DataLoader from '../../../components/utilities/DataLoader';
+import { deleteEmployee, getEmployeeDispatch, getEmployeesDispatch } from '../../../redux/employee/actionCreator';
 
-const Employee = () => {
+const openNotificationWithIcon = () => {
+  notification.error({
+    message: 'Deleted!',
+    description: 'Please Select minimum one row.',
+  });
+};
+
+const Employee = memo(() => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
+  const dispatch = useDispatch();
+  const { employees, isLoader } = useSelector(state => {
+    return {
+      employees: state.employees.employees,
+      isLoader: state.employees.loading,
+    };
+  });
 
   useEffect(() => {
     if (window.innerWidth <= 375) {
@@ -21,34 +39,31 @@ const Employee = () => {
     }
   }, [pathname]);
 
-  const dataSource = [
-    {
-      key: '1',
-      sn: 1,
-      name: 'Ravi',
-      telephone: '12345',
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getEmployeesDispatch());
+    }
+  }, [dispatch]);
+
+  const dataSource = [];
+
+  employees.map(({ id, name, mobileno, designation, joiningdate }, key) => {
+    return dataSource.push({
+      key: id,
+      sn: key + 1,
+      name,
+      mobileno,
+      joiningdate: dayjs(joiningdate).format('YYYY-MM-DD'),
+      designation,
       action: (
         <div className="table-actions">
-          <Link to="#" className="edit">
+          <Link to={`/admin/edit-employee/${id}`} className="edit">
             <FeatherIcon icon="edit" size={14} />
           </Link>
         </div>
       ),
-    },
-    {
-      key: '2',
-      sn: 2,
-      name: 'Amit',
-      telephone: '12345',
-      action: (
-        <div className="table-actions">
-          <Link to="#" className="edit">
-            <FeatherIcon icon="edit" size={14} />
-          </Link>
-        </div>
-      ),
-    },
-  ];
+    });
+  });
 
   const columns = [
     {
@@ -68,13 +83,13 @@ const Employee = () => {
     },
     {
       title: 'Joining Date',
-      dataIndex: 'Joining',
-      key: 'Joining',
+      dataIndex: 'joiningdate',
+      key: 'joiningdate',
     },
     {
       title: 'Mobile',
-      dataIndex: 'mobile',
-      key: 'mobile',
+      dataIndex: 'mobileno',
+      key: 'mobileno',
     },
     {
       title: 'Actions',
@@ -97,8 +112,21 @@ const Employee = () => {
     onChange: onSelectChange,
   };
 
+  const handleSearch = value => {
+    dispatch(getEmployeeDispatch(value));
+  };
+
+  const handleDeleted = () => {
+    if (selectedRowKeys.length) {
+      dispatch(deleteEmployee(selectedRowKeys.toString()));
+    } else {
+      openNotificationWithIcon();
+    }
+  };
+
   return (
     <>
+      {isLoader ? <DataLoader /> : null}
       <PageHeader
         ghost
         title="Employee List"
@@ -113,8 +141,8 @@ const Employee = () => {
       />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <AutoComplete placeholder="Search..." onSearch={data => console.log(data)} width="200px" patterns />
-          <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+          <AutoComplete placeholder="Search..." onSearch={data => handleSearch(data)} width="200px" patterns />
+          <Button onClick={handleDeleted} block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
             Delete
           </Button>
         </Row>
@@ -137,6 +165,6 @@ const Employee = () => {
       </Main>
     </>
   );
-};
+});
 
 export default Employee;

@@ -1,29 +1,37 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select } from 'antd';
 import moment from 'moment';
 import { useDispatch, useSelector } from 'react-redux';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 import { Main, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-import { employeeAddDispatch } from '../../../redux/employee/actionCreator';
+import { updateEmployee, singleEmployee } from '../../../redux/employee/actionCreator';
+import DataLoader from '../../../components/utilities/DataLoader';
 
-const SaveEmployee = () => {
+const EditEmployee = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const history = useHistory();
   const isLoading = useSelector(state => state.employees.loading);
+  const employee = useSelector(state => state.employees.employee);
+  const { id } = useParams();
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(singleEmployee(id));
+    }
+  }, [dispatch, id]);
 
   const handleFinish = values => {
     dispatch(
-      employeeAddDispatch(
-        {
-          ...values,
-          created_at: moment().format('YYYY-MM-DD'),
-        },
-        () => form.resetFields(),
-      ),
+      updateEmployee({
+        ...values,
+        id,
+        updated_at: moment().format('YYYY-MM-DD'),
+      }),
     );
   };
 
@@ -31,11 +39,22 @@ const SaveEmployee = () => {
     history.replace('/admin/employees');
   };
 
+  useEffect(() => {
+    if (employee[0]) {
+      form.setFieldsValue({
+        ...employee[0],
+        joiningdate: dayjs(employee[0].joiningdate, 'YYYY-MM-DD'),
+        dob: dayjs(employee[0].dob, 'YYYY-MM-DD'),
+      });
+    }
+  }, [employee, form]);
+
   return (
     <>
+      {isLoading ? <DataLoader /> : null}
       <PageHeader
         ghost
-        title="Save Employee"
+        title="Edit Employee"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={gotoView} size="small" type="primary">
@@ -98,7 +117,7 @@ const SaveEmployee = () => {
 
               <Form.Item label="">
                 <Button disabled={isLoading} type="primary" htmlType="submit">
-                  {isLoading ? 'Loading' : 'Add Employee'}
+                  {isLoading ? 'Loading' : 'Update Employee'}
                 </Button>
               </Form.Item>
             </Form>
@@ -109,4 +128,4 @@ const SaveEmployee = () => {
   );
 };
 
-export default SaveEmployee;
+export default EditEmployee;

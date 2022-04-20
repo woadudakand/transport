@@ -10,26 +10,30 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  branchSearch,
-  branchAddBegin,
-  branchAddSuccess,
-  branchAddErr,
-  getBranchBegin,
-  getBranchSuccess,
-  getBranchErr,
-  getBranchListBegin,
-  getBranchListSuccess,
-  getBranchListErr,
+  employeeSearch,
+  employeeAddBegin,
+  employeeAddSuccess,
+  employeeAddErr,
+  getEmployeeBegin,
+  getEmployeeSuccess,
+  getEmployeeErr,
+  getEmployeeListBegin,
+  getEmployeeListSuccess,
+  getEmployeeListErr,
+
+  getSingleEmployeeBegin,
+  getSingleEmployeeSuccess,
+  getSingleEmployeeErr,
 } = actions;
 
-const branchAddDispatch = place => {
+const employeeAddDispatch = (data, callback) => {
   return async dispatch => {
     try {
-      dispatch(branchAddBegin());
-      const res = await DataService.post('/branch', place);
+      dispatch(employeeAddBegin());
+      const res = await DataService.post('/employees', data);
       if (res.data.status === 200) {
         await dispatch(
-          branchAddSuccess({
+          employeeAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -37,9 +41,10 @@ const branchAddDispatch = place => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
-          branchAddErr({
+          employeeAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -48,9 +53,8 @@ const branchAddDispatch = place => {
         openNotificationWithIcon('error', res.data.message, res.data.description);
       }
     } catch (err) {
-      console.log(err);
       dispatch(
-        branchAddErr({
+        employeeAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -60,15 +64,15 @@ const branchAddDispatch = place => {
   };
 };
 
-const getBranchesDispatch = () => {
+const getEmployeesDispatch = () => {
   return async dispatch => {
     try {
-      dispatch(getBranchBegin());
-      const res = await DataService.get(`/branch`);
+      dispatch(getEmployeeBegin());
+      const res = await DataService.get(`/employees`);
 
       if (res.data.status === 200) {
         await dispatch(
-          getBranchSuccess({
+          getEmployeeSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -76,7 +80,7 @@ const getBranchesDispatch = () => {
         );
       } else {
         await dispatch(
-          getBranchErr({
+          getEmployeeErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -84,7 +88,7 @@ const getBranchesDispatch = () => {
       }
     } catch (err) {
       dispatch(
-        getBranchErr({
+        getEmployeeErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -93,15 +97,15 @@ const getBranchesDispatch = () => {
   };
 };
 
-const getBranchListDispatch = () => {
+const getEmployeeListDispatch = () => {
   return async dispatch => {
     try {
-      dispatch(getBranchListBegin());
-      const res = await DataService.get(`/branch/list`);
+      dispatch(getEmployeeListBegin());
+      const res = await DataService.get(`/employee/list`);
 
       if (res.data.status === 200) {
         await dispatch(
-          getBranchListSuccess({
+          getEmployeeListSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -109,7 +113,7 @@ const getBranchListDispatch = () => {
         );
       } else {
         await dispatch(
-          getBranchListErr({
+          getEmployeeListErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -117,7 +121,7 @@ const getBranchListDispatch = () => {
       }
     } catch (err) {
       dispatch(
-        getBranchListErr({
+        getEmployeeListErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -126,14 +130,14 @@ const getBranchListDispatch = () => {
   };
 };
 
-const deleteBranch = id => {
+const deleteEmployee = id => {
   return async dispatch => {
     try {
-      dispatch(getBranchBegin());
-      const res = await DataService.delete(`/branch?id=${id}`);
+      dispatch(getEmployeeBegin());
+      const res = await DataService.delete(`/employees?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
-          getBranchSuccess({
+          getEmployeeSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -143,7 +147,7 @@ const deleteBranch = id => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          getBranchErr({
+          getEmployeeErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -153,7 +157,7 @@ const deleteBranch = id => {
       }
     } catch (err) {
       dispatch(
-        getBranchErr({
+        getEmployeeErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -163,20 +167,20 @@ const deleteBranch = id => {
   };
 };
 
-const getBranchDispatch = value => {
+const getEmployeeDispatch = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/branch/query?data=${value}`);
+      const res = await DataService.get(`/employees/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(
-          branchSearch({
+          employeeSearch({
             result: res.data.data,
           }),
         );
       } else {
         await dispatch(
-          getBranchErr({
+          getEmployeeErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -184,7 +188,7 @@ const getBranchDispatch = value => {
       }
     } catch (err) {
       dispatch(
-        getBranchErr({
+        getEmployeeErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -193,14 +197,14 @@ const getBranchDispatch = value => {
   };
 };
 
-const updateBranch = place => {
+const updateEmployee = value => {
   return async dispatch => {
     try {
-      dispatch(branchAddBegin());
-      const res = await DataService.put('/branch', place);
+      dispatch(employeeAddBegin());
+      const res = await DataService.put('/employees', value);
       if (res.data.status === 200) {
         await dispatch(
-          branchAddSuccess({
+          employeeAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -210,7 +214,7 @@ const updateBranch = place => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          branchAddErr({
+          employeeAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -220,7 +224,7 @@ const updateBranch = place => {
       }
     } catch (err) {
       dispatch(
-        branchAddErr({
+        employeeAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -230,4 +234,46 @@ const updateBranch = place => {
   };
 };
 
-export { getBranchListDispatch, getBranchesDispatch, branchAddDispatch, getBranchDispatch, deleteBranch, updateBranch };
+const singleEmployee = id => {
+  return async dispatch => {
+    try {
+      dispatch(getSingleEmployeeBegin());
+      const res = await DataService.put('/employees/single', { id });
+      if (res.data.status === 200) {
+        await dispatch(
+          getSingleEmployeeSuccess({
+            result: res.data.data,
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+      } else {
+        await dispatch(
+          getSingleEmployeeErr({
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+      }
+    } catch (err) {
+      dispatch(
+        getSingleEmployeeErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+    }
+  };
+};
+
+export {
+  getEmployeeListDispatch,
+  getEmployeesDispatch,
+  employeeAddDispatch,
+  getEmployeeDispatch,
+  deleteEmployee,
+  updateEmployee,
+  singleEmployee,
+};

@@ -56,7 +56,7 @@ const SavePlaces = ({ visible, onCancel, place }) => {
   return (
     <Modal
       type={state.modalType}
-      title="Save Place"
+      title="Edit Place"
       visible={state.visible}
       forcerender
       footer={[
