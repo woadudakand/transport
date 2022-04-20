@@ -13,9 +13,10 @@ const { Option } = Select;
 const UpdateBranch = ({ visible, onCancel, branch }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
-  const { places } = useSelector(state => {
+  const { places, isLoader } = useSelector(state => {
     return {
       places: state.places.places,
+      isLoader: state.branches.loading,
     };
   });
   const [state, setState] = useState({
@@ -74,7 +75,7 @@ const UpdateBranch = ({ visible, onCancel, branch }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="addBranch" onFinish={handleOk}>
-            <Button htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
               Save
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

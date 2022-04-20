@@ -13,9 +13,10 @@ const { Option } = Select;
 const UpdateArticles = ({ visible, onCancel, article }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const { branches } = useSelector(state => {
+  const { branches, isLoader } = useSelector(state => {
     return {
       branches: state.branches.list,
+      isLoader: state.articles.loading,
     };
   });
   const [state, setState] = useState({
@@ -70,7 +71,7 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="createArticle" onFinish={handleOk}>
-            <Button htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
               Save
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

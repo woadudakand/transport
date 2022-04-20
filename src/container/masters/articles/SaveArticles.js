@@ -13,9 +13,10 @@ const { Option } = Select;
 const SaveArticles = ({ visible, onCancel }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
-  const { branches } = useSelector(state => {
+  const { branches, isLoader } = useSelector(state => {
     return {
       branches: state.branches.list,
+      isLoader: state.articles.loading,
     };
   });
 
@@ -46,8 +47,12 @@ const SaveArticles = ({ visible, onCancel }) => {
     };
 
     if (customValues.title) {
-      dispatch(articlesAddDispatch(customValues));
-      onCancel();
+      dispatch(
+        articlesAddDispatch(customValues, function() {
+          form.resetFields();
+          onCancel();
+        }),
+      );
     }
   };
 
@@ -63,7 +68,7 @@ const SaveArticles = ({ visible, onCancel }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="createArticle" onFinish={handleOk}>
-            <Button htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
               Save
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

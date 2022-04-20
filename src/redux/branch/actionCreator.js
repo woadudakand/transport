@@ -22,11 +22,11 @@ const {
   getBranchListErr,
 } = actions;
 
-const branchAddDispatch = place => {
+const branchAddDispatch = (value, callback) => {
   return async dispatch => {
     try {
       dispatch(branchAddBegin());
-      const res = await DataService.post('/branch', place);
+      const res = await DataService.post('/branch', value);
       if (res.data.status === 200) {
         await dispatch(
           branchAddSuccess({
@@ -37,6 +37,7 @@ const branchAddDispatch = place => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
           branchAddErr({

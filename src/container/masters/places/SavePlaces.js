@@ -1,7 +1,7 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
@@ -11,6 +11,12 @@ import { placeAddDispatch } from '../../../redux/places/actionCreator';
 const SavePlaces = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { isLoader } = useSelector(state => {
+    return {
+      isLoader: state.places.loading,
+    };
+  });
+
   const [state, setState] = useState({
     visible,
     modalType: 'primary',
@@ -37,8 +43,12 @@ const SavePlaces = ({ visible, onCancel }) => {
     };
 
     if (customValues.title) {
-      dispatch(placeAddDispatch(customValues));
-      onCancel();
+      dispatch(
+        placeAddDispatch(customValues, () => {
+          form.resetFields();
+          onCancel();
+        }),
+      );
     }
   };
 
@@ -54,7 +64,7 @@ const SavePlaces = ({ visible, onCancel }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="addPlace" onFinish={handleOk}>
-            <Button htmlType="submit" size="default" type="primary" key="submit">
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit">
               Save
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

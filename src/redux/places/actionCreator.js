@@ -19,11 +19,11 @@ const {
   getPlacesErr,
 } = actions;
 
-const placeAddDispatch = place => {
+const placeAddDispatch = (value, callback) => {
   return async dispatch => {
     try {
       dispatch(placesAddBegin());
-      const res = await DataService.post('/places', place);
+      const res = await DataService.post('/places', value);
       if (res.data.status === 200) {
         await dispatch(
           placesAddSuccess({
@@ -34,6 +34,7 @@ const placeAddDispatch = place => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
           placesAddErr({

@@ -11,6 +11,7 @@ import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 import { getPlacesDispatch, getPlaceDispatch, deletePlace } from '../../../redux/places/actionCreator';
+import DataLoader from '../../../components/utilities/DataLoader';
 
 const openNotificationWithIcon = () => {
   notification.error({
@@ -21,7 +22,7 @@ const openNotificationWithIcon = () => {
 
 const Places = () => {
   const dispatch = useDispatch();
-  const { places } = useSelector(state => {
+  const { places, isLoader } = useSelector(state => {
     return {
       places: state.places.places,
       isLoader: state.places.loading,
@@ -130,6 +131,7 @@ const Places = () => {
   };
   return (
     <>
+      {isLoader ? <DataLoader /> : null}
       <PageHeader
         ghost
         title="Place List"
