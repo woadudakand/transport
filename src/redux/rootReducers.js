@@ -6,6 +6,7 @@ import placesReducer from './places/reducers';
 import branchReducer from './branch/reducers';
 import articlesReducer from './articles/reducers';
 import employeeReducer from './employee/reducers';
+import bankReducer from './banks/reducers';
 
 const rootReducers = combineReducers({
   users: UsersReducer,
@@ -15,6 +16,7 @@ const rootReducers = combineReducers({
   branches: branchReducer,
   articles: articlesReducer,
   employees: employeeReducer,
+  bank: bankReducer,
 });
 
 export default rootReducers;

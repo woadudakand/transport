@@ -6,9 +6,9 @@ import { useDispatch, useSelector } from 'react-redux';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-import { banksAddDispatch } from '../../../redux/banks/actionCreator';
+import { updateBank } from '../../../redux/banks/actionCreator';
 
-const SaveBank = ({ visible, onCancel }) => {
+const SaveBank = ({ visible, onCancel, bank }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { isLoading } = useSelector(state => {
@@ -16,6 +16,7 @@ const SaveBank = ({ visible, onCancel }) => {
       isLoading: state.bank.loading,
     };
   });
+
   const [state, setState] = useState({
     visible,
     modalType: 'primary',
@@ -36,6 +37,7 @@ const SaveBank = ({ visible, onCancel }) => {
 
   const handleOk = values => {
     const customValues = {
+      id: bank.id,
       bank_name: values.bank_name,
       branch_name: values.branch_name,
       branch_code: values.branch_code,
@@ -44,13 +46,12 @@ const SaveBank = ({ visible, onCancel }) => {
       email: values.email,
       telephone: values.telephone,
       address: values.address,
-      created_at: moment().format('YYYY-MM-DD'),
+      updated_at: moment().format('YYYY-MM-DD'),
     };
 
     if (customValues.bank_name) {
       dispatch(
-        banksAddDispatch(customValues, function() {
-          form.resetFields();
+        updateBank(customValues, function() {
           onCancel();
         }),
       );
@@ -61,10 +62,16 @@ const SaveBank = ({ visible, onCancel }) => {
     onCancel();
   };
 
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue(bank);
+    }
+  }, [form, bank, visible]);
+
   return (
     <Modal
       type={state.modalType}
-      title="Save Bank"
+      title="Edit Bank"
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
@@ -77,7 +84,7 @@ const SaveBank = ({ visible, onCancel }) => {
               key="submit"
               onClick={handleOk}
             >
-              Save
+              Update
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
               Cancel
@@ -89,29 +96,11 @@ const SaveBank = ({ visible, onCancel }) => {
     >
       <div className="project-modal">
         <BasicFormWrapper>
-          <Form form={form} name="saveBank" onFinish={handleOk}>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input bank name',
-                },
-              ]}
-              name="bank_name"
-              label="Bank Name"
-            >
+          <Form form={form} name="editBank" onFinish={handleOk}>
+            <Form.Item name="bank_name" label="Bank Name">
               <Input />
             </Form.Item>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input branch name',
-                },
-              ]}
-              name="branch_name"
-              label="Branch Name"
-            >
+            <Form.Item name="branch_name" label="Branch Name">
               <Input />
             </Form.Item>
             <Form.Item
@@ -126,65 +115,20 @@ const SaveBank = ({ visible, onCancel }) => {
             >
               <Input />
             </Form.Item>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input IFSC code',
-                },
-              ]}
-              name="ifsc_code"
-              label="IFSC Code"
-            >
+            <Form.Item name="ifsc_code" label="IFSC Code">
               <Input />
             </Form.Item>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input MICR code',
-                },
-              ]}
-              name="micr_code"
-              label="MICR Code"
-            >
+            <Form.Item name="micr_code" label="MICR Code">
               <Input />
             </Form.Item>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input Telephone number',
-                },
-              ]}
-              name="telephone"
-              label="Telephone"
-            >
+            <Form.Item name="telephone" label="Telephone">
               <Input />
             </Form.Item>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input email',
-                },
-              ]}
-              name="email"
-              label="Email"
-            >
+            <Form.Item name="email" label="Email">
               <Input />
             </Form.Item>
 
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Input address',
-                },
-              ]}
-              name="address"
-              label="Address"
-            >
+            <Form.Item name="address" label="Address">
               <Input.TextArea />
             </Form.Item>
           </Form>
@@ -197,6 +141,7 @@ const SaveBank = ({ visible, onCancel }) => {
 SaveBank.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
+  bank: propTypes.object,
 };
 
 export default SaveBank;

@@ -43,7 +43,7 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
       title: values.title,
       description: values.description,
       branches_id: values.branches_id,
-      created_at: moment().format('YYYY-MM-DD'),
+      updated_at: moment().format('YYYY-MM-DD'),
     };
 
     if (customValues.title) {
