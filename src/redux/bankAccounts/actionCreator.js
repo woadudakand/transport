@@ -10,26 +10,26 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  bankListBegin,
-  bankListSuccess,
-  bankListErr,
-  bankSearch,
-  bankAddBegin,
-  bankAddSuccess,
-  bankAddErr,
-  getBanksBegin,
-  getBanksSuccess,
-  getBanksErr,
+  bankAccountListBegin,
+  bankAccountListSuccess,
+  bankAccountListErr,
+  bankAccountSearch,
+  bankAccountAddBegin,
+  bankAccountAddSuccess,
+  bankAccountAddErr,
+  getBanksAccountBegin,
+  getBanksAccountSuccess,
+  getBanksAccountErr,
 } = actions;
 
-const banksAddDispatch = (banks, callback) => {
+const bankAccountAdd = (banks, callback) => {
   return async dispatch => {
     try {
-      dispatch(bankAddBegin());
-      const res = await DataService.post('/bankes', banks);
+      dispatch(bankAccountAddBegin());
+      const res = await DataService.post(`bank-accounts?banks_id=${banks.banks_id}`, banks);
       if (res.data.status === 200) {
         await dispatch(
-          bankAddSuccess({
+          bankAccountAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -40,7 +40,7 @@ const banksAddDispatch = (banks, callback) => {
         callback();
       } else {
         await dispatch(
-          bankAddErr({
+          bankAccountAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -49,9 +49,8 @@ const banksAddDispatch = (banks, callback) => {
         openNotificationWithIcon('error', res.data.message, res.data.description);
       }
     } catch (err) {
-      console.log(err);
       dispatch(
-        bankAddErr({
+        bankAccountAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -61,15 +60,15 @@ const banksAddDispatch = (banks, callback) => {
   };
 };
 
-const getBanksDispatch = () => {
+const getBankAccounts = () => {
   return async dispatch => {
     try {
-      dispatch(getBanksBegin());
-      const res = await DataService.get(`/bankes`);
+      dispatch(getBanksAccountBegin());
+      const res = await DataService.get(`/bank-accounts`);
 
       if (res.data.status === 200) {
         await dispatch(
-          getBanksSuccess({
+          getBanksAccountSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -77,16 +76,15 @@ const getBanksDispatch = () => {
         );
       } else {
         await dispatch(
-          getBanksErr({
+          getBanksAccountErr({
             message: res.data.message,
             type: res.data.type,
           }),
         );
       }
     } catch (err) {
-      console.log(err);
       dispatch(
-        getBanksErr({
+        getBanksAccountErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -95,14 +93,14 @@ const getBanksDispatch = () => {
   };
 };
 
-const deleteBank = id => {
+const deleteBankAccount = id => {
   return async dispatch => {
     try {
-      dispatch(getBanksBegin());
-      const res = await DataService.delete(`/bankes?id=${id}`);
+      dispatch(getBanksAccountBegin());
+      const res = await DataService.delete(`/bank-accounts?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
-          getBanksSuccess({
+          getBanksAccountSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -112,7 +110,7 @@ const deleteBank = id => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          getBanksErr({
+          getBanksAccountErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -122,7 +120,7 @@ const deleteBank = id => {
       }
     } catch (err) {
       dispatch(
-        getBanksErr({
+        getBanksAccountErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -132,20 +130,20 @@ const deleteBank = id => {
   };
 };
 
-const getBankDispatch = value => {
+const getBankAccount = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/bankes/query?data=${value}`);
+      const res = await DataService.get(`/bank-accounts/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(
-          bankSearch({
+          bankAccountSearch({
             result: res.data.data,
           }),
         );
       } else {
         await dispatch(
-          getBanksErr({
+          getBanksAccountErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -153,7 +151,7 @@ const getBankDispatch = value => {
       }
     } catch (err) {
       dispatch(
-        getBanksErr({
+        getBanksAccountErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -162,14 +160,14 @@ const getBankDispatch = value => {
   };
 };
 
-const updateBank = (value, callback) => {
+const updateBankAccount = (value, callback) => {
   return async dispatch => {
     try {
-      dispatch(bankAddBegin());
+      dispatch(bankAccountAddBegin());
       const res = await DataService.put('/bankes', value);
       if (res.data.status === 200) {
         await dispatch(
-          bankAddSuccess({
+          bankAccountAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -180,7 +178,7 @@ const updateBank = (value, callback) => {
         callback();
       } else {
         await dispatch(
-          bankAddErr({
+          bankAccountAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -190,7 +188,7 @@ const updateBank = (value, callback) => {
       }
     } catch (err) {
       dispatch(
-        bankAddErr({
+        bankAccountAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -200,15 +198,15 @@ const updateBank = (value, callback) => {
   };
 };
 
-const getBankListDispatch = () => {
+const getBankAccountList = () => {
   return async dispatch => {
     try {
-      dispatch(bankListBegin());
+      dispatch(bankAccountListBegin());
       const res = await DataService.get(`/bankes/list`);
 
       if (res.data.status === 200) {
         await dispatch(
-          bankListSuccess({
+          bankAccountListSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -216,7 +214,7 @@ const getBankListDispatch = () => {
         );
       } else {
         await dispatch(
-          bankListErr({
+          bankAccountListErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -224,7 +222,7 @@ const getBankListDispatch = () => {
       }
     } catch (err) {
       dispatch(
-        bankListErr({
+        bankAccountListErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -233,4 +231,4 @@ const getBankListDispatch = () => {
   };
 };
 
-export { getBankListDispatch, getBanksDispatch, banksAddDispatch, getBankDispatch, deleteBank, updateBank };
+export { getBankAccountList, getBankAccounts, bankAccountAdd, getBankAccount, deleteBankAccount, updateBankAccount };

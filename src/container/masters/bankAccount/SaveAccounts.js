@@ -1,19 +1,32 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input, Select } from 'antd';
 import propTypes from 'prop-types';
+import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
+import { getBankListDispatch } from '../../../redux/banks/actionCreator';
+import { bankAccountAdd } from '../../../redux/bankAccounts/actionCreator';
 
 const { Option } = Select;
 
 const SaveArticles = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
-
+  const dispatch = useDispatch();
   const [state, setState] = useState({
     visible,
     modalType: 'primary',
     checked: [],
+  });
+
+  const [ifsc, setIfsc] = useState('ifsc');
+
+  const { banks, isLoading } = useSelector(bState => {
+    return {
+      banks: bState.bank.list,
+      isLoading: bState.accounts.loading,
+    };
   });
 
   useEffect(() => {
@@ -28,14 +41,42 @@ const SaveArticles = ({ visible, onCancel }) => {
     };
   }, [visible]);
 
-  const handleOk = () => {
-    onCancel();
+  const handleOk = values => {
+    const customValues = {
+      banks_id: values.banks_id.split('_')[0],
+      account_type: values.account_type,
+      account_holder: values.account_holder,
+      ifsc_code: ifsc,
+      customer_id: values.customer_id,
+      account_no: values.account_no,
+      opening_balance: values.opening_balance,
+      created_at: moment().format('YYYY-MM-DD'),
+    };
+
+    if (customValues.account_type) {
+      dispatch(
+        bankAccountAdd(customValues, function() {
+          form.resetFields();
+          onCancel();
+        }),
+      );
+    }
   };
 
   const handleCancel = () => {
     onCancel();
   };
 
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBankListDispatch());
+    }
+  }, [dispatch]);
+
+  const handleBankChange = value => {
+    setIfsc(value.split('_')[1]);
+    // setIfsc(value);
+  };
   return (
     <Modal
       type={state.modalType}
@@ -43,50 +84,117 @@ const SaveArticles = ({ visible, onCancel }) => {
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
-          <Button size="default" type="primary" key="submit" onClick={handleOk}>
-            Save
-          </Button>
-          <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
-            Cancel
-          </Button>
+          <Form form={form} name="saveAccount" onFinish={handleOk}>
+            <Button
+              disabled={isLoading}
+              htmlType="submit"
+              size="default"
+              type="primary"
+              key="submit"
+              onClick={handleOk}
+            >
+              Save
+            </Button>
+            <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
+              Cancel
+            </Button>
+          </Form>
         </div>,
       ]}
       onCancel={handleCancel}
     >
       <div className="project-modal">
         <BasicFormWrapper>
-          <Form form={form} name="createProject" onFinish={handleOk}>
-            <Form.Item initialValue="" name="name" label="">
-              <Select showSearch>
+          <Form form={form} name="saveAccount" onFinish={handleOk}>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Select bank',
+                },
+              ]}
+              initialValue=""
+              name="banks_id"
+              label="Bank"
+            >
+              <Select onChange={handleBankChange}>
                 <Option value="">Select Bank</Option>
-                <Option value="SBI">SBI</Option>
+                {banks.map((bank, key) => (
+                  <Option key={key + 1} value={`${bank.id}_${bank.ifsc_code}`}>
+                    {bank.bank_name}
+                  </Option>
+                ))}
               </Select>
             </Form.Item>
-            <Form.Item initialValue="" name="type" label="">
-              <Select showSearch>
-                <Option value="">Account Type</Option>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Select account type',
+                },
+              ]}
+              initialValue=""
+              name="account_type"
+              label="Account Type"
+            >
+              <Select>
+                <Option value="">Select</Option>
                 <Option value="Current Account">Current Account</Option>
                 <Option value="Saving Account">Saving Account</Option>
                 <Option value="Recurring Account">Recurring Account</Option>
                 <Option value="Fixed Deposit / Account">Fixed Deposit / Account</Option>
               </Select>
             </Form.Item>
-            <Form.Item name="customerID" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Customer Id',
+                },
+              ]}
+              name="customer_id"
+              label="Customer Id"
+            >
               <Input placeholder="Customer ID" />
             </Form.Item>
-            <Form.Item name="code" label="">
-              <Input placeholder="Branch Code" />
+
+            <Form.Item valuePropName={ifsc} initialValue={ifsc} name="ifsc" label="IFSC">
+              <Input value={ifsc} disabled />
             </Form.Item>
-            <Form.Item name="ifsc" label="">
-              <Input disabled defaultValue="ifsc" />
-            </Form.Item>
-            <Form.Item name="oBalance" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Opening Balance',
+                },
+              ]}
+              name="opening_balance"
+              label="Opening Balance"
+            >
               <Input placeholder="Opening Balance" />
             </Form.Item>
-            <Form.Item name="holderName" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Holder name',
+                },
+              ]}
+              name="account_holder"
+              label="Holder name"
+            >
               <Input placeholder="Account Holder" />
             </Form.Item>
-            <Form.Item name="acNumber" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Account Number',
+                },
+              ]}
+              name="account_no"
+              label="Account Number"
+            >
               <Input placeholder="Account Number" />
             </Form.Item>
           </Form>

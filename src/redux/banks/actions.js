@@ -7,6 +7,10 @@ const actions = {
   BANK_ADD_SUCCESS: 'BANK_ADD_SUCCESS',
   BANK_ADD_ERR: 'BANK_ADD_ERR',
 
+  BANK_LIST_BEGIN: 'BANK_LIST_BEGIN',
+  BANK_LIST_SUCCESS: 'BANK_LIST_SUCCESS',
+  BANK_LIST_ERR: 'BANK_LIST_ERR',
+
   BANK_SEARCH: 'BANK_SEARCH',
 
   bankSearch: data => {
@@ -32,6 +36,26 @@ const actions = {
   bankAddErr: err => {
     return {
       type: actions.BANK_ADD_ERR,
+      err,
+    };
+  },
+
+  bankListBegin: () => {
+    return {
+      type: actions.BANK_LIST_BEGIN,
+    };
+  },
+
+  bankListSuccess: data => {
+    return {
+      type: actions.BANK_LIST_SUCCESS,
+      data,
+    };
+  },
+
+  bankListErr: err => {
+    return {
+      type: actions.BANK_LIST_ERR,
       err,
     };
   },
