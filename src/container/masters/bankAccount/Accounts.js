@@ -1,10 +1,11 @@
 /* eslint-disable camelcase */
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table, notification } from 'antd';
+import { Row, Col, Table, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
-import SaveBank from './SaveAccounts';
+import SaveAccount from './SaveAccounts';
+import UpdateAccount from './updateAccounts';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
@@ -26,6 +27,9 @@ const BankAccounts = () => {
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
   const dispatch = useDispatch();
+  const [visibleUpdate, setVisibleUpdate] = useState(false);
+  const [updateData, setUpdateData] = useState({});
+
   const { accounts, isLoading } = useSelector(state => {
     return {
       accounts: state.accounts.data,
@@ -46,31 +50,39 @@ const BankAccounts = () => {
       setBlock(false);
     }
   }, [pathname]);
-  // console.log(accounts);
+
+  const showModalUpdate = data => {
+    setVisibleUpdate(true);
+    setUpdateData(data);
+  };
+  const onCancelUpdate = () => {
+    setVisibleUpdate(false);
+  };
+
   const dataSource = [];
 
-  accounts.map(
-    ({ id, ifsc_code, account_holder, bank_name, account_no, branch_name, account_type, opening_balance }, key) =>
-      dataSource.push({
-        key: id,
-        name: bank_name,
-        sn: key + 1,
-        acNumber: account_no,
-        holderName: account_holder,
-        branch: branch_name,
-        type: account_type,
-        oBalance: opening_balance,
-        ifsc: ifsc_code,
+  accounts.map((value, key) => {
+    const { id, ifsc_code, account_holder, bank_name, account_no, branch_name, account_type, opening_balance } = value;
+    return dataSource.push({
+      key: id,
+      name: bank_name,
+      sn: key + 1,
+      acNumber: account_no,
+      holderName: account_holder,
+      branch: branch_name,
+      type: account_type,
+      oBalance: opening_balance,
+      ifsc: ifsc_code,
 
-        action: (
-          <div className="table-actions">
-            <Link to="#" className="edit">
-              <FeatherIcon icon="edit" size={14} />
-            </Link>
-          </div>
-        ),
-      }),
-  );
+      action: (
+        <div className="table-actions">
+          <Link onClick={() => showModalUpdate(value)} to="#" className="edit">
+            <FeatherIcon icon="edit" size={14} />
+          </Link>
+        </div>
+      ),
+    });
+  });
 
   const columns = [
     {
@@ -164,9 +176,11 @@ const BankAccounts = () => {
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <AutoComplete placeholder="Search..." onSearch={data => handleSearch(data)} width="200px" patterns />
-          <Button onClick={handleDeleted} block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
-            Delete
-          </Button>
+          <Popconfirm title="Are you sure to delete this row?" onConfirm={handleDeleted} okText="Yes" cancelText="No">
+            <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+              Delete
+            </Button>
+          </Popconfirm>
         </Row>
 
         <Row>
@@ -184,7 +198,8 @@ const BankAccounts = () => {
             </Cards>
           </Col>
         </Row>
-        <SaveBank onCancel={onCancel} visible={visible} />
+        <SaveAccount onCancel={onCancel} visible={visible} />
+        <UpdateAccount onCancel={onCancelUpdate} visible={visibleUpdate} account={updateData} />
       </Main>
     </>
   );

@@ -9,7 +9,7 @@ import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { driverAddDispatch } from '../../../redux/driver/actionCreator';
 
-const SaveDrivers = () => {
+const UpdateDrivers = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const history = useHistory();
@@ -40,7 +40,7 @@ const SaveDrivers = () => {
     <>
       <PageHeader
         ghost
-        title="Save Drivers"
+        title="Edi Drivers"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={gotoView} size="small" type="primary">
@@ -52,7 +52,7 @@ const SaveDrivers = () => {
       <Main>
         <Cards headless>
           <BasicFormWrapper>
-            <Form form={form} name="saveDriver" onFinish={handleFinish}>
+            <Form form={form} name="editDriver" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
                   <Form.Item
@@ -260,4 +260,4 @@ const SaveDrivers = () => {
   );
 };
 
-export default SaveDrivers;
+export default UpdateDrivers;

@@ -22,44 +22,6 @@ const {
   getBanksAccountErr,
 } = actions;
 
-const bankAccountAdd = (banks, callback) => {
-  return async dispatch => {
-    try {
-      dispatch(bankAccountAddBegin());
-      const res = await DataService.post(`bank-accounts?banks_id=${banks.banks_id}`, banks);
-      if (res.data.status === 200) {
-        await dispatch(
-          bankAccountAddSuccess({
-            result: res.data.data,
-            message: res.data.message,
-            description: res.data.description,
-            type: res.data.type,
-          }),
-        );
-        openNotificationWithIcon('success', res.data.message, res.data.description);
-        callback();
-      } else {
-        await dispatch(
-          bankAccountAddErr({
-            message: res.data.message,
-            description: res.data.description,
-            type: res.data.type,
-          }),
-        );
-        openNotificationWithIcon('error', res.data.message, res.data.description);
-      }
-    } catch (err) {
-      dispatch(
-        bankAccountAddErr({
-          message: 'Record Submit failed! Please check your connection',
-          type: 'error',
-        }),
-      );
-      openNotificationWithIcon('error', 'Registered!', err.toString());
-    }
-  };
-};
-
 const getBankAccounts = () => {
   return async dispatch => {
     try {
@@ -89,6 +51,45 @@ const getBankAccounts = () => {
           type: 'error',
         }),
       );
+    }
+  };
+};
+
+const bankAccountAdd = (banks, callback) => {
+  return async dispatch => {
+    try {
+      dispatch(bankAccountAddBegin());
+      const res = await DataService.post(`bank-accounts?banks_id=${banks.banks_id}`, banks);
+      if (res.data.status === 200) {
+        await dispatch(
+          bankAccountAddSuccess({
+            result: res.data.data,
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+        openNotificationWithIcon('success', res.data.message, res.data.description);
+
+        callback();
+      } else {
+        await dispatch(
+          bankAccountAddErr({
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+        openNotificationWithIcon('error', res.data.message, res.data.description);
+      }
+    } catch (err) {
+      dispatch(
+        bankAccountAddErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+      openNotificationWithIcon('error', 'Registered!', err.toString());
     }
   };
 };
@@ -164,7 +165,7 @@ const updateBankAccount = (value, callback) => {
   return async dispatch => {
     try {
       dispatch(bankAccountAddBegin());
-      const res = await DataService.put('/bankes', value);
+      const res = await DataService.put('/bank-accounts', value);
       if (res.data.status === 200) {
         await dispatch(
           bankAccountAddSuccess({

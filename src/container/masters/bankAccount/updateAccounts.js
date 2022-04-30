@@ -7,11 +7,11 @@ import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
 import { getBankListDispatch } from '../../../redux/banks/actionCreator';
-import { bankAccountAdd } from '../../../redux/bankAccounts/actionCreator';
+import { updateBankAccount } from '../../../redux/bankAccounts/actionCreator';
 
 const { Option } = Select;
 
-const SaveAccount = ({ visible, onCancel }) => {
+const UpdateAccount = ({ visible, onCancel, account }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const [state, setState] = useState({
@@ -20,7 +20,12 @@ const SaveAccount = ({ visible, onCancel }) => {
     checked: [],
   });
 
-  const [ifsc, setIfsc] = useState('ifsc');
+  const [ifsc, setIfsc] = useState(account.ifsc_code);
+  useEffect(() => {
+    if (account) {
+      setIfsc(account.ifsc_code);
+    }
+  }, [account]);
 
   const { banks, isLoading } = useSelector(bState => {
     return {
@@ -43,6 +48,7 @@ const SaveAccount = ({ visible, onCancel }) => {
 
   const handleOk = values => {
     const customValues = {
+      id: account.id,
       banks_id: values.banks_id,
       account_type: values.account_type,
       account_holder: values.account_holder,
@@ -50,13 +56,12 @@ const SaveAccount = ({ visible, onCancel }) => {
       customer_id: values.customer_id,
       account_no: values.account_no,
       opening_balance: values.opening_balance,
-      created_at: moment().format('YYYY-MM-DD'),
+      updated_at: moment().format('YYYY-MM-DD'),
     };
 
     if (customValues.account_type) {
       dispatch(
-        bankAccountAdd(customValues, function() {
-          form.resetFields();
+        updateBankAccount(customValues, function() {
           onCancel();
         }),
       );
@@ -76,6 +81,12 @@ const SaveAccount = ({ visible, onCancel }) => {
   const handleBankChange = (_, e) => {
     setIfsc(e['data-ifsc']);
   };
+
+  useEffect(() => {
+    if (visible) {
+      form.setFieldsValue({ ...account });
+    }
+  }, [form, account, visible]);
 
   return (
     <Modal
@@ -118,7 +129,9 @@ const SaveAccount = ({ visible, onCancel }) => {
               label="Bank"
             >
               <Select onChange={handleBankChange}>
-                <Option value="">Select Bank</Option>
+                <Option value="" data-ifsc="ifsc">
+                  Select Bank
+                </Option>
                 {banks.map((bank, key) => (
                   <Option key={key + 1} data-ifsc={bank.ifsc_code} value={bank.id}>
                     {bank.bank_name}
@@ -204,9 +217,10 @@ const SaveAccount = ({ visible, onCancel }) => {
   );
 };
 
-SaveAccount.propTypes = {
+UpdateAccount.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
+  account: propTypes.object,
 };
 
-export default SaveAccount;
+export default UpdateAccount;

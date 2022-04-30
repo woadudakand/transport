@@ -1,5 +1,5 @@
 import React, { useState, useEffect, memo } from 'react';
-import { Row, Col, Table, notification } from 'antd';
+import { Row, Col, Table, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -142,9 +142,11 @@ const Employee = memo(() => {
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <AutoComplete placeholder="Search..." onSearch={data => handleSearch(data)} width="200px" patterns />
-          <Button onClick={handleDeleted} block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
-            Delete
-          </Button>
+          <Popconfirm title="Are you sure to delete this row?" onConfirm={handleDeleted} okText="Yes" cancelText="No">
+            <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+              Delete
+            </Button>
+          </Popconfirm>
         </Row>
 
         <Row>

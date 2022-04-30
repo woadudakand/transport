@@ -1,60 +1,61 @@
 import actions from './actions';
 
 const {
-  CUSTOMERS_ADD_BEGIN,
-  CUSTOMERS_SEARCH,
-  CUSTOMERS_ADD_SUCCESS,
-  CUSTOMERS_ADD_ERR,
-  GET_CUSTOMERS_BEGIN,
-  GET_CUSTOMERS_SUCCESS,
-  GET_CUSTOMERS_ERR,
+  DRIVER_ADD_BEGIN,
+  DRIVER_SEARCH,
+  DRIVER_ADD_SUCCESS,
+  DRIVER_ADD_ERR,
+  GET_DRIVER_BEGIN,
+  GET_DRIVER_SUCCESS,
+  GET_DRIVER_ERR,
 } = actions;
 
 const initState = {
-  customers: [],
+  data: [],
+  list: [],
   loading: false,
   error: null,
 };
 
-const CustomersReducer = (state = initState, action) => {
+const DriverReducer = (state = initState, action) => {
   const { type, data, err } = action;
   switch (type) {
-    case CUSTOMERS_SEARCH:
+    case DRIVER_SEARCH:
       return {
         ...state,
-        customers: data.result,
+        data: data.result,
       };
 
-    case CUSTOMERS_ADD_BEGIN:
+    case DRIVER_ADD_BEGIN:
       return {
         ...state,
         loading: true,
       };
 
-    case CUSTOMERS_ADD_SUCCESS:
+    case DRIVER_ADD_SUCCESS:
       return {
         ...state,
-        customers: data.result,
+        data: data.result,
         loading: false,
       };
-    case CUSTOMERS_ADD_ERR:
+    case DRIVER_ADD_ERR:
       return {
         ...state,
         error: err,
         loading: false,
       };
-    case GET_CUSTOMERS_BEGIN:
+    case GET_DRIVER_BEGIN:
       return {
         ...state,
         loading: true,
       };
-    case GET_CUSTOMERS_SUCCESS:
+    case GET_DRIVER_SUCCESS:
       return {
         ...state,
-        customers: data.result,
+        data: data.result,
         loading: false,
       };
-    case GET_CUSTOMERS_ERR:
+    case GET_DRIVER_ERR:
       return {
         ...state,
         error: err,
@@ -65,4 +66,4 @@ const CustomersReducer = (state = initState, action) => {
   }
 };
 
-export default CustomersReducer;
+export default DriverReducer;

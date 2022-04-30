@@ -10,23 +10,23 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  customerSearch,
-  customerAddBegin,
-  customerAddSuccess,
-  customerAddErr,
-  getCustomerBegin,
-  getCustomerSuccess,
-  getCustomerErr,
+  driverSearch,
+  driverAddBegin,
+  driverAddSuccess,
+  driverAddErr,
+  getDriverBegin,
+  getDriverSuccess,
+  getDriverErr,
 } = actions;
 
-const customerAddDispatch = customer => {
+const driverAddDispatch = (value, callback) => {
   return async dispatch => {
     try {
-      dispatch(customerAddBegin());
-      const res = await DataService.post('/customer', customer);
+      dispatch(driverAddBegin());
+      const res = await DataService.post('/drivers', value);
       if (res.data.status === 200) {
         await dispatch(
-          customerAddSuccess({
+          driverAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -34,9 +34,10 @@ const customerAddDispatch = customer => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
-          customerAddErr({
+          driverAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -45,9 +46,8 @@ const customerAddDispatch = customer => {
         openNotificationWithIcon('error', res.data.message, res.data.description);
       }
     } catch (err) {
-      console.log(err);
       dispatch(
-        customerAddErr({
+        driverAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -57,15 +57,15 @@ const customerAddDispatch = customer => {
   };
 };
 
-const getCustomersDispatch = () => {
+const getDriversDispatch = () => {
   return async dispatch => {
     try {
-      dispatch(getCustomerBegin());
-      const res = await DataService.get(`/customer`);
+      dispatch(getDriverBegin());
+      const res = await DataService.get(`/drivers`);
 
       if (res.data.status === 200) {
         await dispatch(
-          getCustomerSuccess({
+          getDriverSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -73,7 +73,7 @@ const getCustomersDispatch = () => {
         );
       } else {
         await dispatch(
-          getCustomerErr({
+          getDriverErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -81,7 +81,7 @@ const getCustomersDispatch = () => {
       }
     } catch (err) {
       dispatch(
-        getCustomerErr({
+        getDriverErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -93,11 +93,11 @@ const getCustomersDispatch = () => {
 const deleteCustomer = id => {
   return async dispatch => {
     try {
-      dispatch(getCustomerBegin());
-      const res = await DataService.delete(`/customer?id=${id}`);
+      dispatch(getDriverBegin());
+      const res = await DataService.delete(`/drivers?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
-          getCustomerSuccess({
+          getDriverSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -107,7 +107,7 @@ const deleteCustomer = id => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          getCustomerErr({
+          getDriverErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -117,7 +117,7 @@ const deleteCustomer = id => {
       }
     } catch (err) {
       dispatch(
-        getCustomerErr({
+        getDriverErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -127,20 +127,20 @@ const deleteCustomer = id => {
   };
 };
 
-const getCustomerDispatch = value => {
+const getDriverDispatch = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/customer/query?data=${value}`);
+      const res = await DataService.get(`/drivers/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(
-          customerSearch({
+          driverSearch({
             result: res.data.data,
           }),
         );
       } else {
         await dispatch(
-          getCustomerErr({
+          getDriverErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -148,7 +148,7 @@ const getCustomerDispatch = value => {
       }
     } catch (err) {
       dispatch(
-        getCustomerErr({
+        getDriverErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -157,14 +157,14 @@ const getCustomerDispatch = value => {
   };
 };
 
-const updateCustomer = place => {
+const updateDriver = value => {
   return async dispatch => {
     try {
-      dispatch(customerAddBegin());
-      const res = await DataService.put('/customer', place);
+      dispatch(driverAddBegin());
+      const res = await DataService.put('/drivers', value);
       if (res.data.status === 200) {
         await dispatch(
-          customerAddSuccess({
+          driverAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -174,7 +174,7 @@ const updateCustomer = place => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          customerAddErr({
+          driverAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -184,7 +184,7 @@ const updateCustomer = place => {
       }
     } catch (err) {
       dispatch(
-        customerAddErr({
+        driverAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -194,4 +194,4 @@ const updateCustomer = place => {
   };
 };
 
-export { getCustomersDispatch, customerAddDispatch, getCustomerDispatch, deleteCustomer, updateCustomer };
+export { getDriversDispatch, driverAddDispatch, getDriverDispatch, deleteCustomer, updateDriver };
