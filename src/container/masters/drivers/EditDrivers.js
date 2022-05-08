@@ -1,34 +1,39 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select } from 'antd';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
-import { useHistory } from 'react-router-dom';
+import { useHistory, useParams } from 'react-router-dom';
+import dayjs from 'dayjs';
 import { Main, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-import { driverAddDispatch } from '../../../redux/driver/actionCreator';
+import { updateDriver, getDriverSingle } from '../../../redux/driver/actionCreator';
 
 const UpdateDrivers = () => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const history = useHistory();
-  const { isLoading } = useSelector(state => {
+  const { isLoading, driver } = useSelector(state => {
     return {
       isLoading: state.driver.loading,
+      driver: state.driver.driver,
     };
   });
+  const { id } = useParams();
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getDriverSingle(id));
+    }
+  }, [dispatch, id]);
+
   const handleFinish = values => {
     const customValues = {
       name: values.name,
     };
 
     if (customValues.name) {
-      dispatch(
-        driverAddDispatch({ ...values, created_at: moment().format('YYYY-MM-DD') }, function() {
-          form.resetFields();
-        }),
-      );
+      dispatch(updateDriver({ ...values, id, updated_at: moment().format('YYYY-MM-DD') }));
     }
   };
 
@@ -36,11 +41,23 @@ const UpdateDrivers = () => {
     history.replace('/admin/drivers');
   };
 
+  useEffect(() => {
+    if (driver[0]) {
+      form.setFieldsValue({
+        ...driver[0],
+        joiningdate: dayjs(driver[0].joiningdate, 'YYYY-MM-DD'),
+        dob: dayjs(driver[0].dob, 'YYYY-MM-DD'),
+        renewdate: dayjs(driver[0].renewdate, 'YYYY-MM-DD'),
+        expirydate: dayjs(driver[0].expirydate, 'YYYY-MM-DD'),
+      });
+    }
+  }, [driver, form]);
+
   return (
     <>
       <PageHeader
         ghost
-        title="Edi Drivers"
+        title="Edi Driver"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={gotoView} size="small" type="primary">
@@ -248,7 +265,7 @@ const UpdateDrivers = () => {
                   <Button type="white">Loading....</Button>
                 ) : (
                   <Button type="primary" htmlType="submit">
-                    Add Driver
+                    Update Driver
                   </Button>
                 )}
               </Form.Item>

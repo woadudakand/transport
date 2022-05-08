@@ -13,6 +13,7 @@ const SaveCustomers = lazy(() => import('../../container/masters/customers/SaveC
 const UpdateCustomers = lazy(() => import('../../container/masters/customers/EditCustomer'));
 const Drivers = lazy(() => import('../../container/masters/drivers/Drivers'));
 const SaveDrivers = lazy(() => import('../../container/masters/drivers/SaveDrivers'));
+const UpdateDrivers = lazy(() => import('../../container/masters/drivers/EditDrivers'));
 const Employees = lazy(() => import('../../container/masters/Employee/Employee'));
 const SaveEmployees = lazy(() => import('../../container/masters/Employee/SaveEmployee'));
 const EditEmployee = lazy(() => import('../../container/masters/Employee/EditEmployee'));
@@ -47,6 +48,7 @@ const DashboardRoutes = () => {
       <Route path={`${path}/update-customers/:id`} component={UpdateCustomers} />
       <Route path={`${path}/drivers`} component={Drivers} />
       <Route path={`${path}/save-drivers`} component={SaveDrivers} />
+      <Route path={`${path}/update-driver/:id`} component={UpdateDrivers} />
       <Route path={`${path}/employees`} component={Employees} />
       <Route path={`${path}/save-employees`} component={SaveEmployees} />
       <Route path={`${path}/edit-employee/:id`} component={EditEmployee} />

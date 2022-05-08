@@ -8,7 +8,7 @@ import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
-import { getDriversDispatch } from '../../../redux/driver/actionCreator';
+import { getDriversDispatch, getDriverDispatch } from '../../../redux/driver/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
 
 const Drivers = () => {
@@ -50,7 +50,7 @@ const Drivers = () => {
       telephone,
       action: (
         <div className="table-actions">
-          <Link to="#" className="edit">
+          <Link to={`/admin/update-driver/${id}`} className="edit">
             <FeatherIcon icon="edit" size={14} />
           </Link>
         </div>
@@ -96,6 +96,10 @@ const Drivers = () => {
     onChange: onSelectChange,
   };
 
+  const handleSearch = value => {
+    dispatch(getDriverDispatch(value));
+  };
+
   return (
     <>
       {isLoading ? <DataLoader /> : null}
@@ -113,7 +117,7 @@ const Drivers = () => {
       />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <AutoComplete placeholder="Search..." onSearch={data => console.log(data)} width="200px" patterns />
+          <AutoComplete placeholder="Search..." onSearch={data => handleSearch(data)} width="200px" patterns />
           <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
             Delete
           </Button>

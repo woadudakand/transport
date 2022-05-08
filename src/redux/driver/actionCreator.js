@@ -17,6 +17,9 @@ const {
   getDriverBegin,
   getDriverSuccess,
   getDriverErr,
+  singleDriverBegin,
+  singleDriverSuccess,
+  singleDriverErr,
 } = actions;
 
 const driverAddDispatch = (value, callback) => {
@@ -157,6 +160,37 @@ const getDriverDispatch = value => {
   };
 };
 
+const getDriverSingle = id => {
+  return async dispatch => {
+    dispatch(singleDriverBegin());
+    try {
+      const res = await DataService.get(`/drivers/single?id=${id}`);
+
+      if (res.data.status === 200) {
+        await dispatch(
+          singleDriverSuccess({
+            result: res.data.data,
+          }),
+        );
+      } else {
+        await dispatch(
+          singleDriverErr({
+            message: res.data.message,
+            type: res.data.type,
+          }),
+        );
+      }
+    } catch (err) {
+      dispatch(
+        singleDriverErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+    }
+  };
+};
+
 const updateDriver = value => {
   return async dispatch => {
     try {
@@ -194,4 +228,4 @@ const updateDriver = value => {
   };
 };
 
-export { getDriversDispatch, driverAddDispatch, getDriverDispatch, deleteCustomer, updateDriver };
+export { getDriverSingle, getDriversDispatch, driverAddDispatch, getDriverDispatch, deleteCustomer, updateDriver };

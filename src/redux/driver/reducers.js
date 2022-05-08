@@ -8,10 +8,14 @@ const {
   GET_DRIVER_BEGIN,
   GET_DRIVER_SUCCESS,
   GET_DRIVER_ERR,
+  SINGLE_DRIVER_BEGIN,
+  SINGLE_DRIVER_SUCCESS,
+  SINGLE_DRIVER_ERR,
 } = actions;
 
 const initState = {
   data: [],
+  driver: [],
   list: [],
   loading: false,
   error: null,
@@ -56,6 +60,24 @@ const DriverReducer = (state = initState, action) => {
         loading: false,
       };
     case GET_DRIVER_ERR:
+      return {
+        ...state,
+        error: err,
+        loading: false,
+      };
+
+    case SINGLE_DRIVER_BEGIN:
+      return {
+        ...state,
+        loading: true,
+      };
+    case SINGLE_DRIVER_SUCCESS:
+      return {
+        ...state,
+        driver: data.result,
+        loading: false,
+      };
+    case SINGLE_DRIVER_ERR:
       return {
         ...state,
         error: err,
