@@ -67,30 +67,40 @@ const SavePlaces = () => {
       key: 'sn',
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Articles',
+      dataIndex: 'articles',
+      key: 'articles',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'No. Articles',
+      dataIndex: 'noArticles',
+      key: 'noArticles',
     },
 
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
     },
     {
-      title: 'Designation',
-      dataIndex: 'designation',
-      key: 'designation',
+      title: 'Actual Weight',
+      dataIndex: 'actualWeight',
+      key: 'actualWeight',
     },
     {
-      title: 'Mobile Number',
-      dataIndex: 'mobile',
-      key: 'mobile',
+      title: 'Rate Per',
+      dataIndex: 'ratePer',
+      key: 'ratePer',
+    },
+    {
+      title: 'Rate',
+      dataIndex: 'rate',
+      key: 'rate',
+    },
+    {
+      title: 'Freight',
+      dataIndex: 'freight',
+      key: 'freight',
     },
     {
       title: 'Actions',
@@ -163,22 +173,19 @@ const SavePlaces = () => {
                       <Select.Option value="MH12GH2370">MH12GH2370</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="Ravi" name="consignor" label="Consignor">
+                </Col>
+
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
+                  <Form.Item initialValue="Ravi" name="fromConsignor" label="Consignor">
                     <Select>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="Amit">Amit</Select.Option>
                     </Select>
                   </Form.Item>
-                </Col>
-
-                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="gst" label="Consignor's GST No">
+                  <Form.Item name="fromGst" label="Consignor's GST No">
                     <Input placeholder="Consignor's GST No" />
                   </Form.Item>
-                  <Form.Item name="cst" label="CST No">
-                    <Input placeholder="CST No." />
-                  </Form.Item>
-                  <Form.Item name="address" label="Consignee Address:">
+                  <Form.Item name="fromAddress" label="Consignee Address:">
                     <Input placeholder="Consignee Address:" />
                   </Form.Item>
 
@@ -189,7 +196,29 @@ const SavePlaces = () => {
                     </Select>
                   </Form.Item>
 
-                  <Form.Item initialValue="kallam" name="to" label="To">
+                  {/* <Form.Item initialValue="kallam" name="to" label="To">
+                    <Select>
+                      <Select.Option value="pune">Pune</Select.Option>
+                      <Select.Option value="kallam">Kallam</Select.Option>
+                    </Select>
+                  </Form.Item> */}
+                </Col>
+
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
+                  <Form.Item initialValue="Ravi" name="toConsignor" label="Consignor">
+                    <Select>
+                      <Select.Option value="Ravi">Ravi</Select.Option>
+                      <Select.Option value="Amit">Amit</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="toGst" label="Consignor's GST No">
+                    <Input placeholder="Consignor's GST No" />
+                  </Form.Item>
+                  <Form.Item name="toAddress" label="Consignee Address:">
+                    <Input placeholder="Consignee Address:" />
+                  </Form.Item>
+
+                  <Form.Item initialValue="pune" name="to" label="To">
                     <Select>
                       <Select.Option value="pune">Pune</Select.Option>
                       <Select.Option value="kallam">Kallam</Select.Option>
@@ -197,18 +226,28 @@ const SavePlaces = () => {
                   </Form.Item>
                 </Col>
 
-                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item initialValue="" name="consignee" label="Consignee">
+                <Col style={{ marginBottom: '20px' }} md={12} sm={12} xs={24}>
+                  {/* <Form.Item initialValue="" name="consignee" label="Consignee">
                     <Select>
                       <Select.Option value="">Select Consignee</Select.Option>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="Amit">Amit</Select.Option>
                     </Select>
+                  </Form.Item> */}
+                  <Form.Item initialValue="" name="delivery" label="Delivery At:">
+                    <Select>
+                      <Select.Option value="">Select Deliver Person</Select.Option>
+                      <Select.Option value="Ravi">Ravi</Select.Option>
+                      <Select.Option value="Amit">Amit</Select.Option>
+                    </Select>
                   </Form.Item>
-                  <Form.Item name="telephone" label="Telephone">
-                    <Input placeholder="Telephone" />
+                  <Form.Item name="address" label="Address:">
+                    <Input placeholder="Delivery Address" />
                   </Form.Item>
-                  <Form.Item name="gst" label="GST No">
+                  <Form.Item name="city" label="City:">
+                    <Input placeholder="City" />
+                  </Form.Item>
+                  {/* <Form.Item name="gst" label="GST No">
                     <Input placeholder="GST No." />
                   </Form.Item>
                   <Form.Item
@@ -224,31 +263,104 @@ const SavePlaces = () => {
                   </Form.Item>
                   <Form.Item name="ecc" label="ECC No">
                     <Input placeholder="ECC No" />
-                  </Form.Item>
+                  </Form.Item> */}
                 </Col>
-                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
-                    <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
+                {/* <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
+                  <Form.Item initialValue="" name="delivery" label="Delivery At:">
+                    <Select>
+                      <Select.Option value="">Select Deliver Person</Select.Option>
+                      <Select.Option value="Ravi">Ravi</Select.Option>
+                      <Select.Option value="Amit">Amit</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Col> */}
+                <Col style={{ marginBottom: '20px' }} md={12} sm={12} xs={24}>
+                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Transactions Details">
+                    {/* <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '} */}
+                    <Form.Item initialValue="Articles" name="articles">
+                      <Select
+                        // showSearch
+                        // style={{ cursor: 'pointer' }}
+                        // optionFilterProp="children"
+                        // filterOption={(input, option) =>
+                        //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
+                        // }
+                        // filterSort={(optionA, optionB) =>
+                        //   optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
+                        // }
+                        // placeholder="Articles"
+                        // value={info.articles}
+                        value={info.articles}
+                      >
+                        <Select.Option value="pune">Box</Select.Option>
+                        <Select.Option value="bag">Bag</Select.Option>
+                        <Select.Option value="buccket">buccket</Select.Option>
+                        <Select.Option value="buckets">Buckets</Select.Option>
+                        <Select.Option value="yogini">yogini</Select.Option>
+                        <Select.Option value="pramod">pramod</Select.Option>
+                      </Select>
+                    </Form.Item>
+                    {/* <br /> <br /> */}
+                    <Input
+                      name="noArticles"
+                      value={info.noArticles}
+                      onChange={handleChange}
+                      placeholder="No. Articles"
+                      type="number"
+                    />
                     <br /> <br />
-                    <Input name="address" value={info.address} onChange={handleChange} placeholder="Address" />
-                    <br /> <br />
-                    <Input name="email" value={info.email} onChange={handleChange} placeholder="Email" />
-                    <br /> <br />
+                    <Input
+                      name="description"
+                      value={info.description}
+                      onChange={handleChange}
+                      placeholder="Description"
+                    />
+                    {/* <br /> <br />
                     <Input
                       name="designation"
                       value={info.designation}
                       onChange={handleChange}
                       placeholder="Designation"
+                    /> */}
+                    <br /> <br />
+                    <Input
+                      name="weight"
+                      value={info.weight}
+                      onChange={handleChange}
+                      placeholder="Weight"
+                      type="number"
                     />
                     <br /> <br />
-                    <Input name="mobile" value={info.mobile} onChange={handleChange} placeholder="Mobile" />
+                    <Form.Item initialValue="Rate Per" name="ratePer">
+                      <Select value={info.ratePer}>
+                        <Select.Option value="pune">Fixed</Select.Option>
+                        <Select.Option value="bag">Kg</Select.Option>
+                        <Select.Option value="buccket">Case</Select.Option>
+                      </Select>
+                    </Form.Item>
+                    <Input
+                      name="rate"
+                      value={info.rate}
+                      onChange={handleChange}
+                      placeholder="Rate"
+                      type="number"
+                      disabled
+                    />
+                    <br /> <br />
+                    <Input
+                      name="freight"
+                      value={info.freight}
+                      onChange={handleChange}
+                      placeholder="Freight"
+                      type="disable"
+                    />
                     <br /> <br />
                     <Button onClick={handleContactInfo} size="large" type="primary">
                       {!edit ? 'Add New' : 'Update'}
                     </Button>
                   </Cards>
                 </Col>
-                <Col style={{ marginBottom: '20px' }} md={16} sm={24}>
+                <Col style={{ marginBottom: '20px' }} md={24} sm={24}>
                   <TableWrapper className="table-data-view table-responsive">
                     <Table
                       className="table-responsive"
@@ -260,11 +372,11 @@ const SavePlaces = () => {
                 </Col>
               </Row>
 
-              <Form.Item label="">
+              {/* <Form.Item label="">
                 <Button type="primary" htmlType="submit">
                   Add Customer
                 </Button>
-              </Form.Item>
+              </Form.Item> */}
             </Form>
           </BasicFormWrapper>
         </Cards>

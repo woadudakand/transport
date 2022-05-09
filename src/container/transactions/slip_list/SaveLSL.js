@@ -67,35 +67,40 @@ const SavePlaces = () => {
       key: 'sn',
     },
     {
-      title: 'Name',
-      dataIndex: 'name',
-      key: 'name',
+      title: 'Consign No',
+      dataIndex: 'consignNo',
+      key: 'consignNo',
     },
     {
-      title: 'Address',
-      dataIndex: 'address',
-      key: 'address',
+      title: 'Consignor',
+      dataIndex: 'consignor',
+      key: 'consignor',
     },
 
     {
-      title: 'Email',
-      dataIndex: 'email',
-      key: 'email',
+      title: 'From',
+      dataIndex: 'from',
+      key: 'from',
     },
     {
-      title: 'Designation',
-      dataIndex: 'designation',
-      key: 'designation',
+      title: 'Consignee',
+      dataIndex: 'consignee',
+      key: 'consignee',
     },
     {
-      title: 'Mobile Number',
-      dataIndex: 'mobile',
-      key: 'mobile',
+      title: 'To',
+      dataIndex: 'to',
+      key: 'to',
     },
     {
-      title: 'Actions',
-      dataIndex: 'action',
-      key: 'action',
+      title: 'Weight',
+      dataIndex: 'weight',
+      key: 'weight',
+    },
+    {
+      title: 'To Pay',
+      dataIndex: 'toPay',
+      key: 'toPay',
     },
   ];
 
@@ -147,7 +152,7 @@ const SavePlaces = () => {
           <BasicFormWrapper>
             <Form form={form} name="lorryReceipt" onFinish={handleFinish}>
               <Row gutter={24}>
-                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
+                <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
                   <Form.Item name="memoNo" label="Memo No:">
                     <Input placeholder="Memo No: " />
                   </Form.Item>
@@ -168,7 +173,7 @@ const SavePlaces = () => {
                   </Form.Item>
                 </Col>
 
-                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
+                <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
                   <Form.Item initialValue="MH 13 AA 1881" name="state" label="Driver Name">
                     <Select>
                       <Select.Option value="Any Driver name">Any Driver name</Select.Option>
