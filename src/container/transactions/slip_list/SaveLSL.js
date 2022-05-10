@@ -230,7 +230,7 @@ const SavePlaces = () => {
                     <Input placeholder="ECC No" />
                   </Form.Item>
                 </Col> */}
-                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
+                {/* <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
                     <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
                     <br /> <br />
@@ -251,8 +251,8 @@ const SavePlaces = () => {
                       {!edit ? 'Add New' : 'Update'}
                     </Button>
                   </Cards>
-                </Col>
-                <Col style={{ marginBottom: '20px' }} md={16} sm={24}>
+                </Col> */}
+                <Col style={{ marginBottom: '20px' }} md={18} sm={24}>
                   <TableWrapper className="table-data-view table-responsive">
                     <Table
                       className="table-responsive"
@@ -262,11 +262,62 @@ const SavePlaces = () => {
                     />
                   </TableWrapper>
                 </Col>
+                <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
+                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Charges">
+                    <Form.Item name="totalToPay" label="Total to Pay">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="billed" label="Total Billed">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="hire" label="Hire Rs">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="advance" label="Advance Rs">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="commision" label="Commision">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="hamali" label="Hamali">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="stackingRs" label="StackingRs">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="total" label="Total">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                  </Cards>
+                </Col>
+                <Cards bodyStyle={{ backgroundColor: '#f4f5f7', justifyContent: 'spaceBetween', display: 'flex' }}>
+                  <Col md={12} sm={12}>
+                    <Form.Item initialValue="Select a Branch" name="brance" label="Ack Branch">
+                      <Select>
+                        <Select.Option value="pune">Pune</Select.Option>
+                        <Select.Option value="kallam">Kallam</Select.Option>
+                        <Select.Option value="latur">Latur</Select.Option>
+                        <Select.Option value="kaij">Kaij</Select.Option>
+                      </Select>
+                    </Form.Item>
+                  </Col>
+                  <Col md={12} sm={12}>
+                    <Form.Item name="remarks" label="Remarks">
+                      <Input placeholder="Remarks" />
+                    </Form.Item>
+                  </Col>
+                </Cards>
               </Row>
 
               <Form.Item label="">
-                <Button type="primary" htmlType="submit">
-                  Add Customer
+                <Button style={{ margin: '20px' }} type="primary">
+                  Save
+                </Button>
+                <Button style={{ margin: '20px' }} type="primary">
+                  Origional Print
+                </Button>
+                <Button style={{ margin: '20px' }} type="primary">
+                  Cancel
                 </Button>
               </Form.Item>
             </Form>

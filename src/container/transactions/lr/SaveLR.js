@@ -360,7 +360,8 @@ const SavePlaces = () => {
                     </Button>
                   </Cards>
                 </Col>
-                <Col style={{ marginBottom: '20px' }} md={24} sm={24}>
+                {/* Table start */}
+                <Col style={{ marginBottom: '20px' }} md={18} sm={24}>
                   <TableWrapper className="table-data-view table-responsive">
                     <Table
                       className="table-responsive"
@@ -370,6 +371,113 @@ const SavePlaces = () => {
                     />
                   </TableWrapper>
                 </Col>
+                <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
+                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Freight Details">
+                    <Form.Item name="totalFreight" label="Total Freight:">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="osc" label="O. S. C">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="door" label="Door/Del_Char">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="otherChar" label="Other Char">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="varai" label="Varai/Hamali">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="statistical" label="Statistical">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                    <Form.Item name="total" label="Total">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                  </Cards>
+                </Col>
+                {/* Table End */}
+                <br />
+                <br />
+                <Cards bodyStyle={{ backgroundColor: '#f4f5f7', justifyContent: 'spaceBetween', display: 'flex' }}>
+                  <Col md={12} sm={12}>
+                    <Form.Item name="totalNoArticle" label="Total No. of Articles">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                  </Col>
+                  <Col md={12} sm={12}>
+                    <Form.Item name="totalWeight" label="Total Weight">
+                      <Input placeholder="0" type="number" />
+                    </Form.Item>
+                  </Col>
+                </Cards>
+                <hr />
+                <br />
+                <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Billing Details">
+                  <Row>
+                    <Col md={11} sm={11}>
+                      <Form.Item name="materialCost" label="Material Cost">
+                        <Input placeholder="Material Cost" type="number" />
+                      </Form.Item>
+                      <Form.Item initialValue="Door" name="deliveryType" label="Delivery Type">
+                        <Select>
+                          <Select.Option value="door">Door</Select.Option>
+                          <Select.Option value="godwan">Godwan</Select.Option>
+                          <Select.Option value="office">Office</Select.Option>
+                        </Select>
+                      </Form.Item>
+                      <Form.Item name="inDays" label="Delivery (in days)">
+                        <Input placeholder="0" type="number" />
+                      </Form.Item>
+                      <Form.Item initialValue="TTB" name="payType" label="Pay Type">
+                        <Select>
+                          <Select.Option value="ttb">TTB</Select.Option>
+                          <Select.Option value="toPay">To Pay</Select.Option>
+                          <Select.Option value="paid">Paid</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    <Col style={{ marginLeft: 'auto' }} md={11} sm={11}>
+                      <Form.Item initialValue="Consignor" name="toBilled" label="To Billed">
+                        <Select>
+                          <Select.Option value="consignor">Consignor</Select.Option>
+                          <Select.Option value="consignee">Consignee</Select.Option>
+                          <Select.Option value="thirdParty">Third Party</Select.Option>
+                        </Select>
+                      </Form.Item>
+                      <Form.Item initialValue="Consignor" name="collectAt" label="Collect At">
+                        <Select>
+                          <Select.Option value="pune">Pune</Select.Option>
+                          <Select.Option value="kallam">Kallam</Select.Option>
+                          <Select.Option value="latur">Latur</Select.Option>
+                          <Select.Option value="kaij">Kaij</Select.Option>
+                          <Select.Option value="mumbai">Mumbai</Select.Option>
+                        </Select>
+                      </Form.Item>
+                      <Form.Item initialValue="" name="serviceTax" label="Service Tax By">
+                        <Select>
+                          <Select.Option value="consignor">Consignor</Select.Option>
+                          <Select.Option value="consignee">Consignee</Select.Option>
+                        </Select>
+                      </Form.Item>
+                      <Form.Item name="remark" label="Remark">
+                        <Input placeholder="Remark" />
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
+                    {!edit ? 'Save' : 'Update'}
+                  </Button>
+                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
+                    {!edit ? 'Origional Print' : 'Update'}
+                  </Button>
+                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
+                    {!edit ? 'Print Without Value' : 'Update'}
+                  </Button>
+                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
+                    {!edit ? 'cancel' : 'Update'}
+                  </Button>
+                </Cards>
               </Row>
 
               {/* <Form.Item label="">
