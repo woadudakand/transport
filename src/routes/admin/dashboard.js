@@ -31,6 +31,8 @@ const SaveLorry = lazy(() => import('../../container/transactions/lr/SaveLR'));
 const LoadingShipList = lazy(() => import('../../container/transactions/slip_list/LSL'));
 const SaveShipList = lazy(() => import('../../container/transactions/slip_list/SaveLSL'));
 const Acknowledgement = lazy(() => import('../../container/transactions/Acknowledgement/Aknowledge'));
+const LoadingMemoList = lazy(() => import('../../container/transactions/LM_list/LML'));
+const SaveMemoList = lazy(() => import('../../container/transactions/LM_list/SaveLML'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -66,6 +68,8 @@ const DashboardRoutes = () => {
       <Route path={`${path}/loadingSlipList`} component={LoadingShipList} />
       <Route path={`${path}/save-lsl`} component={SaveShipList} />
       <Route path={`${path}/acknowledgement`} component={Acknowledgement} />
+      <Route path={`${path}/localMemoList`} component={LoadingMemoList} />
+      <Route path={`${path}/save-lml`} component={SaveMemoList} />
     </Switch>
   );
 };
