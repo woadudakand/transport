@@ -1,5 +1,6 @@
 import React, { useState } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox } from 'antd';
+import moment from 'moment';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
@@ -71,42 +72,39 @@ const SavePlaces = () => {
       key: 'sn',
     },
     {
-      title: 'Consign No',
-      dataIndex: 'consignNo',
-      key: 'consignNo',
-    },
-    {
-      title: 'Consignor',
-      dataIndex: 'consignor',
-      key: 'consignor',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
     },
 
     {
-      title: 'From',
-      dataIndex: 'from',
-      key: 'from',
+      title: 'Article or Weight',
+      dataIndex: 'aow',
+      key: 'aow',
     },
     {
-      title: 'Consignee',
-      dataIndex: 'consignee',
-      key: 'consignee',
+      title: 'Way Bill No & Date',
+      dataIndex: 'billDate',
+      key: 'billDate',
     },
     {
-      title: 'To',
-      dataIndex: 'to',
-      key: 'to',
+      title: 'Memo No',
+      dataIndex: 'memoNo',
+      key: 'memoNo',
     },
     {
-      title: 'Weight',
-      dataIndex: 'weight',
-      key: 'weight',
+      title: 'Vehicle No',
+      dataIndex: 'vehicleNo',
+      key: 'vehicleNo',
     },
     {
-      title: 'To Pay',
-      dataIndex: 'toPay',
-      key: 'toPay',
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
     },
   ];
+
+  const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
   // Check List for LR start
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
@@ -160,7 +158,7 @@ const SavePlaces = () => {
 
   return (
     <>
-      <PageHeader ghost title="Loading Slip Details" />
+      <PageHeader ghost title="New Bill" />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
@@ -174,28 +172,28 @@ const SavePlaces = () => {
           <BasicFormWrapper>
             <Form form={form} name="lorryReceipt" onFinish={handleFinish}>
               <Row gutter={24}>
-                <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
-                  <Form.Item name="memoNo" label="Memo No:">
-                    <Input placeholder="Memo No: " />
+                <Col md={24} sm={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                  <Form.Item name="billNo" label="Bill No:">
+                    <Input placeholder="Bill No" />
                   </Form.Item>
-                  <Form.Item name="date" label="Date">
-                    <DatePicker style={{ width: '100%' }} placeholder="date" />
+                  <Form.Item name="billDate" label="Bill Date">
+                    <DatePicker defaultValue={moment('10/02/2015', dateFormatList[0])} format={dateFormatList} />
                   </Form.Item>
-                  <Form.Item initialValue="MH 13 AA 1881" name="state" label="Vehicle No:">
+                  <Form.Item initialValue="" name="customerNames" label="Customer Names">
                     <Select>
-                      <Select.Option value="MH 13 AA 1881">MH 13 AA 1881</Select.Option>
-                      <Select.Option value="MH12GH2370">MH12GH2370</Select.Option>
+                      <Select.Option value="">Customer</Select.Option>
+                      <Select.Option value="Ravi">Ravi</Select.Option>
+                      <Select.Option value="Amit">Amit</Select.Option>
+                      <Select.Option value="Ovi">Ovi</Select.Option>
+                      <Select.Option value="anyone">anyone</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="invoice" label="Vehicle Owner:">
-                    <Input placeholder="Vehicle Owner" />
-                  </Form.Item>
-                  <Form.Item name="address" label="Owner Address:">
-                    <Input placeholder="Owner Address:" />
-                  </Form.Item>
+                  <Button onClick={handleContactInfo} style={{ margin: 'auto 30px', padding: '20px' }} type="primary">
+                    Show LR
+                  </Button>
                 </Col>
 
-                <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
+                {/* <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
                   <Form.Item initialValue="MH 13 AA 1881" name="state" label="Driver Name">
                     <Select>
                       <Select.Option value="Any Driver name">Any Driver name</Select.Option>
@@ -221,7 +219,7 @@ const SavePlaces = () => {
                       <Select.Option value="kallam">Kallam</Select.Option>
                     </Select>
                   </Form.Item>
-                </Col>
+                </Col> */}
 
                 {/* <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
                   <Form.Item initialValue="" name="consignee" label="Consignee">
@@ -275,7 +273,6 @@ const SavePlaces = () => {
                   </Cards>
                 </Col> */}
               </Row>
-
               <Row gutter={24}>
                 <Col md={18} sm={12}>
                   <Button onClick={handleContactInfo} style={{ display: 'block', width: '100%' }} type="primary">
@@ -314,35 +311,23 @@ const SavePlaces = () => {
                   </TableWrapper>
                 </Col>
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
-                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Charges">
-                    <Form.Item name="totalToPay" label="Total to Pay">
-                      <Input placeholder="0" type="number" />
+                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Payment Details">
+                    <Form.Item name="totalAmount" label="Total Amount">
+                      <Input placeholder="Total Amount" type="number" />
                     </Form.Item>
-                    <Form.Item name="billed" label="Total Billed">
-                      <Input placeholder="0" type="number" />
-                    </Form.Item>
-                    <Form.Item name="hire" label="Hire Rs">
-                      <Input placeholder="0" type="number" />
-                    </Form.Item>
-                    <Form.Item name="advance" label="Advance Rs">
-                      <Input placeholder="0" type="number" />
-                    </Form.Item>
-                    <Form.Item name="commision" label="Commision">
-                      <Input placeholder="0" type="number" />
-                    </Form.Item>
-                    <Form.Item name="hamali" label="Hamali">
-                      <Input placeholder="0" type="number" />
-                    </Form.Item>
-                    <Form.Item name="stackingRs" label="StackingRs">
-                      <Input placeholder="0" type="number" />
+                    <Form.Item name="serviceTax" label="Service Tax (%)">
+                      <Input placeholder="Service Tax" type="number" />
                     </Form.Item>
                     <Form.Item name="total" label="Total">
-                      <Input placeholder="0" type="number" />
+                      <Input placeholder="Total" type="number" />
+                    </Form.Item>
+                    <Form.Item name="dueDate" label="Due Date">
+                      <DatePicker defaultValue={moment('23/05/2017', dateFormatList[0])} format={dateFormatList} />
                     </Form.Item>
                   </Cards>
                 </Col>
                 <Cards bodyStyle={{ backgroundColor: '#f4f5f7', justifyContent: 'spaceBetween', display: 'flex' }}>
-                  <Col md={12} sm={12}>
+                  {/* <Col md={12} sm={12}>
                     <Form.Item initialValue="Select a Branch" name="brance" label="Ack Branch">
                       <Select>
                         <Select.Option value="pune">Pune</Select.Option>
@@ -351,23 +336,23 @@ const SavePlaces = () => {
                         <Select.Option value="kaij">Kaij</Select.Option>
                       </Select>
                     </Form.Item>
-                  </Col>
+                  </Col> */}
                   <Col md={12} sm={12}>
                     <Form.Item name="remarks" label="Remarks">
-                      <Input placeholder="Remarks" />
+                      <Input placeholder="Remarks" onChange={handleChange} />
                     </Form.Item>
                   </Col>
                 </Cards>
               </Row>
 
               <Form.Item label="">
-                <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
+                <Button onClick={handleContactInfo} style={{ margin: '20px' }} type="primary">
                   Save
                 </Button>
-                <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
+                <Button onClick={handleContactInfo} style={{ margin: '20px' }} type="primary">
                   Origional Print
                 </Button>
-                <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
+                <Button onClick={handleContactInfo} style={{ margin: '20px' }} type="primary">
                   Cancel
                 </Button>
               </Form.Item>

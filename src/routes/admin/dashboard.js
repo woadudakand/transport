@@ -31,8 +31,12 @@ const SaveLorry = lazy(() => import('../../container/transactions/lr/SaveLR'));
 const LoadingShipList = lazy(() => import('../../container/transactions/slip_list/LSL'));
 const SaveShipList = lazy(() => import('../../container/transactions/slip_list/SaveLSL'));
 const Acknowledgement = lazy(() => import('../../container/transactions/Acknowledgement/Aknowledge'));
-const LoadingMemoList = lazy(() => import('../../container/transactions/LM_list/LML'));
+const LocalMemoList = lazy(() => import('../../container/transactions/LM_list/LML'));
 const SaveMemoList = lazy(() => import('../../container/transactions/LM_list/SaveLML'));
+const BillList = lazy(() => import('../../container/transactions/Bill_list/Bill_list'));
+const SaveBill = lazy(() => import('../../container/transactions/Bill_list/SaveBill'));
+const CashMemoList = lazy(() => import('../../container/transactions/CM_list/CML'));
+const SaveCashMemoList = lazy(() => import('../../container/transactions/CM_list/SaveCML'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -68,8 +72,12 @@ const DashboardRoutes = () => {
       <Route path={`${path}/loadingSlipList`} component={LoadingShipList} />
       <Route path={`${path}/save-lsl`} component={SaveShipList} />
       <Route path={`${path}/acknowledgement`} component={Acknowledgement} />
-      <Route path={`${path}/localMemoList`} component={LoadingMemoList} />
+      <Route path={`${path}/localMemoList`} component={LocalMemoList} />
       <Route path={`${path}/save-lml`} component={SaveMemoList} />
+      <Route path={`${path}/billList`} component={BillList} />
+      <Route path={`${path}/save-bill`} component={SaveBill} />
+      <Route path={`${path}/cashMemoList`} component={CashMemoList} />
+      <Route path={`${path}/save-cml`} component={SaveCashMemoList} />
     </Switch>
   );
 };

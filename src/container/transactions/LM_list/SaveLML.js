@@ -1,11 +1,15 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
+
+const CheckboxGroup = Checkbox.Group;
+const plainOptions = ['P1-201902', 'P1-201910', 'P1-201912', 'P1-001234', 'P1-004323', 'P1-000456', 'P1-004324'];
+const defaultCheckedList = ['P1-201902', 'P1-001234'];
 
 const SavePlaces = () => {
   const [form] = Form.useForm();
@@ -104,6 +108,24 @@ const SavePlaces = () => {
     },
   ];
 
+  // Check List for LR start
+  const [checkedList, setCheckedList] = useState(defaultCheckedList);
+  const [indeterminate, setIndeterminate] = useState(true);
+  const [checkAll, setCheckAll] = useState(false);
+
+  const onCheckChange = list => {
+    setCheckedList(list);
+    setIndeterminate(!!list.length && list.length < plainOptions.length);
+    setCheckAll(list.length === plainOptions.length);
+  };
+
+  const onCheckAllChange = e => {
+    setCheckedList(e.target.checked ? plainOptions : []);
+    setIndeterminate(false);
+    setCheckAll(e.target.checked);
+  };
+  // Check List for LR end
+
   const handleChange = e => {
     setInfo({
       ...info,
@@ -138,7 +160,7 @@ const SavePlaces = () => {
 
   return (
     <>
-      <PageHeader ghost title="Local Memo Details" />
+      <PageHeader ghost title="Local Memo List" />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
@@ -252,6 +274,35 @@ const SavePlaces = () => {
                     </Button>
                   </Cards>
                 </Col> */}
+              </Row>
+
+              <Row gutter={24}>
+                <Col md={18} sm={12}>
+                  <Button onClick={handleContactInfo} style={{ display: 'block', width: '100%' }} type="primary">
+                    LR
+                  </Button>
+                </Col>
+                <Col md={6} sm={12}>
+                  <Button onClick={handleContactInfo} style={{ display: 'block', width: '100%' }} type="primary">
+                    + Add
+                  </Button>
+                </Col>
+                <Divider />
+                <Col md={24}>
+                  <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
+                    Check all
+                  </Checkbox>
+                  {/* <Divider /> */}
+                  <CheckboxGroup
+                    style={{ marginLeft: '25%' }}
+                    options={plainOptions}
+                    value={checkedList}
+                    onChange={onCheckChange}
+                  />
+                </Col>
+              </Row>
+              <Divider />
+              <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={18} sm={24}>
                   <TableWrapper className="table-data-view table-responsive">
                     <Table
@@ -310,13 +361,13 @@ const SavePlaces = () => {
               </Row>
 
               <Form.Item label="">
-                <Button style={{ margin: '20px' }} type="primary">
+                <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
                   Save
                 </Button>
-                <Button style={{ margin: '20px' }} type="primary">
+                <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
                   Origional Print
                 </Button>
-                <Button style={{ margin: '20px' }} type="primary">
+                <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
                   Cancel
                 </Button>
               </Form.Item>
