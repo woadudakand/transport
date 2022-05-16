@@ -170,15 +170,19 @@ const SavePlaces = () => {
         </Row>
         <Cards headless>
           <BasicFormWrapper>
-            <Form form={form} name="lorryReceipt" onFinish={handleFinish}>
+            <Form form={form} name="billList" onFinish={handleFinish}>
               <Row gutter={24}>
-                <Col md={24} sm={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Form.Item name="billNo" label="Bill No:">
+                <Col md={6} sm={12}>
+                  <Form.Item name="billNo" label="Bill No:" md={6}>
                     <Input placeholder="Bill No" />
                   </Form.Item>
+                </Col>
+                <Col md={6} sm={12}>
                   <Form.Item name="billDate" label="Bill Date">
                     <DatePicker defaultValue={moment('10/02/2015', dateFormatList[0])} format={dateFormatList} />
                   </Form.Item>
+                </Col>
+                <Col md={6} sm={12}>
                   <Form.Item initialValue="" name="customerNames" label="Customer Names">
                     <Select>
                       <Select.Option value="">Customer</Select.Option>
@@ -188,6 +192,8 @@ const SavePlaces = () => {
                       <Select.Option value="anyone">anyone</Select.Option>
                     </Select>
                   </Form.Item>
+                </Col>
+                <Col md={6} sm={12} style={{ margin: 'auto' }}>
                   <Button onClick={handleContactInfo} style={{ margin: 'auto 30px', padding: '20px' }} type="primary">
                     Show LR
                   </Button>
@@ -273,6 +279,7 @@ const SavePlaces = () => {
                   </Cards>
                 </Col> */}
               </Row>
+              <br />
               <Row gutter={24}>
                 <Col md={18} sm={12}>
                   <Button onClick={handleContactInfo} style={{ display: 'block', width: '100%' }} type="primary">

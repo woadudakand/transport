@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox, InputNumber } from 'antd';
 import moment from 'moment';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
@@ -107,6 +107,16 @@ const SavePlaces = () => {
 
   const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
 
+  // Input number Change
+  const onInputChange = value => {
+    console.log('changed', value);
+  };
+
+  // Date Change function
+  // const dateChange = (date, DateString) => {
+  //   console.log(date, DateString);
+  // };
+
   // Check List for LR start
   // const [checkedList, setCheckedList] = useState(defaultCheckedList);
   // const [indeterminate, setIndeterminate] = useState(true);
@@ -172,14 +182,19 @@ const SavePlaces = () => {
         <Cards headless>
           <BasicFormWrapper>
             <Form form={form} name="cashMemoList" onFinish={handleFinish}>
-              <Row gutter={24}>
-                <Col md={24} sm={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
+              <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Col md={6} sm={12}>
                   <Form.Item name="no" label="No:">
                     <Input placeholder="" />
                   </Form.Item>
+                </Col>
+                <Col md={6} sm={12}>
                   <Form.Item name="date" label="Date">
                     <DatePicker defaultValue={moment('10/02/2015', dateFormatList[0])} format={dateFormatList} />
+                    {/* <DatePicker onChange={dateChange} /> */}
                   </Form.Item>
+                </Col>
+                <Col md={6} sm={12} style={{ width: '100%' }}>
                   <Form.Item initialValue="" name="customer" label="Customer">
                     <Select>
                       <Select.Option value="">Select Customer</Select.Option>
@@ -189,6 +204,8 @@ const SavePlaces = () => {
                       <Select.Option value="anyone">anyone</Select.Option>
                     </Select>
                   </Form.Item>
+                </Col>
+                <Col md={6} sm={12}>
                   <Form.Item name="vendorCode" label="Vendor Code">
                     <Input placeholder="" />
                   </Form.Item>
@@ -198,12 +215,12 @@ const SavePlaces = () => {
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="lrNo" label="LR No:">
                         <Input placeholder="LR No: " type="number" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="date" label="Date">
                         <DatePicker style={{ width: '100%' }} placeholder="date" />
                       </Form.Item>
@@ -217,12 +234,12 @@ const SavePlaces = () => {
                     <Input placeholder="Consignee" />
                   </Form.Item>
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="from" label="From">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="to" label="To">
                         <Input placeholder="" />
                       </Form.Item>
@@ -230,12 +247,12 @@ const SavePlaces = () => {
                   </Row>
                   <br />
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="gstNo" label="GST No:">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="payable" label="GST Payable By:">
                         <Input placeholder="" />
                       </Form.Item>
@@ -245,12 +262,12 @@ const SavePlaces = () => {
 
                 <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="freight" label="Fright">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="osc" label="O.S.C">
                         <Input placeholder="" />
                       </Form.Item>
@@ -258,12 +275,12 @@ const SavePlaces = () => {
                   </Row>
                   <br />
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="hamali" label="Hamali">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="otherCharge" label="Other Charge">
                         <Input placeholder="" />
                       </Form.Item>
@@ -271,12 +288,12 @@ const SavePlaces = () => {
                   </Row>
                   <br />
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="statistical" label="Statistical">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="doorDelivery" label="Door Delivery">
                         <Input placeholder="" />
                       </Form.Item>
@@ -284,12 +301,12 @@ const SavePlaces = () => {
                   </Row>
                   <br />
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="total" label="Total">
                         <Input placeholder="0" type="number" />
                       </Form.Item>
                     </Col>
-                    <Col>
+                    <Col md={12}>
                       <Form.Item name="totalArticle" label="Total Article">
                         <Input placeholder="" />
                       </Form.Item>
@@ -301,32 +318,6 @@ const SavePlaces = () => {
                   </Form.Item>
                 </Col>
               </Row>
-
-              {/* <Row gutter={24}>
-                <Col md={18} sm={12}>
-                  <Button onClick={handleContactInfo} style={{ display: 'block', width: '100%' }} type="primary">
-                    LR
-                  </Button>
-                </Col>
-                <Col md={6} sm={12}>
-                  <Button onClick={handleContactInfo} style={{ display: 'block', width: '100%' }} type="primary">
-                    + Add
-                  </Button>
-                </Col>
-                <Divider />
-                <Col md={24}>
-                  <Checkbox indeterminate={indeterminate} onChange={onCheckAllChange} checked={checkAll}>
-                    Check all
-                  </Checkbox>
-                  <CheckboxGroup
-                    style={{ marginLeft: '25%' }}
-                    options={plainOptions}
-                    value={checkedList}
-                    onChange={onCheckChange}
-                  />
-                </Col>
-              </Row>
-              <Divider /> */}
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={18} sm={24}>
                   <TableWrapper className="table-data-view table-responsive">
@@ -341,7 +332,8 @@ const SavePlaces = () => {
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Bill Details">
                     <Form.Item name="freight" label="Freight">
-                      <Input placeholder="0" type="number" />
+                      {/* <Input placeholder="0" type="number" /> */}
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="hamali" label="Hamali">
                       <Input placeholder="0" type="number" />
