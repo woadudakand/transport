@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox, InputNumber } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
@@ -107,6 +107,11 @@ const SavePlaces = () => {
       key: 'toPay',
     },
   ];
+
+  // Input number Change
+  const onInputChange = value => {
+    console.log('changed', value);
+  };
 
   // Check List for LR start
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
@@ -222,58 +227,6 @@ const SavePlaces = () => {
                     </Select>
                   </Form.Item>
                 </Col>
-
-                {/* <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item initialValue="" name="consignee" label="Consignee">
-                    <Select>
-                      <Select.Option value="">Select Consignee</Select.Option>
-                      <Select.Option value="Ravi">Ravi</Select.Option>
-                      <Select.Option value="Amit">Amit</Select.Option>
-                    </Select>
-                  </Form.Item>
-                  <Form.Item name="telephone" label="Telephone">
-                    <Input placeholder="Telephone" />
-                  </Form.Item>
-                  <Form.Item name="gst" label="GST No">
-                    <Input placeholder="GST No." />
-                  </Form.Item>
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      {
-                        type: 'email',
-                      },
-                    ]}
-                    label="Email"
-                  >
-                    <Input placeholder="Email" />
-                  </Form.Item>
-                  <Form.Item name="ecc" label="ECC No">
-                    <Input placeholder="ECC No" />
-                  </Form.Item>
-                </Col> */}
-                {/* <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
-                    <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
-                    <br /> <br />
-                    <Input name="address" value={info.address} onChange={handleChange} placeholder="Address" />
-                    <br /> <br />
-                    <Input name="email" value={info.email} onChange={handleChange} placeholder="Email" />
-                    <br /> <br />
-                    <Input
-                      name="designation"
-                      value={info.designation}
-                      onChange={handleChange}
-                      placeholder="Designation"
-                    />
-                    <br /> <br />
-                    <Input name="mobile" value={info.mobile} onChange={handleChange} placeholder="Mobile" />
-                    <br /> <br />
-                    <Button onClick={handleContactInfo} size="large" type="primary">
-                      {!edit ? 'Add New' : 'Update'}
-                    </Button>
-                  </Cards>
-                </Col> */}
               </Row>
 
               <Row gutter={24}>
@@ -316,28 +269,28 @@ const SavePlaces = () => {
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Charges">
                     <Form.Item name="totalToPay" label="Total to Pay">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="billed" label="Total Billed">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="hire" label="Hire Rs">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="advance" label="Advance Rs">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="commision" label="Commision">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="hamali" label="Hamali">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="stackingRs" label="StackingRs">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="total" label="Total">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                   </Cards>
                 </Col>

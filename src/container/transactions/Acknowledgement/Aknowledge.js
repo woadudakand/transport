@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table, Radio, Space } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, Radio, Space, Divider, Checkbox } from 'antd';
 import moment from 'moment';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
@@ -105,6 +105,11 @@ const SavePlaces = () => {
     },
   ];
 
+  // Checkbox system
+  const onCheckChange = e => {
+    console.log(`checked = ${e.target.checked}`);
+  };
+
   const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
   const [radioValue, setRadioValue] = useState(1);
 
@@ -183,6 +188,30 @@ const SavePlaces = () => {
                     </Space>
                   </Radio.Group>
                 </Col>
+              </Row>
+              <Divider />
+              <Row gutter={24}>
+                <Col md={6}>
+                  <Form.Item name="srNo" label="SR No:">
+                    <Input placeholder="SR No: " />
+                  </Form.Item>
+                  <Form.Item name="unLoadDate" label="Unload Date:">
+                    <DatePicker style={{ width: '100%' }} placeholder="date" />
+                  </Form.Item>
+                  <Form.Item initialValue="Select Branch" name="state" label="Unload No:">
+                    <Select>
+                      <Select.Option value="Pune">Pune</Select.Option>
+                      <Select.Option value="Lakhno">Lakhno</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="paidAmount" label="To Paid Amount: ">
+                    <Input placeholder="" />
+                  </Form.Item>
+                  <Checkbox onChange={onCheckChange}>Given To Driver</Checkbox>
+                </Col>
+                {/* <Col md={6}></Col>
+                <Col md={6}></Col>
+                <Col md={6}></Col> */}
               </Row>
             </Form>
           </BasicFormWrapper>

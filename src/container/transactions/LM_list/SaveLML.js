@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, Divider, Checkbox, InputNumber } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
@@ -107,6 +107,11 @@ const SavePlaces = () => {
       key: 'toPay',
     },
   ];
+
+  // Input number Change
+  const onInputChange = value => {
+    console.log('changed', value);
+  };
 
   // Check List for LR start
   const [checkedList, setCheckedList] = useState(defaultCheckedList);
@@ -316,33 +321,33 @@ const SavePlaces = () => {
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Charges">
                     <Form.Item name="totalToPay" label="Total to Pay">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="billed" label="Total Billed">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="hire" label="Hire Rs">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="advance" label="Advance Rs">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="commision" label="Commision">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="hamali" label="Hamali">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="stackingRs" label="StackingRs">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="total" label="Total">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                   </Cards>
                 </Col>
                 <Cards bodyStyle={{ backgroundColor: '#f4f5f7', justifyContent: 'spaceBetween', display: 'flex' }}>
-                  <Col md={12} sm={12}>
+                  {/* <Col md={12} sm={12}>
                     <Form.Item initialValue="Select a Branch" name="brance" label="Ack Branch">
                       <Select>
                         <Select.Option value="pune">Pune</Select.Option>
@@ -351,8 +356,8 @@ const SavePlaces = () => {
                         <Select.Option value="kaij">Kaij</Select.Option>
                       </Select>
                     </Form.Item>
-                  </Col>
-                  <Col md={12} sm={12}>
+                  </Col> */}
+                  <Col md={24} sm={24}>
                     <Form.Item name="remarks" label="Remarks">
                       <Input placeholder="Remarks" />
                     </Form.Item>

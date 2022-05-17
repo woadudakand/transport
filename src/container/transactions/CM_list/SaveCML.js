@@ -332,29 +332,28 @@ const SavePlaces = () => {
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Bill Details">
                     <Form.Item name="freight" label="Freight">
-                      {/* <Input placeholder="0" type="number" /> */}
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="hamali" label="Hamali">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="osc" label="O.S.C">
-                      <Input placeholder="O.S.C" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="delCharge" label="Del Charge">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="otherCharge" label="Other Charge">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="statistical" label="Statistical">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="tds" label="TDS">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="totalAmount" label="Total Amount">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                   </Cards>
                 </Col>

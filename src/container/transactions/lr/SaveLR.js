@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, InputNumber } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
@@ -108,6 +108,11 @@ const SavePlaces = () => {
       key: 'action',
     },
   ];
+
+  // Input number Change
+  const onInputChange = value => {
+    console.log('changed', value);
+  };
 
   const handleChange = e => {
     setInfo({
@@ -374,25 +379,25 @@ const SavePlaces = () => {
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Freight Details">
                     <Form.Item name="totalFreight" label="Total Freight:">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="osc" label="O. S. C">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="door" label="Door/Del_Char">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="otherChar" label="Other Char">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="varai" label="Varai/Hamali">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="statistical" label="Statistical">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={1000} defaultValue={25} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="total" label="Total">
-                      <Input placeholder="0" type="number" />
+                      <InputNumber size="small" min={0} max={1000} defaultValue={25} onChange={onInputChange} />
                     </Form.Item>
                   </Cards>
                 </Col>
