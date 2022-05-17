@@ -18,6 +18,7 @@ const initState = {
 
 const CustomersReducer = (state = initState, action) => {
   const { type, data, err } = action;
+
   switch (type) {
     case CUSTOMERS_SEARCH:
       return {

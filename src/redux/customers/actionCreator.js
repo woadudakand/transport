@@ -23,7 +23,7 @@ const customerAddDispatch = customer => {
   return async dispatch => {
     try {
       dispatch(customerAddBegin());
-      const res = await DataService.post('/customer', customer);
+      const res = await DataService.post('/customers', customer);
       if (res.data.status === 200) {
         await dispatch(
           customerAddSuccess({
@@ -61,7 +61,7 @@ const getCustomersDispatch = () => {
   return async dispatch => {
     try {
       dispatch(getCustomerBegin());
-      const res = await DataService.get(`/customer`);
+      const res = await DataService.get(`/customers`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -94,7 +94,7 @@ const deleteCustomer = id => {
   return async dispatch => {
     try {
       dispatch(getCustomerBegin());
-      const res = await DataService.delete(`/customer?id=${id}`);
+      const res = await DataService.delete(`/customers?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
           getCustomerSuccess({
@@ -130,7 +130,7 @@ const deleteCustomer = id => {
 const getCustomerDispatch = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/customer/query?data=${value}`);
+      const res = await DataService.get(`/customers/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(

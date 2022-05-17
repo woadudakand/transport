@@ -1,14 +1,15 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table, notification } from 'antd';
+import { Row, Col, Table, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
-import { DataService } from '../../../config/dataService/dataService';
 import DataLoader from '../../../components/utilities/DataLoader';
+import { getCustomersDispatch, deleteCustomer, getCustomerDispatch } from '../../../redux/customers/actionCreator';
 
 const openNotificationWithIcon = () => {
   notification.error({
@@ -21,9 +22,13 @@ const Customers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
-
-  const [data, setData] = useState([]);
-  const [isLoading, setLoading] = useState(false);
+  const dispatch = useDispatch();
+  const { customers, isLoading } = useSelector(state => {
+    return {
+      customers: state.customer.customers,
+      isLoading: state.customer.loading,
+    };
+  });
 
   useEffect(() => {
     if (window.innerWidth <= 375) {
@@ -34,36 +39,21 @@ const Customers = () => {
   }, [pathname]);
 
   useEffect(() => {
-    async function getDataFromServer() {
-      try {
-        setLoading(true);
-        const res = await DataService.get(`/customer`);
-
-        setLoading(false);
-        if (res.data.status === 200) {
-          setData(res.data.data);
-        }
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-      }
+    if (dispatch) {
+      dispatch(getCustomersDispatch());
     }
-
-    if (pathname) {
-      getDataFromServer();
-    }
-  }, [pathname]);
+  }, [dispatch]);
 
   const dataSource = [];
 
-  data.map((customer, key) => {
-    const { name, address, id, email, city, telephone } = customer;
+  customers.map((customer, key) => {
+    const { customer_name, correspondence_address, id, customer_email, city, telephone } = customer;
     return dataSource.push({
       key: id,
       sn: key + 1,
-      name,
-      address,
-      email,
+      name: customer_name,
+      address: correspondence_address,
+      email: customer_email,
       city,
       telephone,
       lrCreate: '15',
@@ -121,6 +111,7 @@ const Customers = () => {
     },
   ];
   const history = useHistory();
+
   const showModal = () => {
     history.replace('/admin/save-customers');
   };
@@ -136,38 +127,14 @@ const Customers = () => {
 
   const handleDeleted = async () => {
     if (selectedRowKeys.length) {
-      // dispatch(deleteBranch(selectedRowKeys.toString()));
-      setLoading(true);
-      const res = await DataService.delete(`/customer?id=${selectedRowKeys.toString()}`);
-      if (res.data.status === 200) {
-        setLoading(false);
-        setData(res.data.data);
-      } else {
-        setLoading(false);
-        console.log('data not found');
-      }
+      dispatch(deleteCustomer(selectedRowKeys.toString()));
     } else {
-      setLoading(false);
       openNotificationWithIcon();
     }
   };
 
-  const handleSearch = async value => {
-    try {
-      setLoading(true);
-      const res = await DataService.get(`/customer/query?data=${value}`);
-
-      if (res.data.status === 200) {
-        setLoading(false);
-        setData(res.data.data);
-      } else {
-        setLoading(false);
-        console.log('data not found');
-      }
-    } catch (err) {
-      setLoading(false);
-      console.log(err);
-    }
+  const handleSearch = value => {
+    dispatch(getCustomerDispatch(value));
   };
 
   return (
@@ -188,9 +155,11 @@ const Customers = () => {
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <AutoComplete placeholder="Search..." onSearch={handleSearch} width="200px" patterns />
-          <Button onClick={handleDeleted} block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
-            Delete
-          </Button>
+          <Popconfirm title="Are you sure to delete this row?" onConfirm={handleDeleted} okText="Yes" cancelText="No">
+            <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+              Delete
+            </Button>
+          </Popconfirm>
         </Row>
 
         <Row>

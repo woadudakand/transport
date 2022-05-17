@@ -93,7 +93,7 @@ const getDriversDispatch = () => {
   };
 };
 
-const deleteCustomer = id => {
+const deleteDriver = id => {
   return async dispatch => {
     try {
       dispatch(getDriverBegin());
@@ -228,4 +228,4 @@ const updateDriver = value => {
   };
 };
 
-export { getDriverSingle, getDriversDispatch, driverAddDispatch, getDriverDispatch, deleteCustomer, updateDriver };
+export { getDriverSingle, getDriversDispatch, driverAddDispatch, getDriverDispatch, deleteDriver, updateDriver };
