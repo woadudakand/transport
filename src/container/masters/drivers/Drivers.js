@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table } from 'antd';
+import { Row, Col, Table, Popconfirm, notification } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
@@ -8,8 +8,15 @@ import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
-import { getDriversDispatch, getDriverDispatch } from '../../../redux/driver/actionCreator';
+import { getDriversDispatch, getDriverDispatch, deleteDriver } from '../../../redux/driver/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
+
+const openNotificationWithIcon = () => {
+  notification.error({
+    message: 'Deleted!',
+    description: 'Please Select minimum one row.',
+  });
+};
 
 const Drivers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
@@ -100,12 +107,20 @@ const Drivers = () => {
     dispatch(getDriverDispatch(value));
   };
 
+  const handleDeleted = () => {
+    if (selectedRowKeys.length) {
+      dispatch(deleteDriver(selectedRowKeys.toString()));
+    } else {
+      openNotificationWithIcon();
+    }
+  };
+
   return (
     <>
       {isLoading ? <DataLoader /> : null}
       <PageHeader
         ghost
-        title="Customer List"
+        title="Driver List"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={showModal} size="small" type="primary">
@@ -118,9 +133,11 @@ const Drivers = () => {
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <AutoComplete placeholder="Search..." onSearch={data => handleSearch(data)} width="200px" patterns />
-          <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
-            Delete
-          </Button>
+          <Popconfirm title="Are you sure to delete this row?" onConfirm={handleDeleted} okText="Yes" cancelText="No">
+            <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+              Delete
+            </Button>
+          </Popconfirm>
         </Row>
 
         <Row>

@@ -9,6 +9,7 @@ import employeeReducer from './employee/reducers';
 import bankReducer from './banks/reducers';
 import bankAccountReducer from './bankAccounts/reducers';
 import driversReducer from './driver/reducers';
+import customersReducer from './customers/reducers';
 
 const rootReducers = combineReducers({
   users: UsersReducer,
@@ -21,6 +22,7 @@ const rootReducers = combineReducers({
   bank: bankReducer,
   accounts: bankAccountReducer,
   driver: driversReducer,
+  customer: customersReducer,
 });
 
 export default rootReducers;

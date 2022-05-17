@@ -1,60 +1,38 @@
-import React, { useState } from 'react';
-import { Col, Form, Input, Row, Select, Table, notification, Spin } from 'antd';
+import React, { useEffect, useState } from 'react';
+import { Col, Form, Input, Row, Select, Table, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-import { DataService } from '../../../config/dataService/dataService';
 import indianStates from '../../../demoData/indianStats.json';
-
-const openNotificationWithIcon = (type, message, description) => {
-  notification[type]({
-    message,
-    description,
-  });
-};
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
+import { customerAddDispatch } from '../../../redux/customers/actionCreator';
 
 const SavePlaces = () => {
   const [form] = Form.useForm();
   const [info, setInfo] = useState({});
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [branch, setBranch] = useState('');
-  const [isLoading, setLoading] = useState(false);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { branches, isLoading } = useSelector(state => {
+    return {
+      branches: state.branches.list,
+      isLoading: state.customer.loading,
+    };
+  });
 
   const handleFinish = async values => {
-    const customer = {
-      ...values,
-      branch,
-      oBalance: JSON.stringify({
-        balance: values.oBalance,
-        card: values.oCard,
+    dispatch(
+      customerAddDispatch({
+        customers: { ...values, created_at: moment().format('YYYY-MM-DD') },
+        customerReferences: dataSource,
       }),
-      cBalance: JSON.stringify({
-        balance: values.cBalance,
-        card: values.cCard,
-      }),
-      contactPerson: JSON.stringify(dataSource),
-    };
-
-    try {
-      setLoading(true);
-
-      const res = await DataService.post('/customer', customer);
-      if (res.data.status === 200) {
-        openNotificationWithIcon('success', res.data.message, res.data.description);
-        setLoading(false);
-      } else {
-        setLoading(false);
-        openNotificationWithIcon('error', res.data.message, res.data.description);
-      }
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      openNotificationWithIcon('error', 'Add Customer!', err.toString());
-    }
+    );
   };
   const infoTableData = [];
 
@@ -68,8 +46,15 @@ const SavePlaces = () => {
     setEdit(key + 1);
   };
 
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
+    }
+  }, [dispatch]);
+
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
+      key,
       sn: key + 1,
       name,
       email,
@@ -136,6 +121,7 @@ const SavePlaces = () => {
     setInfo({
       ...info,
       [e.currentTarget.name]: e.currentTarget.value,
+      created_at: moment().format('YYYY-MM-DD'),
     });
   };
 
@@ -164,34 +150,95 @@ const SavePlaces = () => {
     }
   };
   // { name: "Woadud", fax: "580", state: "pune", vCode: "33345", oBalance: "{\"balance\":\"5000\",\"card\":\"credit\"}", oCard: "credit", correspondenceAddress: "jjajflaj jalfjalj", cst: "76", city: "pune", vat: "5", … }
-  const handleBranch = value => {
-    setBranch(value);
+  // const handleBranch = value => {
+  //   setBranch(value);
+  // };
+
+  const gotoView = () => {
+    history.replace('/admin/customers');
   };
 
   return (
     <>
-      <PageHeader ghost title="Save Customer" />
+      <PageHeader
+        ghost
+        title="Save Customer"
+        buttons={[
+          <div key="1" className="page-header-actions">
+            <Button onClick={gotoView} size="small" type="primary">
+              View Page
+            </Button>
+          </div>,
+        ]}
+      />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
-          <Select onChange={handleBranch} style={{ width: '250px' }} defaultValue="">
-            <Select.Option value="">Select Branch</Select.Option>
-            <Select.Option value="pune">Pune</Select.Option>
-            <Select.Option value="kallam">Kallam</Select.Option>
-          </Select>
+          <Form form={form} name="customer" onFinish={handleFinish}>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Select Branch',
+                },
+              ]}
+              name="branchs_id"
+              label=""
+              initialValue=""
+            >
+              <Select style={{ width: '250px' }}>
+                <Select.Option value="">Select Branch</Select.Option>
+                {branches.map(item => {
+                  return (
+                    <Select.Option key={item.id} value={item.code}>
+                      {item.title}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Form>
         </Row>
         <Cards headless>
           <BasicFormWrapper>
-            <Form form={form} name="createProject" onFinish={handleFinish}>
+            <Form form={form} name="customer" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="name" label="Customer Name">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input customer name',
+                      },
+                    ]}
+                    name="customer_name"
+                    label="Customer Name"
+                  >
                     <Input placeholder="Name" />
                   </Form.Item>
-                  <Form.Item name="fax" label="Fax No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input fax no',
+                      },
+                    ]}
+                    name="faxno"
+                    label="Fax No"
+                  >
                     <Input placeholder="Fax No" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="state" label="Select State">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select state',
+                      },
+                    ]}
+                    initialValue=""
+                    name="states_id"
+                    label="Select State"
+                  >
                     <Select>
                       <Select.Option value="">Select State</Select.Option>
                       {Object.keys(indianStates).map(key => {
@@ -203,17 +250,45 @@ const SavePlaces = () => {
                       })}
                     </Select>
                   </Form.Item>
-                  <Form.Item name="vCode" label="Vendor Code">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input vendor code',
+                      },
+                    ]}
+                    name="vendorcode"
+                    label="Vendor Code"
+                  >
                     <Input placeholder="Vendor Code" />
                   </Form.Item>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="oBalance" label="Opening Balance">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Your Opening Balance',
+                          },
+                        ]}
+                        name="opening_balance"
+                        label="Opening Balance"
+                      >
                         <Input placeholder="Opening Balance" />
                       </Form.Item>
                     </Col>
                     <Col xs={12}>
-                      <Form.Item name="oCard" initialValue="" label="Select Card">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select card',
+                          },
+                        ]}
+                        name="payment_type"
+                        initialValue=""
+                        label="Select Card"
+                      >
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -225,31 +300,78 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="correspondenceAddress" label="Correspondence Address">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input address',
+                      },
+                    ]}
+                    name="correspondence_address"
+                    label="Correspondence Address"
+                  >
                     <Input placeholder="correspondence Address" />
                   </Form.Item>
-                  <Form.Item name="cst" label="CST No.">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input CST',
+                      },
+                    ]}
+                    name="cstno"
+                    label="CST No."
+                  >
                     <Input placeholder="CST No." />
                   </Form.Item>
-                  <Form.Item initialValue="" name="city" label="Select City">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select city',
+                      },
+                    ]}
+                    initialValue=""
+                    name="city_id"
+                    label="Select City"
+                  >
                     <Select>
                       <Select.Option value="">Select City</Select.Option>
-                      <Select.Option value="pune">Pune</Select.Option>
-                      <Select.Option value="kallam">Kallam</Select.Option>
+                      <Select.Option value={102}>Pune</Select.Option>
+                      <Select.Option value={103}>Kallam</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="vat" label="Vat No">
+                  <Form.Item name="vatno" label="Vat No">
                     <Input placeholder="Vat No" />
                   </Form.Item>
 
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="cBalance" label="Closing Balance">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Input Closing Balance',
+                          },
+                        ]}
+                        name="closing_balance"
+                        label="Closing Balance"
+                      >
                         <Input placeholder="Closing Balance" />
                       </Form.Item>
                     </Col>
                     <Col xs={12}>
-                      <Form.Item name="cCard" initialValue="" label="Select Card">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select Card',
+                          },
+                        ]}
+                        name="closing_payment_type"
+                        initialValue=""
+                        label="Select Card"
+                      >
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -261,15 +383,37 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="telephone" label="Telephone">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Must required telephone',
+                      },
+                    ]}
+                    name="telephone"
+                    label="Telephone"
+                  >
                     <Input placeholder="Telephone" />
                   </Form.Item>
-                  <Form.Item name="gst" label="GST No.">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Must required gst',
+                      },
+                    ]}
+                    name="gstno"
+                    label="GST No."
+                  >
                     <Input placeholder="GST No." />
                   </Form.Item>
                   <Form.Item
-                    name="email"
+                    name="customer_email"
                     rules={[
+                      {
+                        required: true,
+                        message: 'Must required telephone',
+                      },
                       {
                         type: 'email',
                       },
@@ -278,7 +422,7 @@ const SavePlaces = () => {
                   >
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item name="ecc" label="ECC No">
+                  <Form.Item name="eccno" label="ECC No">
                     <Input placeholder="ECC No" />
                   </Form.Item>
                 </Col>
