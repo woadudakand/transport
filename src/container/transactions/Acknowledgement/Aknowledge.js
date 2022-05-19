@@ -118,6 +118,8 @@ const SavePlaces = () => {
     setRadioValue(e.target.value);
   };
 
+  const { TextArea } = Input;
+
   const handleChange = e => {
     setInfo({
       ...info,
@@ -168,30 +170,38 @@ const SavePlaces = () => {
               <Row gutter={24}>
                 {/* <div style={{display: 'flex', justifyContent: "space-between"}}> */}
                 <Col md={18} sm={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                  <Form.Item name="from" label="From">
-                    <DatePicker defaultValue={moment('01/01/2015', dateFormatList[0])} format={dateFormatList} />
+                  <Form.Item name="from" label="From" style={{ width: '100%', marginRight: '15px' }}>
+                    <DatePicker
+                      defaultValue={moment('01/01/2015', dateFormatList[0])}
+                      format={dateFormatList}
+                      style={{ width: '100%' }}
+                    />
                   </Form.Item>
-                  <Form.Item name="to" label="To">
-                    <DatePicker defaultValue={moment('10/02/2015', dateFormatList[0])} format={dateFormatList} />
+                  <Form.Item name="to" label="To" style={{ width: '100%', marginLeft: '15px' }}>
+                    <DatePicker
+                      defaultValue={moment('10/02/2015', dateFormatList[0])}
+                      format={dateFormatList}
+                      style={{ width: '100%' }}
+                    />
                   </Form.Item>
                   <Button style={{ margin: 'auto 30px' }} type="primary">
                     Go
                   </Button>
                 </Col>
                 {/* </div> */}
-                <Col md={6} sm={12}>
+                <Col md={6} sm={12} style={{ margin: 'auto' }}>
                   <Radio.Group onChange={onRadioChange} value={radioValue}>
-                    <Space direction="vertical">
-                      <Radio value={1}>All</Radio>
-                      <Radio value={2}>Loaded</Radio>
-                      <Radio value={3}>Un Loaded</Radio>
-                    </Space>
+                    {/* <Space direction="vertical"> */}
+                    <Radio value={1}>All</Radio>
+                    <Radio value={2}>Loaded</Radio>
+                    <Radio value={3}>Un Loaded</Radio>
+                    {/* </Space> */}
                   </Radio.Group>
                 </Col>
               </Row>
               <Divider />
               <Row gutter={24}>
-                <Col md={6}>
+                <Col md={8}>
                   <Form.Item name="srNo" label="SR No:">
                     <Input placeholder="SR No: " />
                   </Form.Item>
@@ -209,9 +219,69 @@ const SavePlaces = () => {
                   </Form.Item>
                   <Checkbox onChange={onCheckChange}>Given To Driver</Checkbox>
                 </Col>
-                {/* <Col md={6}></Col>
-                <Col md={6}></Col>
-                <Col md={6}></Col> */}
+                <Col md={8}>
+                  <Form.Item name="freightNo" label="freight Memo No:">
+                    <Input placeholder="freight Memo No: " />
+                  </Form.Item>
+                  <Form.Item name="deliveryDate" label="Delivery Date:">
+                    <DatePicker style={{ width: '100%' }} placeholder="date" />
+                  </Form.Item>
+                  <Form.Item initialValue="Pay Type" name="state" label="Pay Type">
+                    <Select>
+                      <Select.Option value="Bank">Bank</Select.Option>
+                      <Select.Option value="Card">Card</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="paidAmount" label="To Paid Amount: ">
+                    <TextArea rows={4} />
+                  </Form.Item>
+                  {/* <Checkbox onChange={onCheckChange}>Given To Driver</Checkbox> */}
+                </Col>
+                <Col md={8}>
+                  <Form.Item name="wayBill" label="Way Bill No:">
+                    <Input placeholder="Way Bill No: " />
+                  </Form.Item>
+                  <Form.Item name="deliveryPlace" label="Delivery Place:">
+                    <Input placeholder=" " />
+                  </Form.Item>
+                  {/* <Form.Item name="deliveryDate" label="Delivery Date:">
+                    <DatePicker style={{ width: '100%' }} placeholder="date" />
+                  </Form.Item> */}
+                  <Form.Item initialValue="To Billed" name="state" label="To Billed">
+                    <Select>
+                      <Select.Option value="Bank">Bank</Select.Option>
+                      <Select.Option value="Card">Card</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item initialValue="Unload To:" name="state" label="Unload To:">
+                    <Select>
+                      <Select.Option value="Bank">Bank</Select.Option>
+                      <Select.Option value="Card">Card</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="receivable" label="Receivable Amount:">
+                    <Input placeholder=" " />
+                  </Form.Item>
+                  <Form.Item initialValue="Collect At" name="state" label="Collect At">
+                    <Select>
+                      <Select.Option value="Bank">Bank</Select.Option>
+                      <Select.Option value="Card">Card</Select.Option>
+                    </Select>
+                  </Form.Item>
+                </Col>
+              </Row>
+              <br />
+              <Row gutter={24}>
+                <Col md={12}>
+                  <Button style={{ margin: 'auto', width: '100%' }} type="primary">
+                    Add
+                  </Button>
+                </Col>
+                <Col md={12}>
+                  <Button style={{ margin: 'auto', width: '100%' }} type="primary">
+                    Cancle
+                  </Button>
+                </Col>
               </Row>
             </Form>
           </BasicFormWrapper>

@@ -37,6 +37,7 @@ const BillList = lazy(() => import('../../container/transactions/Bill_list/Bill_
 const SaveBill = lazy(() => import('../../container/transactions/Bill_list/SaveBill'));
 const CashMemoList = lazy(() => import('../../container/transactions/CM_list/CML'));
 const SaveCashMemoList = lazy(() => import('../../container/transactions/CM_list/SaveCML'));
+const PaymentCollection = lazy(() => import('../../container/transactions/Payment_Collection/PaymentCollection'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -78,6 +79,7 @@ const DashboardRoutes = () => {
       <Route path={`${path}/save-bill`} component={SaveBill} />
       <Route path={`${path}/cashMemoList`} component={CashMemoList} />
       <Route path={`${path}/save-cml`} component={SaveCashMemoList} />
+      <Route path={`${path}/paymentCollection`} component={PaymentCollection} />
     </Switch>
   );
 };

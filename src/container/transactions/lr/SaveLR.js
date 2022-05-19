@@ -232,13 +232,6 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={12} sm={12} xs={24}>
-                  {/* <Form.Item initialValue="" name="consignee" label="Consignee">
-                    <Select>
-                      <Select.Option value="">Select Consignee</Select.Option>
-                      <Select.Option value="Ravi">Ravi</Select.Option>
-                      <Select.Option value="Amit">Amit</Select.Option>
-                    </Select>
-                  </Form.Item> */}
                   <Form.Item initialValue="" name="delivery" label="Delivery At:">
                     <Select>
                       <Select.Option value="">Select Deliver Person</Select.Option>
@@ -252,33 +245,7 @@ const SavePlaces = () => {
                   <Form.Item name="city" label="City:">
                     <Input placeholder="City" />
                   </Form.Item>
-                  {/* <Form.Item name="gst" label="GST No">
-                    <Input placeholder="GST No." />
-                  </Form.Item>
-                  <Form.Item
-                    name="email"
-                    rules={[
-                      {
-                        type: 'email',
-                      },
-                    ]}
-                    label="Email"
-                  >
-                    <Input placeholder="Email" />
-                  </Form.Item>
-                  <Form.Item name="ecc" label="ECC No">
-                    <Input placeholder="ECC No" />
-                  </Form.Item> */}
                 </Col>
-                {/* <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item initialValue="" name="delivery" label="Delivery At:">
-                    <Select>
-                      <Select.Option value="">Select Deliver Person</Select.Option>
-                      <Select.Option value="Ravi">Ravi</Select.Option>
-                      <Select.Option value="Amit">Amit</Select.Option>
-                    </Select>
-                  </Form.Item>
-                </Col> */}
                 <Col style={{ marginBottom: '20px' }} md={12} sm={12} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Transactions Details">
                     {/* <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '} */}
@@ -305,7 +272,6 @@ const SavePlaces = () => {
                         <Select.Option value="pramod">pramod</Select.Option>
                       </Select>
                     </Form.Item>
-                    {/* <br /> <br /> */}
                     <Input
                       name="noArticles"
                       value={info.noArticles}
@@ -320,13 +286,6 @@ const SavePlaces = () => {
                       onChange={handleChange}
                       placeholder="Description"
                     />
-                    {/* <br /> <br />
-                    <Input
-                      name="designation"
-                      value={info.designation}
-                      onChange={handleChange}
-                      placeholder="Designation"
-                    /> */}
                     <br /> <br />
                     <Input
                       name="weight"
@@ -420,7 +379,7 @@ const SavePlaces = () => {
                 <br />
                 <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Billing Details">
                   <Row>
-                    <Col md={11} sm={11}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="materialCost" label="Material Cost">
                         <Input placeholder="Material Cost" type="number" />
                       </Form.Item>
@@ -470,18 +429,20 @@ const SavePlaces = () => {
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
-                    {!edit ? 'Save' : 'Update'}
-                  </Button>
-                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
-                    {!edit ? 'Origional Print' : 'Update'}
-                  </Button>
-                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
-                    {!edit ? 'Print Without Value' : 'Update'}
-                  </Button>
-                  <Button style={{ margin: '20px' }} onClick={handleContactInfo} size="large" type="primary">
-                    {!edit ? 'cancel' : 'Update'}
-                  </Button>
+                  <Row gutter={24} style={{ margin: '0 auto', justifyContent: 'center' }}>
+                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
+                      {!edit ? 'Save' : 'Update'}
+                    </Button>
+                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
+                      {!edit ? 'Origional Print' : 'Update'}
+                    </Button>
+                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
+                      {!edit ? 'Print Without Value' : 'Update'}
+                    </Button>
+                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
+                      {!edit ? 'cancel' : 'Update'}
+                    </Button>
+                  </Row>
                 </Cards>
               </Row>
 
