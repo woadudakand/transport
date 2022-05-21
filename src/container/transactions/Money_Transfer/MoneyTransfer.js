@@ -31,45 +31,24 @@ const LorryReceipt = () => {
       key: 'sn',
     },
     {
-      title: 'LR No',
-      dataIndex: 'lrNo',
-      key: 'lrNo',
+      title: 'Petty Cash No',
+      dataIndex: 'pcNo',
+      key: 'pcNo',
+    },
+    {
+      title: 'Transfer To Branch',
+      dataIndex: 'tTob',
+      key: 'tTob',
     },
     {
       title: 'Date',
       dataIndex: 'date',
       key: 'date',
     },
-
     {
-      title: 'Consigner',
-      dataIndex: 'consigner',
-      key: 'consigner',
-    },
-    {
-      title: 'From',
-      dataIndex: 'from',
-      key: 'from',
-    },
-    {
-      title: 'Consignee',
-      dataIndex: 'consignee',
-      key: 'consignee',
-    },
-    {
-      title: 'To',
-      dataIndex: 'to',
-      key: 'to',
-    },
-    {
-      title: 'Pay Type',
-      dataIndex: 'payType',
-      key: 'payType',
-    },
-    {
-      title: 'Grand Total',
-      dataIndex: 'grandTotal',
-      key: 'grandTotal',
+      title: 'Amount',
+      dataIndex: 'amount',
+      key: 'amount',
     },
     {
       title: 'Actions',
@@ -79,7 +58,7 @@ const LorryReceipt = () => {
   ];
   const history = useHistory();
   const showModal = () => {
-    history.replace('/admin/save-lr');
+    history.replace('/admin/save-mt');
   };
 
   const onSelectChange = selectedRowKey => {
@@ -95,12 +74,12 @@ const LorryReceipt = () => {
     <>
       <PageHeader
         ghost
-        title="Lorry Receipt"
+        title="Money Transfer List"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={showModal} size="small" type="primary">
               <FeatherIcon icon="plus" size={14} />
-              New LR
+              Transfer
             </Button>
           </div>,
         ]}

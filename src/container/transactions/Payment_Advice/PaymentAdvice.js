@@ -68,20 +68,24 @@ const SavePlaces = () => {
       key: 'sn',
     },
     {
-      title: 'Bill No',
-      dataIndex: 'billNo',
-      key: 'billNo',
+      title: 'T.H.C No',
+      dataIndex: 'thcNO',
+      key: 'thcNO',
     },
     {
-      title: 'Bill Date',
-      dataIndex: 'billDate',
-      key: 'billDate',
+      title: 'Date',
+      dataIndex: 'paDate',
+      key: 'paDate',
     },
-
     {
-      title: 'Total Bill Amount',
-      dataIndex: 'tba',
-      key: 'tba',
+      title: 'Description',
+      dataIndex: 'description',
+      key: 'description',
+    },
+    {
+      title: 'Total Amount',
+      dataIndex: 'totalAmount',
+      key: 'totalAmount',
     },
     {
       title: 'Remain',
@@ -89,9 +93,9 @@ const SavePlaces = () => {
       key: 'remain',
     },
     {
-      title: 'Received',
-      dataIndex: 'received',
-      key: 'received',
+      title: 'Paid',
+      dataIndex: 'paid',
+      key: 'paid',
     },
   ];
 
@@ -165,15 +169,15 @@ const SavePlaces = () => {
               <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
                 {/* <div style={{display: 'flex', justifyContent: "space-between"}}> */}
                 {/* <Col md={8} sm={12}> */}
-                  <Form.Item initialValue="Select Type" name="type" label="Type ">
+                  {/* <Form.Item initialValue="Select Type" name="type" label="Type ">
                     <Select>
                       <Select.Option value="Bill">Bill</Select.Option>
                       <Select.Option value="ToPay">To Pay</Select.Option>
                     </Select>
-                  </Form.Item>
+                  </Form.Item> */}
                 {/* </Col> */}
-                {/* <Col md={8} sm={12}> */}
-                  <Form.Item initialValue="Select Customer" name="customer" label="Customer Name ">
+                <Col md={18} sm={12}>
+                  <Form.Item initialValue="Select Supplier" name="supplier" label="Supplier Name ">
                     <Select>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="Amit">Amit</Select.Option>
@@ -181,12 +185,12 @@ const SavePlaces = () => {
                       <Select.Option value="Any Name">Any Name</Select.Option>
                     </Select>
                   </Form.Item>
-                {/* </Col> */}
-                {/* <Col md={8} sm={12}> */}
-                  <Button style={{ margin: 'auto 30px' }} type="primary">
+                </Col>
+                <Col md={6} sm={12}>
+                  <Button style={{ margin: 'auto', width: '100%' }} type="primary">
                     Show Bills
                   </Button>
-                {/* </Col> */}
+                </Col>
               </Row>
               <Divider />
               <br />
@@ -214,23 +218,24 @@ const SavePlaces = () => {
                     <Form.Item name="outstanding" label="Outstanding">
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
-                    <Form.Item name="received" label="Received">
+                    <Form.Item name="paid" label="Paid">
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item initialValue="Select Branch" name="payMode" label="Pay Mode">
                       {/* <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} /> */}
                       <Select>
                         <Select.Option value="Pune">Cash</Select.Option>
-                        <Select.Option value="Lakhno">Cheqe</Select.Option>
+                        <Select.Option value="Lakhno">Cheque</Select.Option>
+                        <Select.Option value="neftRtgs">NEFT / RTGS</Select.Option>
                       </Select>
                     </Form.Item>
                     <Form.Item name="bankName" label="Bank Name">
                       <Input placeholder="Bank Name" />
                     </Form.Item>
-                    <Form.Item name="cheqeNo" label="Cheqe No">
-                      <Input placeholder="Cheqe No" type=" number " />
+                    <Form.Item name="chequeNo" label="Cheque No">
+                      <Input placeholder="Cheque No" type=" number " />
                     </Form.Item>
-                    <Form.Item name="cheqeDate" label="Cheqe Date">
+                    <Form.Item name="chequeDate" label="Cheque Date">
                       <DatePicker
                         defaultValue={moment('01/01/2015', dateFormatList[0])}
                         format={dateFormatList}
@@ -244,7 +249,7 @@ const SavePlaces = () => {
               <Row gutter={24}>
                 <Col md={12}>
                   <Button style={{ margin: 'auto', width: '100%' }} type="primary">
-                    Add
+                    Save
                   </Button>
                 </Col>
                 <Col md={12}>

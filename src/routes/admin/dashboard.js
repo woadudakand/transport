@@ -38,6 +38,9 @@ const SaveBill = lazy(() => import('../../container/transactions/Bill_list/SaveB
 const CashMemoList = lazy(() => import('../../container/transactions/CM_list/CML'));
 const SaveCashMemoList = lazy(() => import('../../container/transactions/CM_list/SaveCML'));
 const PaymentCollection = lazy(() => import('../../container/transactions/Payment_Collection/PaymentCollection'));
+const PaymentAdvice = lazy(() => import('../../container/transactions/Payment_Advice/PaymentAdvice'));
+const MoneyTransfer = lazy(() => import('../../container/transactions/Money_Transfer/MoneyTransfer'));
+const SaveMT = lazy(() => import('../../container/transactions/Money_Transfer/SaveMT'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -80,6 +83,9 @@ const DashboardRoutes = () => {
       <Route path={`${path}/cashMemoList`} component={CashMemoList} />
       <Route path={`${path}/save-cml`} component={SaveCashMemoList} />
       <Route path={`${path}/paymentCollection`} component={PaymentCollection} />
+      <Route path={`${path}/paymentAdvice`} component={PaymentAdvice} />
+      <Route path={`${path}/moneyTransfer`} component={MoneyTransfer} />
+      <Route path={`${path}/save-mt`} component={SaveMT} />
     </Switch>
   );
 };
