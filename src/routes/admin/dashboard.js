@@ -41,6 +41,8 @@ const PaymentCollection = lazy(() => import('../../container/transactions/Paymen
 const PaymentAdvice = lazy(() => import('../../container/transactions/Payment_Advice/PaymentAdvice'));
 const MoneyTransfer = lazy(() => import('../../container/transactions/Money_Transfer/MoneyTransfer'));
 const SaveMT = lazy(() => import('../../container/transactions/Money_Transfer/SaveMT'));
+const PettyCashHistory = lazy(() => import('../../container/transactions/ptHistory/PettyCashHistory'));
+const SavePCH = lazy(() => import('../../container/transactions/ptHistory/SavePCH'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -86,6 +88,8 @@ const DashboardRoutes = () => {
       <Route path={`${path}/paymentAdvice`} component={PaymentAdvice} />
       <Route path={`${path}/moneyTransfer`} component={MoneyTransfer} />
       <Route path={`${path}/save-mt`} component={SaveMT} />
+      <Route path={`${path}/pettyCashHistory`} component={PettyCashHistory} />
+      <Route path={`${path}/save-pch`} component={SavePCH} />
     </Switch>
   );
 };
