@@ -12,7 +12,7 @@ import indianStates from '../../../demoData/indianStats.json';
 import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 import { customerAddDispatch } from '../../../redux/customers/actionCreator';
 
-const SavePlaces = () => {
+const SaveCustomers = () => {
   const [form] = Form.useForm();
   const [info, setInfo] = useState({});
   const [edit, setEdit] = useState(false);
@@ -149,10 +149,6 @@ const SavePlaces = () => {
       setDataSource(newData);
     }
   };
-  // { name: "Woadud", fax: "580", state: "pune", vCode: "33345", oBalance: "{\"balance\":\"5000\",\"card\":\"credit\"}", oCard: "credit", correspondenceAddress: "jjajflaj jalfjalj", cst: "76", city: "pune", vat: "5", … }
-  // const handleBranch = value => {
-  //   setBranch(value);
-  // };
 
   const gotoView = () => {
     history.replace('/admin/customers');
@@ -190,7 +186,7 @@ const SavePlaces = () => {
                 <Select.Option value="">Select Branch</Select.Option>
                 {branches.map(item => {
                   return (
-                    <Select.Option key={item.id} value={item.code}>
+                    <Select.Option key={item.id} value={item.id}>
                       {item.title}
                     </Select.Option>
                   );
@@ -473,4 +469,4 @@ const SavePlaces = () => {
   );
 };
 
-export default SavePlaces;
+export default SaveCustomers;

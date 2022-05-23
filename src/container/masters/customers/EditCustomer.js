@@ -1,89 +1,42 @@
 import React, { useEffect, useState } from 'react';
-import { Col, Form, Input, Row, Select, Table, notification, Spin } from 'antd';
+import { Col, Form, Input, Row, Select, Table, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { Link, useParams, useLocation } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-import { DataService } from '../../../config/dataService/dataService';
+import indianStates from '../../../demoData/indianStats.json';
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
+import { customerAddDispatch, getSingleCustomerDispatch } from '../../../redux/customers/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
 
-const openNotificationWithIcon = (type, message, description) => {
-  notification[type]({
-    message,
-    description,
-  });
-};
-
-const UpdatePlaces = () => {
-  const { pathname } = useLocation();
+const EditCustomers = () => {
   const [form] = Form.useForm();
   const [info, setInfo] = useState({});
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
-  const [branch, setBranch] = useState('');
-  const [isLoading, setLoading] = useState(false);
-  const [editData, setEditData] = useState(null);
-
+  const history = useHistory();
   const { id } = useParams();
+  const dispatch = useDispatch();
 
-  useEffect(() => {
-    async function getDataFromServer() {
-      try {
-        setLoading(true);
-        const res = await DataService.get(`/customer/updateData?id=${id}`);
-
-        setLoading(false);
-        if (res.data.status === 200) {
-          setEditData(res.data.data[0]);
-          setBranch(res.data.data[0].branch);
-          setDataSource(JSON.parse(res.data.data[0].contactPerson));
-        }
-      } catch (err) {
-        console.log(err);
-        setLoading(false);
-      }
-    }
-
-    if (pathname) {
-      getDataFromServer();
-    }
-  }, [pathname, id]);
+  const { branches, isLoading, customers } = useSelector(state => {
+    return {
+      branches: state.branches.list,
+      isLoading: state.customer.loading,
+      customers: state.customer.customers,
+    };
+  });
 
   const handleFinish = async values => {
-    const customer = {
-      ...values,
-      id,
-      branch,
-      oBalance: JSON.stringify({
-        balance: values.oBalance,
-        card: values.oCard,
+    dispatch(
+      customerAddDispatch({
+        customers: { ...values, id, updated_at: moment().format('YYYY-MM-DD') },
+        customerReferences: dataSource,
       }),
-      cBalance: JSON.stringify({
-        balance: values.cBalance,
-        card: values.cCard,
-      }),
-      contactPerson: JSON.stringify(dataSource),
-    };
-
-    try {
-      setLoading(true);
-
-      const res = await DataService.put('/customer', customer);
-      if (res.data.status === 200) {
-        openNotificationWithIcon('success', res.data.message, res.data.description);
-        setLoading(false);
-        setEditData(res.data.data[0]);
-      } else {
-        setLoading(false);
-        openNotificationWithIcon('error', res.data.message, res.data.description);
-      }
-    } catch (err) {
-      console.log(err);
-      setLoading(false);
-      openNotificationWithIcon('error', 'Update Customer!', err.toString());
-    }
+    );
   };
   const infoTableData = [];
 
@@ -97,9 +50,27 @@ const UpdatePlaces = () => {
     setEdit(key + 1);
   };
 
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
+      dispatch(getSingleCustomerDispatch(id));
+    }
+  }, [dispatch, id]);
+
+  useEffect(() => {
+    if (customers[0]) {
+      setDataSource(customers[0].customer_references);
+      form.setFieldsValue({
+        ...customers[0],
+        // joiningdate: dayjs(customers[0].joiningdate, 'YYYY-MM-DD'),
+        // dob: dayjs(customers[0].dob, 'YYYY-MM-DD'),
+      });
+    }
+  }, [customers, form]);
+
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
-      key: key + 1,
+      key,
       sn: key + 1,
       name,
       email,
@@ -166,6 +137,7 @@ const UpdatePlaces = () => {
     setInfo({
       ...info,
       [e.currentTarget.name]: e.currentTarget.value,
+      created_at: moment().format('YYYY-MM-DD'),
     });
   };
 
@@ -194,56 +166,143 @@ const UpdatePlaces = () => {
     }
   };
 
-  const handleBranch = value => {
-    setBranch(value);
+  const gotoView = () => {
+    history.replace('/admin/customers');
   };
 
   return (
     <>
-      <PageHeader ghost title="Update Customer" />
-      {editData ? (
+      <PageHeader
+        ghost
+        title="Update Customer"
+        buttons={[
+          <div key="1" className="page-header-actions">
+            <Button onClick={gotoView} size="small" type="primary">
+              View Page
+            </Button>
+          </div>,
+        ]}
+      />
+      {isLoading ? (
+        <DataLoader />
+      ) : (
         <Main>
           <Row justify="space-between" style={{ marginBottom: 20 }}>
             <p />
-            <Select defaultValue={branch} value={branch} onChange={handleBranch} style={{ width: '250px' }}>
-              <Select.Option value="">Select Branch</Select.Option>
-              <Select.Option value="pune">Pune</Select.Option>
-              <Select.Option value="kallam">Kallam</Select.Option>
-            </Select>
+            <Form form={form} name="customer" onFinish={handleFinish}>
+              <Form.Item
+                rules={[
+                  {
+                    required: true,
+                    message: 'Select Branch',
+                  },
+                ]}
+                name="branchs_id"
+                label=""
+              >
+                <Select style={{ width: '250px' }}>
+                  <Select.Option value="">Select Branch</Select.Option>
+                  {branches.map(item => {
+                    return (
+                      <Select.Option key={item.id} value={item.id}>
+                        {item.title}
+                      </Select.Option>
+                    );
+                  })}
+                </Select>
+              </Form.Item>
+            </Form>
           </Row>
           <Cards headless>
             <BasicFormWrapper>
-              <Form form={form} name="createProject" onFinish={handleFinish}>
+              <Form form={form} name="customer" onFinish={handleFinish}>
                 <Row gutter={24}>
                   <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                    <Form.Item initialValue={editData.name} name="name" label="Customer Name">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Input customer name',
+                        },
+                      ]}
+                      name="customer_name"
+                      label="Customer Name"
+                    >
                       <Input placeholder="Name" />
                     </Form.Item>
-                    <Form.Item name="fax" initialValue={editData.fax} label="Fax No">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Input fax no',
+                        },
+                      ]}
+                      name="faxno"
+                      label="Fax No"
+                    >
                       <Input placeholder="Fax No" />
                     </Form.Item>
-                    <Form.Item initialValue={editData.state} name="state" label="Select State">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Select state',
+                        },
+                      ]}
+                      initialValue=""
+                      name="states_id"
+                      label="Select State"
+                    >
                       <Select>
                         <Select.Option value="">Select State</Select.Option>
-                        <Select.Option value="pune">Pune</Select.Option>
-                        <Select.Option value="kallam">Kallam</Select.Option>
+                        {Object.keys(indianStates).map(key => {
+                          return (
+                            <Select.Option key={key} value={key}>
+                              {indianStates[key]}
+                            </Select.Option>
+                          );
+                        })}
                       </Select>
                     </Form.Item>
-                    <Form.Item initialValue={editData.vCode} name="vCode" label="Vendor Code">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Input vendor code',
+                        },
+                      ]}
+                      name="vendorcode"
+                      label="Vendor Code"
+                    >
                       <Input placeholder="Vendor Code" />
                     </Form.Item>
                     <Row gutter={15}>
                       <Col xs={12}>
                         <Form.Item
-                          initialValue={JSON.parse(editData.oBalance).balance}
-                          name="oBalance"
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Your Opening Balance',
+                            },
+                          ]}
+                          name="opening_balance"
                           label="Opening Balance"
                         >
                           <Input placeholder="Opening Balance" />
                         </Form.Item>
                       </Col>
                       <Col xs={12}>
-                        <Form.Item initialValue={JSON.parse(editData.oBalance).card} name="oCard" label="Select Card">
+                        <Form.Item
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Select card',
+                            },
+                          ]}
+                          name="payment_type"
+                          initialValue=""
+                          label="Select Card"
+                        >
                           <Select>
                             <Select.Option value="">Select Card</Select.Option>
                             <Select.Option value="credit">Credit</Select.Option>
@@ -256,38 +315,77 @@ const UpdatePlaces = () => {
 
                   <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
                     <Form.Item
-                      initialValue={editData.correspondenceAddress}
-                      name="correspondenceAddress"
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Input address',
+                        },
+                      ]}
+                      name="correspondence_address"
                       label="Correspondence Address"
                     >
                       <Input placeholder="correspondence Address" />
                     </Form.Item>
-                    <Form.Item initialValue={editData.cst} name="cst" label="CST No.">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Input CST',
+                        },
+                      ]}
+                      name="cstno"
+                      label="CST No."
+                    >
                       <Input placeholder="CST No." />
                     </Form.Item>
-                    <Form.Item initialValue={editData.city} name="city" label="Select City">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Select city',
+                        },
+                      ]}
+                      initialValue=""
+                      name="city_id"
+                      label="Select City"
+                    >
                       <Select>
                         <Select.Option value="">Select City</Select.Option>
-                        <Select.Option value="pune">Pune</Select.Option>
-                        <Select.Option value="kallam">Kallam</Select.Option>
+                        <Select.Option value={102}>Pune</Select.Option>
+                        <Select.Option value={103}>Kallam</Select.Option>
                       </Select>
                     </Form.Item>
-                    <Form.Item name="vat" initialValue={editData.vat} label="Vat No">
+                    <Form.Item name="vatno" label="Vat No">
                       <Input placeholder="Vat No" />
                     </Form.Item>
 
                     <Row gutter={15}>
                       <Col xs={12}>
                         <Form.Item
-                          name="cBalance"
-                          initialValue={JSON.parse(editData.cBalance).balance}
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Input Closing Balance',
+                            },
+                          ]}
+                          name="closing_balance"
                           label="Closing Balance"
                         >
                           <Input placeholder="Closing Balance" />
                         </Form.Item>
                       </Col>
                       <Col xs={12}>
-                        <Form.Item name="cCard" initialValue={JSON.parse(editData.cBalance).card} label="Select Card">
+                        <Form.Item
+                          rules={[
+                            {
+                              required: true,
+                              message: 'Select Card',
+                            },
+                          ]}
+                          name="closing_payment_type"
+                          initialValue=""
+                          label="Select Card"
+                        >
                           <Select>
                             <Select.Option value="">Select Card</Select.Option>
                             <Select.Option value="credit">Credit</Select.Option>
@@ -299,25 +397,46 @@ const UpdatePlaces = () => {
                   </Col>
 
                   <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                    <Form.Item name="telephone" initialValue={editData.telephone} label="Telephone">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Must required telephone',
+                        },
+                      ]}
+                      name="telephone"
+                      label="Telephone"
+                    >
                       <Input placeholder="Telephone" />
                     </Form.Item>
-                    <Form.Item name="gst" initialValue={editData.gst} label="GST No.">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Must required gst',
+                        },
+                      ]}
+                      name="gstno"
+                      label="GST No."
+                    >
                       <Input placeholder="GST No." />
                     </Form.Item>
                     <Form.Item
-                      name="email"
+                      name="customer_email"
                       rules={[
+                        {
+                          required: true,
+                          message: 'Must required telephone',
+                        },
                         {
                           type: 'email',
                         },
                       ]}
                       label="Email"
-                      initialValue={editData.email}
                     >
                       <Input placeholder="Email" />
                     </Form.Item>
-                    <Form.Item name="ecc" initialValue={editData.ecc} label="ECC No">
+                    <Form.Item name="eccno" label="ECC No">
                       <Input placeholder="ECC No" />
                     </Form.Item>
                   </Col>
@@ -357,18 +476,16 @@ const UpdatePlaces = () => {
 
                 <Form.Item label="">
                   <Button type="primary" htmlType="submit">
-                    Update Customer {isLoading && <Spin />}
+                    Add Customer {isLoading && <Spin />}
                   </Button>
                 </Form.Item>
               </Form>
             </BasicFormWrapper>
           </Cards>
         </Main>
-      ) : (
-        <DataLoader />
       )}
     </>
   );
 };
 
-export default UpdatePlaces;
+export default EditCustomers;

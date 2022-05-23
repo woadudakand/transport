@@ -1,8 +1,9 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState, useEffect, useCallback } from 'react';
 import { Row, Col, Table, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
+import qs from 'qs';
 import SaveArticle from './SaveArticles';
 import UpdateArticle from './UpdateArticles';
 import { Main, TableWrapper } from '../../styled';
@@ -28,6 +29,60 @@ const Articles = () => {
   const { pathname } = useLocation();
   const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [updateArticle, setUpdateArticle] = useState({});
+
+  const [pagination, setPagination] = useState({
+    data: [],
+    pagi: {
+      current: 1,
+      pageSize: 1,
+    },
+    loading: false,
+  });
+
+  const getRandomuserParams = params => {
+    return {
+      results: params.pagination.pageSize,
+      page: params.pagination.current,
+      total: 100,
+      ...params,
+    };
+  };
+
+  const fetch = useCallback((params = {}) => {
+    console.log(getRandomuserParams(params));
+    // fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(params))}`)
+    //   .then(res => res.json())
+    //   .then(data => {
+    //     console.log(data);
+    //     setPagination({
+    //       loading: false,
+    //       data: data.results,
+    //       pagi: {
+    //         ...params.pagination,
+    //         total: 200,
+    //       },
+    //     });
+    //   });
+  }, []);
+
+  useEffect(() => {
+    let unmounted = false;
+    if (!unmounted) {
+      const { pagi } = pagination;
+      fetch({ pagination: pagi });
+    }
+
+    return () => (unmounted = true);
+  }, [fetch, pagination]);
+
+  const handleTableChange = (pagi, filters, sorter) => {
+    fetch({
+      sortField: sorter.field,
+      sortOrder: sorter.order,
+      pagination: pagi,
+      ...filters,
+    });
+  };
 
   const dispatch = useDispatch();
   const { articles, isLoader } = useSelector(state => {
@@ -163,9 +218,10 @@ const Articles = () => {
                 <Table
                   rowSelection={rowSelection}
                   className="table-responsive"
-                  pagination={false}
+                  pagination={pagination.pagi}
                   dataSource={dataSource}
                   columns={columns}
+                  onChange={handleTableChange}
                 />
               </TableWrapper>
             </Cards>

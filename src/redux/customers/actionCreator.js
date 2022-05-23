@@ -157,11 +157,11 @@ const getCustomerDispatch = value => {
   };
 };
 
-const updateCustomer = place => {
+const updateCustomer = customer => {
   return async dispatch => {
     try {
       dispatch(customerAddBegin());
-      const res = await DataService.put('/customer', place);
+      const res = await DataService.put('/customers', customer);
       if (res.data.status === 200) {
         await dispatch(
           customerAddSuccess({
@@ -194,4 +194,44 @@ const updateCustomer = place => {
   };
 };
 
-export { getCustomersDispatch, customerAddDispatch, getCustomerDispatch, deleteCustomer, updateCustomer };
+const getSingleCustomerDispatch = id => {
+  return async dispatch => {
+    try {
+      dispatch(getCustomerBegin());
+      const res = await DataService.put(`/customers/single`, { id });
+
+      if (res.data.status === 200) {
+        await dispatch(
+          getCustomerSuccess({
+            result: res.data.data,
+            message: res.data.message,
+            type: res.data.type,
+          }),
+        );
+      } else {
+        await dispatch(
+          getCustomerErr({
+            message: res.data.message,
+            type: res.data.type,
+          }),
+        );
+      }
+    } catch (err) {
+      dispatch(
+        getCustomerErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+    }
+  };
+};
+
+export {
+  getCustomersDispatch,
+  getSingleCustomerDispatch,
+  customerAddDispatch,
+  getCustomerDispatch,
+  deleteCustomer,
+  updateCustomer,
+};
