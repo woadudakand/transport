@@ -157,11 +157,12 @@ const getCustomerDispatch = value => {
   };
 };
 
-const updateCustomer = customer => {
+const updateCustomer = (customer, callback) => {
   return async dispatch => {
     try {
       dispatch(customerAddBegin());
       const res = await DataService.put('/customers', customer);
+
       if (res.data.status === 200) {
         await dispatch(
           customerAddSuccess({
@@ -172,6 +173,7 @@ const updateCustomer = customer => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
           customerAddErr({

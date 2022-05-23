@@ -232,7 +232,7 @@ const SaveCustomers = () => {
                       },
                     ]}
                     initialValue=""
-                    name="states_id"
+                    name="states"
                     label="Select State"
                   >
                     <Select>
@@ -328,7 +328,7 @@ const SaveCustomers = () => {
                       },
                     ]}
                     initialValue=""
-                    name="city_id"
+                    name="city"
                     label="Select City"
                   >
                     <Select>

@@ -10,7 +10,7 @@ import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import indianStates from '../../../demoData/indianStats.json';
 import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
-import { customerAddDispatch, getSingleCustomerDispatch } from '../../../redux/customers/actionCreator';
+import { updateCustomer, getSingleCustomerDispatch } from '../../../redux/customers/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
 
 const EditCustomers = () => {
@@ -30,12 +30,21 @@ const EditCustomers = () => {
     };
   });
 
+  const gotoView = () => {
+    history.replace('/admin/customers');
+  };
+
   const handleFinish = async values => {
     dispatch(
-      customerAddDispatch({
-        customers: { ...values, id, updated_at: moment().format('YYYY-MM-DD') },
-        customerReferences: dataSource,
-      }),
+      updateCustomer(
+        {
+          customers: { ...values, id, updated_at: moment().format('YYYY-MM-DD') },
+          customerReferences: dataSource,
+        },
+        () => {
+          gotoView();
+        },
+      ),
     );
   };
   const infoTableData = [];
@@ -62,8 +71,6 @@ const EditCustomers = () => {
       setDataSource(customers[0].customer_references);
       form.setFieldsValue({
         ...customers[0],
-        // joiningdate: dayjs(customers[0].joiningdate, 'YYYY-MM-DD'),
-        // dob: dayjs(customers[0].dob, 'YYYY-MM-DD'),
       });
     }
   }, [customers, form]);
@@ -166,10 +173,6 @@ const EditCustomers = () => {
     }
   };
 
-  const gotoView = () => {
-    history.replace('/admin/customers');
-  };
-
   return (
     <>
       <PageHeader
@@ -183,307 +186,304 @@ const EditCustomers = () => {
           </div>,
         ]}
       />
-      {isLoading ? (
-        <DataLoader />
-      ) : (
-        <Main>
-          <Row justify="space-between" style={{ marginBottom: 20 }}>
-            <p />
+
+      <Main>
+        <Row justify="space-between" style={{ marginBottom: 20 }}>
+          <p />
+          <Form form={form} name="customer" onFinish={handleFinish}>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Select Branch',
+                },
+              ]}
+              name="branchs_id"
+              label=""
+            >
+              <Select style={{ width: '250px' }}>
+                <Select.Option value="">Select Branch</Select.Option>
+                {branches.map(item => {
+                  return (
+                    <Select.Option key={item.id} value={item.id}>
+                      {item.title}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Form>
+        </Row>
+        <Cards headless>
+          <BasicFormWrapper>
             <Form form={form} name="customer" onFinish={handleFinish}>
-              <Form.Item
-                rules={[
-                  {
-                    required: true,
-                    message: 'Select Branch',
-                  },
-                ]}
-                name="branchs_id"
-                label=""
-              >
-                <Select style={{ width: '250px' }}>
-                  <Select.Option value="">Select Branch</Select.Option>
-                  {branches.map(item => {
-                    return (
-                      <Select.Option key={item.id} value={item.id}>
-                        {item.title}
-                      </Select.Option>
-                    );
-                  })}
-                </Select>
+              <Row gutter={24}>
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input customer name',
+                      },
+                    ]}
+                    name="customer_name"
+                    label="Customer Name"
+                  >
+                    <Input placeholder="Name" />
+                  </Form.Item>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input fax no',
+                      },
+                    ]}
+                    name="faxno"
+                    label="Fax No"
+                  >
+                    <Input placeholder="Fax No" />
+                  </Form.Item>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select state',
+                      },
+                    ]}
+                    initialValue=""
+                    name="states"
+                    label="Select State"
+                  >
+                    <Select>
+                      <Select.Option value="">Select State</Select.Option>
+                      {Object.keys(indianStates).map(key => {
+                        return (
+                          <Select.Option key={key} value={key}>
+                            {indianStates[key]}
+                          </Select.Option>
+                        );
+                      })}
+                    </Select>
+                  </Form.Item>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input vendor code',
+                      },
+                    ]}
+                    name="vendorcode"
+                    label="Vendor Code"
+                  >
+                    <Input placeholder="Vendor Code" />
+                  </Form.Item>
+                  <Row gutter={15}>
+                    <Col xs={12}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Your Opening Balance',
+                          },
+                        ]}
+                        name="opening_balance"
+                        label="Opening Balance"
+                      >
+                        <Input placeholder="Opening Balance" />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={12}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select card',
+                          },
+                        ]}
+                        name="payment_type"
+                        initialValue=""
+                        label="Select Card"
+                      >
+                        <Select>
+                          <Select.Option value="">Select Card</Select.Option>
+                          <Select.Option value="credit">Credit</Select.Option>
+                          <Select.Option value="debit">Debit</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input address',
+                      },
+                    ]}
+                    name="correspondence_address"
+                    label="Correspondence Address"
+                  >
+                    <Input placeholder="correspondence Address" />
+                  </Form.Item>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input CST',
+                      },
+                    ]}
+                    name="cstno"
+                    label="CST No."
+                  >
+                    <Input placeholder="CST No." />
+                  </Form.Item>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select city',
+                      },
+                    ]}
+                    initialValue=""
+                    name="city"
+                    label="Select City"
+                  >
+                    <Select>
+                      <Select.Option value="">Select City</Select.Option>
+                      <Select.Option value="102">Pune</Select.Option>
+                      <Select.Option value="103">Kallam</Select.Option>
+                    </Select>
+                  </Form.Item>
+                  <Form.Item name="vatno" label="Vat No">
+                    <Input placeholder="Vat No" />
+                  </Form.Item>
+
+                  <Row gutter={15}>
+                    <Col xs={12}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Input Closing Balance',
+                          },
+                        ]}
+                        name="closing_balance"
+                        label="Closing Balance"
+                      >
+                        <Input placeholder="Closing Balance" />
+                      </Form.Item>
+                    </Col>
+                    <Col xs={12}>
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select Card',
+                          },
+                        ]}
+                        name="closing_payment_type"
+                        initialValue=""
+                        label="Select Card"
+                      >
+                        <Select>
+                          <Select.Option value="">Select Card</Select.Option>
+                          <Select.Option value="credit">Credit</Select.Option>
+                          <Select.Option value="debit">Debit</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                  </Row>
+                </Col>
+
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Must required telephone',
+                      },
+                    ]}
+                    name="telephone"
+                    label="Telephone"
+                  >
+                    <Input placeholder="Telephone" />
+                  </Form.Item>
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Must required gst',
+                      },
+                    ]}
+                    name="gstno"
+                    label="GST No."
+                  >
+                    <Input placeholder="GST No." />
+                  </Form.Item>
+                  <Form.Item
+                    name="customer_email"
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Must required telephone',
+                      },
+                      {
+                        type: 'email',
+                      },
+                    ]}
+                    label="Email"
+                  >
+                    <Input placeholder="Email" />
+                  </Form.Item>
+                  <Form.Item name="eccno" label="ECC No">
+                    <Input placeholder="ECC No" />
+                  </Form.Item>
+                </Col>
+                <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
+                  <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
+                    <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
+                    <br /> <br />
+                    <Input name="address" value={info.address} onChange={handleChange} placeholder="Address" />
+                    <br /> <br />
+                    <Input name="email" value={info.email} onChange={handleChange} placeholder="Email" />
+                    <br /> <br />
+                    <Input
+                      name="designation"
+                      value={info.designation}
+                      onChange={handleChange}
+                      placeholder="Designation"
+                    />
+                    <br /> <br />
+                    <Input name="mobile" value={info.mobile} onChange={handleChange} placeholder="Mobile" />
+                    <br /> <br />
+                    <Button onClick={handleContactInfo} size="large" type="primary">
+                      {!edit ? 'Add New' : 'Update'}
+                    </Button>
+                  </Cards>
+                </Col>
+                <Col style={{ marginBottom: '20px' }} md={16} sm={24}>
+                  <TableWrapper className="table-data-view table-responsive">
+                    <Table
+                      className="table-responsive"
+                      pagination={false}
+                      dataSource={infoTableData}
+                      columns={columns}
+                    />
+                  </TableWrapper>
+                </Col>
+              </Row>
+
+              <Form.Item label="">
+                <Button type="primary" htmlType="submit">
+                  Update Customer {isLoading && <Spin />}
+                </Button>
               </Form.Item>
             </Form>
-          </Row>
-          <Cards headless>
-            <BasicFormWrapper>
-              <Form form={form} name="customer" onFinish={handleFinish}>
-                <Row gutter={24}>
-                  <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Input customer name',
-                        },
-                      ]}
-                      name="customer_name"
-                      label="Customer Name"
-                    >
-                      <Input placeholder="Name" />
-                    </Form.Item>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Input fax no',
-                        },
-                      ]}
-                      name="faxno"
-                      label="Fax No"
-                    >
-                      <Input placeholder="Fax No" />
-                    </Form.Item>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Select state',
-                        },
-                      ]}
-                      initialValue=""
-                      name="states_id"
-                      label="Select State"
-                    >
-                      <Select>
-                        <Select.Option value="">Select State</Select.Option>
-                        {Object.keys(indianStates).map(key => {
-                          return (
-                            <Select.Option key={key} value={key}>
-                              {indianStates[key]}
-                            </Select.Option>
-                          );
-                        })}
-                      </Select>
-                    </Form.Item>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Input vendor code',
-                        },
-                      ]}
-                      name="vendorcode"
-                      label="Vendor Code"
-                    >
-                      <Input placeholder="Vendor Code" />
-                    </Form.Item>
-                    <Row gutter={15}>
-                      <Col xs={12}>
-                        <Form.Item
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Your Opening Balance',
-                            },
-                          ]}
-                          name="opening_balance"
-                          label="Opening Balance"
-                        >
-                          <Input placeholder="Opening Balance" />
-                        </Form.Item>
-                      </Col>
-                      <Col xs={12}>
-                        <Form.Item
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Select card',
-                            },
-                          ]}
-                          name="payment_type"
-                          initialValue=""
-                          label="Select Card"
-                        >
-                          <Select>
-                            <Select.Option value="">Select Card</Select.Option>
-                            <Select.Option value="credit">Credit</Select.Option>
-                            <Select.Option value="debit">Debit</Select.Option>
-                          </Select>
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                  </Col>
-
-                  <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Input address',
-                        },
-                      ]}
-                      name="correspondence_address"
-                      label="Correspondence Address"
-                    >
-                      <Input placeholder="correspondence Address" />
-                    </Form.Item>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Input CST',
-                        },
-                      ]}
-                      name="cstno"
-                      label="CST No."
-                    >
-                      <Input placeholder="CST No." />
-                    </Form.Item>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Select city',
-                        },
-                      ]}
-                      initialValue=""
-                      name="city_id"
-                      label="Select City"
-                    >
-                      <Select>
-                        <Select.Option value="">Select City</Select.Option>
-                        <Select.Option value={102}>Pune</Select.Option>
-                        <Select.Option value={103}>Kallam</Select.Option>
-                      </Select>
-                    </Form.Item>
-                    <Form.Item name="vatno" label="Vat No">
-                      <Input placeholder="Vat No" />
-                    </Form.Item>
-
-                    <Row gutter={15}>
-                      <Col xs={12}>
-                        <Form.Item
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Input Closing Balance',
-                            },
-                          ]}
-                          name="closing_balance"
-                          label="Closing Balance"
-                        >
-                          <Input placeholder="Closing Balance" />
-                        </Form.Item>
-                      </Col>
-                      <Col xs={12}>
-                        <Form.Item
-                          rules={[
-                            {
-                              required: true,
-                              message: 'Select Card',
-                            },
-                          ]}
-                          name="closing_payment_type"
-                          initialValue=""
-                          label="Select Card"
-                        >
-                          <Select>
-                            <Select.Option value="">Select Card</Select.Option>
-                            <Select.Option value="credit">Credit</Select.Option>
-                            <Select.Option value="debit">Debit</Select.Option>
-                          </Select>
-                        </Form.Item>
-                      </Col>
-                    </Row>
-                  </Col>
-
-                  <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Must required telephone',
-                        },
-                      ]}
-                      name="telephone"
-                      label="Telephone"
-                    >
-                      <Input placeholder="Telephone" />
-                    </Form.Item>
-                    <Form.Item
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Must required gst',
-                        },
-                      ]}
-                      name="gstno"
-                      label="GST No."
-                    >
-                      <Input placeholder="GST No." />
-                    </Form.Item>
-                    <Form.Item
-                      name="customer_email"
-                      rules={[
-                        {
-                          required: true,
-                          message: 'Must required telephone',
-                        },
-                        {
-                          type: 'email',
-                        },
-                      ]}
-                      label="Email"
-                    >
-                      <Input placeholder="Email" />
-                    </Form.Item>
-                    <Form.Item name="eccno" label="ECC No">
-                      <Input placeholder="ECC No" />
-                    </Form.Item>
-                  </Col>
-                  <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                    <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
-                      <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
-                      <br /> <br />
-                      <Input name="address" value={info.address} onChange={handleChange} placeholder="Address" />
-                      <br /> <br />
-                      <Input name="email" value={info.email} onChange={handleChange} placeholder="Email" />
-                      <br /> <br />
-                      <Input
-                        name="designation"
-                        value={info.designation}
-                        onChange={handleChange}
-                        placeholder="Designation"
-                      />
-                      <br /> <br />
-                      <Input name="mobile" value={info.mobile} onChange={handleChange} placeholder="Mobile" />
-                      <br /> <br />
-                      <Button onClick={handleContactInfo} size="large" type="primary">
-                        {!edit ? 'Add New' : 'Update'}
-                      </Button>
-                    </Cards>
-                  </Col>
-                  <Col style={{ marginBottom: '20px' }} md={16} sm={24}>
-                    <TableWrapper className="table-data-view table-responsive">
-                      <Table
-                        className="table-responsive"
-                        pagination={false}
-                        dataSource={infoTableData}
-                        columns={columns}
-                      />
-                    </TableWrapper>
-                  </Col>
-                </Row>
-
-                <Form.Item label="">
-                  <Button type="primary" htmlType="submit">
-                    Add Customer {isLoading && <Spin />}
-                  </Button>
-                </Form.Item>
-              </Form>
-            </BasicFormWrapper>
-          </Cards>
-        </Main>
-      )}
+          </BasicFormWrapper>
+        </Cards>
+      </Main>
     </>
   );
 };
