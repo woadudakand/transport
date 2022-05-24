@@ -11,7 +11,7 @@ import { Cards } from '../../../components/cards/frame/cards-frame';
 import indianStates from '../../../demoData/indianStats.json';
 import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 import { updateCustomer, getSingleCustomerDispatch } from '../../../redux/customers/actionCreator';
-import DataLoader from '../../../components/utilities/DataLoader';
+// import DataLoader from '../../../components/utilities/DataLoader';
 
 const EditCustomers = () => {
   const [form] = Form.useForm();
@@ -352,8 +352,8 @@ const EditCustomers = () => {
                   >
                     <Select>
                       <Select.Option value="">Select City</Select.Option>
-                      <Select.Option value="102">Pune</Select.Option>
-                      <Select.Option value="103">Kallam</Select.Option>
+                      <Select.Option value="Pune">Pune</Select.Option>
+                      <Select.Option value="Kallm">Kallam</Select.Option>
                     </Select>
                   </Form.Item>
                   <Form.Item name="vatno" label="Vat No">

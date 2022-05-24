@@ -333,8 +333,8 @@ const SaveCustomers = () => {
                   >
                     <Select>
                       <Select.Option value="">Select City</Select.Option>
-                      <Select.Option value={102}>Pune</Select.Option>
-                      <Select.Option value={103}>Kallam</Select.Option>
+                      <Select.Option value="Pune">Pune</Select.Option>
+                      <Select.Option value="Kallam">Kallam</Select.Option>
                     </Select>
                   </Form.Item>
                   <Form.Item name="vatno" label="Vat No">
