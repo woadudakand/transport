@@ -1,5 +1,5 @@
 import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table, InputNumber } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, InputNumber, Divider } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link } from 'react-router-dom';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
@@ -246,7 +246,7 @@ const SavePlaces = () => {
                     <Input placeholder="City" />
                   </Form.Item>
                 </Col>
-                <Col style={{ marginBottom: '20px' }} md={12} sm={12} xs={24}>
+                <Col style={{ marginBottom: '20px' }} md={12} sm={24} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Transactions Details">
                     {/* <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '} */}
                     <Form.Item initialValue="Articles" name="articles">
@@ -319,7 +319,7 @@ const SavePlaces = () => {
                       type="disable"
                     />
                     <br /> <br />
-                    <Button onClick={handleContactInfo} size="large" type="primary">
+                    <Button onClick={handleContactInfo} size="default" type="primary">
                       {!edit ? 'Add New' : 'Update'}
                     </Button>
                   </Cards>
@@ -429,7 +429,7 @@ const SavePlaces = () => {
                       </Form.Item>
                     </Col>
                   </Row>
-                  <Row gutter={24} style={{ margin: '0 auto', justifyContent: 'center' }}>
+                  {/* <Row gutter={24} style={{ margin: '0 auto', justifyContent: 'center' }}>
                     <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
                       {!edit ? 'Save' : 'Update'}
                     </Button>
@@ -442,15 +442,32 @@ const SavePlaces = () => {
                     <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
                       {!edit ? 'cancel' : 'Update'}
                     </Button>
+                  </Row> */}
+                  <Divider />
+                  <Row gutter={24} style={{ justifyContent: 'center' }}>
+                    <Col md={6} sm={12}>
+                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                        Save
+                      </Button>
+                    </Col>
+                    <Col md={6} sm={12}>
+                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                        Origional Print
+                      </Button>
+                    </Col>
+                    <Col md={6} sm={12}>
+                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                        Print Without Value
+                      </Button>
+                    </Col>
+                    <Col md={6} sm={12}>
+                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                        Cancel
+                      </Button>
+                    </Col>
                   </Row>
                 </Cards>
               </Row>
-
-              {/* <Form.Item label="">
-                <Button type="primary" htmlType="submit">
-                  Add Customer
-                </Button>
-              </Form.Item> */}
             </Form>
           </BasicFormWrapper>
         </Cards>

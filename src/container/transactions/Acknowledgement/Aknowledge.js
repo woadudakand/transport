@@ -169,7 +169,7 @@ const SavePlaces = () => {
             <Form form={form} name="aknowledge" onFinish={handleFinish}>
               <Row gutter={24}>
                 {/* <div style={{display: 'flex', justifyContent: "space-between"}}> */}
-                <Col md={18} sm={12} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                <Col md={18} sm={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Form.Item name="from" label="From" style={{ width: '100%', marginRight: '15px' }}>
                     <DatePicker
                       defaultValue={moment('01/01/2015', dateFormatList[0])}
@@ -189,7 +189,7 @@ const SavePlaces = () => {
                   </Button>
                 </Col>
                 {/* </div> */}
-                <Col md={6} sm={12} style={{ margin: 'auto' }}>
+                <Col md={6} sm={24} style={{ margin: 'auto' }}>
                   <Radio.Group onChange={onRadioChange} value={radioValue}>
                     {/* <Space direction="vertical"> */}
                     <Radio value={1}>All</Radio>
@@ -201,7 +201,7 @@ const SavePlaces = () => {
               </Row>
               <Divider />
               <Row gutter={24}>
-                <Col md={8}>
+                <Col md={8} sm={12}>
                   <Form.Item name="srNo" label="SR No:">
                     <Input placeholder="SR No: " />
                   </Form.Item>
@@ -219,7 +219,7 @@ const SavePlaces = () => {
                   </Form.Item>
                   <Checkbox onChange={onCheckChange}>Given To Driver</Checkbox>
                 </Col>
-                <Col md={8}>
+                <Col md={8} sm={12}>
                   <Form.Item name="freightNo" label="freight Memo No:">
                     <Input placeholder="freight Memo No: " />
                   </Form.Item>
@@ -237,7 +237,7 @@ const SavePlaces = () => {
                   </Form.Item>
                   {/* <Checkbox onChange={onCheckChange}>Given To Driver</Checkbox> */}
                 </Col>
-                <Col md={8}>
+                <Col md={8} sm={24}>
                   <Form.Item name="wayBill" label="Way Bill No:">
                     <Input placeholder="Way Bill No: " />
                   </Form.Item>
@@ -272,13 +272,13 @@ const SavePlaces = () => {
               </Row>
               <br />
               <Row gutter={24}>
-                <Col md={12}>
-                  <Button style={{ margin: 'auto', width: '100%' }} type="primary">
+                <Col md={12} sm={12}>
+                  <Button onClick={handleChange} style={{ margin: 'auto', width: '100%' }} type="primary">
                     Add
                   </Button>
                 </Col>
-                <Col md={12}>
-                  <Button style={{ margin: 'auto', width: '100%' }} type="primary">
+                <Col md={12} sm={12}>
+                  <Button onClick={handleChange} style={{ margin: 'auto', width: '100%' }} type="primary">
                     Cancle
                   </Button>
                 </Col>

@@ -285,7 +285,7 @@ const SavePlaces = () => {
                 </Cards>
               </Row>
 
-              <Form.Item label="">
+              {/* <Form.Item label="">
                 <Button onClick={handleContactInfo} style={{ margin: '20px' }} type="primary">
                   Save
                 </Button>
@@ -295,7 +295,24 @@ const SavePlaces = () => {
                 <Button onClick={handleContactInfo} style={{ margin: '20px' }} type="primary">
                   Cancel
                 </Button>
-              </Form.Item>
+              </Form.Item> */}
+              <Row gutter={24} style={{ justifyContent: 'center' }}>
+                <Col md={8} sm={12}>
+                  <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleChange} type="primary">
+                    Save
+                  </Button>
+                </Col>
+                <Col md={8} sm={12}>
+                  <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleChange} type="primary">
+                    Origional Print
+                  </Button>
+                </Col>
+                <Col md={8} sm={12}>
+                  <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleChange} type="primary">
+                    Cancel
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </BasicFormWrapper>
         </Cards>

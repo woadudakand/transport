@@ -1,4 +1,5 @@
 import React, { useState, useEffect } from 'react';
+// import Radium, {StyleRoot} from 'radium';
 import { Row, Col, Table, Select } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { useLocation, useHistory } from 'react-router-dom';
@@ -91,6 +92,14 @@ const LorryReceipt = () => {
     onChange: onSelectChange,
   };
 
+  // Inline Styling
+  // const branchStyle = {
+  //   width: 'auto',
+  //   '@media (max-width: 768px)': {
+  //     width: '100%',
+  //   },
+  // };
+
   return (
     <>
       <PageHeader
@@ -109,7 +118,7 @@ const LorryReceipt = () => {
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <div className="left">
             <p>Branch:</p>
-            <Select style={{ width: 200 }} defaultValue="Kaij">
+            <Select style={{ width: 200 }} defaultValue="Select a Branch">
               <Select.Option value="kaij">Kaij</Select.Option>
               <Select.Option value="Pune">Pune</Select.Option>
             </Select>

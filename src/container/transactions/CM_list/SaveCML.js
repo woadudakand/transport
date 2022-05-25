@@ -215,12 +215,12 @@ const SavePlaces = () => {
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="lrNo" label="LR No:">
                         <Input placeholder="LR No: " type="number" />
                       </Form.Item>
                     </Col>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="date" label="Date">
                         <DatePicker style={{ width: '100%' }} placeholder="date" />
                       </Form.Item>
@@ -234,12 +234,12 @@ const SavePlaces = () => {
                     <Input placeholder="Consignee" />
                   </Form.Item>
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="from" label="From">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="to" label="To">
                         <Input placeholder="" />
                       </Form.Item>
@@ -247,12 +247,12 @@ const SavePlaces = () => {
                   </Row>
                   <br />
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="gstNo" label="GST No:">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="payable" label="GST Payable By:">
                         <Input placeholder="" />
                       </Form.Item>
@@ -262,12 +262,12 @@ const SavePlaces = () => {
 
                 <Col style={{ marginBottom: '20px' }} md={12} sm={12}>
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="freight" label="Fright">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="osc" label="O.S.C">
                         <Input placeholder="" />
                       </Form.Item>
@@ -275,12 +275,12 @@ const SavePlaces = () => {
                   </Row>
                   <br />
                   <Row gutter={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="hamali" label="Hamali">
                         <Input placeholder="" />
                       </Form.Item>
                     </Col>
-                    <Col md={12}>
+                    <Col md={12} sm={12}>
                       <Form.Item name="otherCharge" label="Other Charge">
                         <Input placeholder="" />
                       </Form.Item>
@@ -376,7 +376,7 @@ const SavePlaces = () => {
                 </Cards>
               </Row>
 
-              <Form.Item label="">
+              {/* <Form.Item label="">
                 <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
                   Save
                 </Button>
@@ -386,7 +386,24 @@ const SavePlaces = () => {
                 <Button onChange={handleChange} style={{ margin: '20px' }} type="primary">
                   Cancel
                 </Button>
-              </Form.Item>
+              </Form.Item> */}
+              <Row gutter={24} style={{ justifyContent: 'center' }}>
+                <Col md={8} sm={12}>
+                  <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleChange} type="primary">
+                    Save
+                  </Button>
+                </Col>
+                <Col md={8} sm={12}>
+                  <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleChange} type="primary">
+                    Origional Print
+                  </Button>
+                </Col>
+                <Col md={8} sm={12}>
+                  <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleChange} type="primary">
+                    Cancel
+                  </Button>
+                </Col>
+              </Row>
             </Form>
           </BasicFormWrapper>
         </Cards>

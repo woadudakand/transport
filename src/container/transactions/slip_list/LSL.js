@@ -104,7 +104,7 @@ const LorryReceipt = () => {
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <div className="left">
             <p>Branch:</p>
-            <Select style={{ width: 200 }} defaultValue="Kaij">
+            <Select style={{ width: 200 }} defaultValue="Select a Branch">
               <Select.Option value="kaij">Kaij</Select.Option>
               <Select.Option value="Pune">Pune</Select.Option>
             </Select>
