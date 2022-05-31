@@ -193,7 +193,7 @@ const TopMenu = () => {
 
               <ul className="subMenu">
                 <li>
-                  <NavLink to={`${path}/lorryReceipt`} onClick={addParentActive}>
+                  <NavLink to={`${path}/lorryReceiptRegister`} onClick={addParentActive}>
                     Lorry Receipt Register
                   </NavLink>
                 </li>

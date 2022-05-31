@@ -177,12 +177,12 @@ const SavePlaces = () => {
           <BasicFormWrapper>
             <Form form={form} name="billList" onFinish={handleFinish}>
               <Row gutter={24}>
-                <Col md={6} sm={12}>
+                {/* <Col md={4} sm={12}>
                   <Form.Item name="billNo" label="Bill No:" md={6}>
                     <Input placeholder="Bill No" />
                   </Form.Item>
                 </Col>
-                <Col md={6} sm={12}>
+                <Col md={8} sm={12}>
                   <Form.Item name="billDate" label="Bill Date">
                     <DatePicker defaultValue={moment('10/02/2015', dateFormatList[0])} format={dateFormatList} />
                   </Form.Item>
@@ -198,7 +198,7 @@ const SavePlaces = () => {
                     </Select>
                   </Form.Item>
                 </Col>
-                <Col md={6} sm={12} style={{ margin: 'auto' }}>
+                <Col md={4} sm={12} style={{ margin: 'auto' }}>
                   <Button
                     onClick={handleContactInfo}
                     style={{ margin: 'auto', padding: '20px', width: '100%' }}
@@ -206,7 +206,34 @@ const SavePlaces = () => {
                   >
                     Show LR
                   </Button>
+                </Col> */}
+
+                {/* <Col md={18} style={{display: 'flex', justifyContent: 'space-between', width: '100%'}}>
+                  <Form.Item name="billNo" label="Bill No:">
+                    <Input placeholder="Bill No" />
+                  </Form.Item>
+                  <Form.Item name="billDate" label="Bill Date">
+                    <DatePicker defaultValue={moment('10/02/2015', dateFormatList[0])} format={dateFormatList} />
+                  </Form.Item>
+                  <Form.Item initialValue="" name="customerNames" label="Customer Names">
+                    <Select>
+                      <Select.Option value="">Customer</Select.Option>
+                      <Select.Option value="Ravi">Ravi</Select.Option>
+                      <Select.Option value="Amit">Amit</Select.Option>
+                      <Select.Option value="Ovi">Ovi</Select.Option>
+                      <Select.Option value="anyone">anyone</Select.Option>
+                    </Select>
+                  </Form.Item>
                 </Col>
+                <Col md={6}>
+                  <Button
+                    onClick={handleContactInfo}
+                    style={{ margin: 'auto', padding: '20px', width: '100%' }}
+                    type="primary"
+                  >
+                    Show LR
+                  </Button>
+                </Col> */}
               </Row>
               <br />
               <Row gutter={24}>
@@ -258,11 +285,12 @@ const SavePlaces = () => {
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="dueDate" label="Due Date">
-                      <DatePicker
+                      {/* <DatePicker
                         size="small"
                         defaultValue={moment('23/05/2017', dateFormatList[0])}
                         format={dateFormatList}
-                      />
+                      /> */}
+                      <DatePicker placeholder="date" />
                     </Form.Item>
                   </Cards>
                 </Col>

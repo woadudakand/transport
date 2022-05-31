@@ -44,6 +44,8 @@ const SaveMT = lazy(() => import('../../container/transactions/Money_Transfer/Sa
 const PettyCashHistory = lazy(() => import('../../container/transactions/ptHistory/PettyCashHistory'));
 const SavePCH = lazy(() => import('../../container/transactions/ptHistory/SavePCH'));
 
+const LorryReceiptRegister = lazy(() => import('../../container/Reports/LR_register/LR_register'));
+
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
   return (
@@ -90,6 +92,8 @@ const DashboardRoutes = () => {
       <Route path={`${path}/save-mt`} component={SaveMT} />
       <Route path={`${path}/pettyCashHistory`} component={PettyCashHistory} />
       <Route path={`${path}/save-pch`} component={SavePCH} />
+
+      <Route path={`${path}/lorryReceiptRegister`} component={LorryReceiptRegister} />
     </Switch>
   );
 };

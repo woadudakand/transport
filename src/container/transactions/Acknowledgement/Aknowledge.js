@@ -168,7 +168,6 @@ const SavePlaces = () => {
           <BasicFormWrapper>
             <Form form={form} name="aknowledge" onFinish={handleFinish}>
               <Row gutter={24}>
-                {/* <div style={{display: 'flex', justifyContent: "space-between"}}> */}
                 <Col md={18} sm={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
                   <Form.Item name="from" label="From" style={{ width: '100%', marginRight: '15px' }}>
                     <DatePicker
