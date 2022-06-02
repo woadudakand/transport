@@ -3,7 +3,6 @@ import { Row, Col, Table, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
-import qs from 'qs';
 import SaveArticle from './SaveArticles';
 import UpdateArticle from './UpdateArticles';
 import { Main, TableWrapper } from '../../styled';
@@ -30,60 +29,6 @@ const Articles = () => {
   const [visibleUpdate, setVisibleUpdate] = useState(false);
   const [updateArticle, setUpdateArticle] = useState({});
 
-  const [pagination, setPagination] = useState({
-    data: [],
-    pagi: {
-      current: 1,
-      pageSize: 1,
-    },
-    loading: false,
-  });
-
-  const getRandomuserParams = params => {
-    return {
-      results: params.pagination.pageSize,
-      page: params.pagination.current,
-      total: 100,
-      ...params,
-    };
-  };
-
-  const fetch = useCallback((params = {}) => {
-    console.log(getRandomuserParams(params));
-    // fetch(`https://randomuser.me/api?${qs.stringify(getRandomuserParams(params))}`)
-    //   .then(res => res.json())
-    //   .then(data => {
-    //     console.log(data);
-    //     setPagination({
-    //       loading: false,
-    //       data: data.results,
-    //       pagi: {
-    //         ...params.pagination,
-    //         total: 200,
-    //       },
-    //     });
-    //   });
-  }, []);
-
-  useEffect(() => {
-    let unmounted = false;
-    if (!unmounted) {
-      const { pagi } = pagination;
-      fetch({ pagination: pagi });
-    }
-
-    return () => (unmounted = true);
-  }, [fetch, pagination]);
-
-  const handleTableChange = (pagi, filters, sorter) => {
-    fetch({
-      sortField: sorter.field,
-      sortOrder: sorter.order,
-      pagination: pagi,
-      ...filters,
-    });
-  };
-
   const dispatch = useDispatch();
   const { articles, isLoader } = useSelector(state => {
     return {
@@ -91,6 +36,44 @@ const Articles = () => {
       isLoader: state.articles.loading,
     };
   });
+
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 1,
+  });
+
+  const fetch = useCallback(
+    (params = {}) => {
+      if (dispatch) {
+        dispatch(
+          getArticlesDispatch(params.current, params.pageSize, total =>
+            setPagination({
+              ...pagination,
+              total,
+            }),
+          ),
+        );
+        dispatch(getBranchListDispatch());
+      }
+    },
+    [dispatch],
+  );
+
+  useEffect(() => {
+    let unmounted = false;
+    if (!unmounted) {
+      fetch({ pagination });
+    }
+
+    return () => (unmounted = true);
+  }, [fetch]);
+
+  const handleTableChange = (pagi, filters) => {
+    fetch({
+      pagination: pagi,
+      ...filters,
+    });
+  };
 
   useEffect(() => {
     if (window.innerWidth <= 375) {
@@ -167,13 +150,6 @@ const Articles = () => {
     onChange: onSelectChange,
   };
 
-  useEffect(() => {
-    if (dispatch) {
-      dispatch(getArticlesDispatch());
-      dispatch(getBranchListDispatch());
-    }
-  }, [dispatch]);
-
   const handleSearch = value => {
     dispatch(getArticleDispatch(value));
   };
@@ -218,7 +194,7 @@ const Articles = () => {
                 <Table
                   rowSelection={rowSelection}
                   className="table-responsive"
-                  pagination={pagination.pagi}
+                  pagination={pagination}
                   dataSource={dataSource}
                   columns={columns}
                   onChange={handleTableChange}

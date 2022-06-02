@@ -94,11 +94,11 @@ const getBranchesDispatch = () => {
   };
 };
 
-const getBranchListDispatch = () => {
+const getBranchListDispatch = (perPage = 10, currentPage = 1) => {
   return async dispatch => {
     try {
       dispatch(getBranchListBegin());
-      const res = await DataService.get(`/branch/list`);
+      const res = await DataService.get(`/branch/list?perPage=${perPage}&&currentPage=${currentPage}`);
 
       if (res.data.status === 200) {
         await dispatch(

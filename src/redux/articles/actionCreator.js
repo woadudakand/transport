@@ -58,11 +58,11 @@ const articlesAddDispatch = (articles, onCancel) => {
   };
 };
 
-const getArticlesDispatch = () => {
+const getArticlesDispatch = (perPage = 10, currentPage = 1, callback) => {
   return async dispatch => {
     try {
       dispatch(getArticleBegin());
-      const res = await DataService.get(`/articles`);
+      const res = await DataService.get(`/articles?perPage=${perPage}&&currentPage=${currentPage}`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -72,6 +72,8 @@ const getArticlesDispatch = () => {
             type: res.data.type,
           }),
         );
+
+        callback(res.data.pagination.total);
       } else {
         await dispatch(
           getArticleErr({
