@@ -40,54 +40,39 @@ const LorryReceiptRegister = () => {
 
   const columns = [
     {
-      title: 'SN',
+      title: 'Sr No',
       dataIndex: 'sn',
       key: 'sn',
     },
     {
-      title: 'LR No',
-      dataIndex: 'lrNo',
-      key: 'lrNo',
+      title: 'Bill No',
+      dataIndex: 'billNo',
+      key: 'billNo',
     },
     {
-      title: 'Consign Date',
-      dataIndex: 'consignDate',
-      key: 'consignDate',
+      title: 'Date',
+      dataIndex: 'date',
+      key: 'date',
     },
     {
-      title: 'Consigner Name',
-      dataIndex: 'consignerName',
-      key: 'consignerName',
+      title: 'Customer Name',
+      dataIndex: 'customerName',
+      key: 'customerName',
     },
     {
-      title: 'Consignee Name',
-      dataIndex: 'consigneeName',
-      key: 'consigneeName',
+      title: 'Customer Address',
+      dataIndex: 'customerAddress',
+      key: 'customerAddress',
     },
     {
-      title: 'From',
-      dataIndex: 'from',
-      key: 'from',
+      title: 'Bill Amount',
+      dataIndex: 'billAmount',
+      key: 'billAmount',
     },
     {
-      title: 'To',
-      dataIndex: 'to',
-      key: 'to',
-    },
-    {
-      title: 'Payment Mode',
-      dataIndex: 'paymentMode',
-      key: 'paymentMode',
-    },
-    {
-      title: 'Total Qty',
-      dataIndex: 'totalQty',
-      key: 'totalQty',
-    },
-    {
-      title: 'Grand Total',
-      dataIndex: 'grandTotal',
-      key: 'grandTotal',
+      title: 'Out Standing',
+      dataIndex: 'outStanding',
+      key: 'outStanding',
     },
     {
       title: 'Status',
@@ -97,12 +82,12 @@ const LorryReceiptRegister = () => {
   ];
 
   const dateFormatList = ['DD/MM/YYYY', 'DD/MM/YY'];
-  const [radioValue, setRadioValue] = useState(1);
+  // const [radioValue, setRadioValue] = useState(1);
 
-  const onRadioChange = e => {
-    console.log('radio checked', e.target.value);
-    setRadioValue(e.target.value);
-  };
+  // const onRadioChange = e => {
+  //   console.log('radio checked', e.target.value);
+  //   setRadioValue(e.target.value);
+  // };
 
   const handleChange = e => {
     // setInfo({
@@ -127,7 +112,7 @@ const LorryReceiptRegister = () => {
 
   return (
     <>
-      <PageHeader ghost title="Lorry Receipt Register" />
+      <PageHeader ghost title="Bill Register" />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
@@ -144,7 +129,7 @@ const LorryReceiptRegister = () => {
               <BasicFormWrapper>
                 <Form form={form} name="aknowledge" onFinish={handleFinish}>
                   <Row gutter={24}>
-                    <Col md={18} sm={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
+                    <Col md={16} sm={24} style={{ display: 'flex', justifyContent: 'space-between' }}>
                       <Form.Item name="from" label="From" style={{ width: '100%', marginRight: '15px' }}>
                         <DatePicker
                           defaultValue={moment('01/01/2015', dateFormatList[0])}
@@ -162,23 +147,60 @@ const LorryReceiptRegister = () => {
                       {/* <Button style={{ margin: 'auto 30px' }} type="primary">
                         Go
                       </Button> */}
+                      {/* <Form.Item initialValue="" name="customer" label="Customer">
+                        <Select>
+                          <Select.Option value="">Select Customer</Select.Option>
+                          <Select.Option value="Ravi">Ravi</Select.Option>
+                          <Select.Option value="Amit">Amit</Select.Option>
+                          <Select.Option value="Ovi">Ovi</Select.Option>
+                          <Select.Option value="anyone">anyone</Select.Option>
+                        </Select>
+                      </Form.Item> */}
                     </Col>
-                    <Col md={6} sm={24} style={{ margin: 'auto' }}>
-                      <Radio.Group onChange={onRadioChange} value={radioValue}>
-                        {/* <Space direction="vertical"> */}
-                        <Radio value={1}>All</Radio>
-                        <Radio value={2}>To Pay</Radio>
-                        <Radio value={3}>Paid</Radio>
-                        <Radio value={4}>TTB</Radio>
-                        {/* </Space> */}
-                      </Radio.Group>
+                    <Col md={8} sm={12} style={{ width: '100%' }}>
+                      <Form.Item initialValue="" name="customerName" label="Customer Name">
+                        <Select>
+                          <Select.Option value="">Select Customer</Select.Option>
+                          <Select.Option value="Ravi">Ravi</Select.Option>
+                          <Select.Option value="Amit">Amit</Select.Option>
+                          <Select.Option value="Ovi">Ovi</Select.Option>
+                          <Select.Option value="anyone">anyone</Select.Option>
+                        </Select>
+                      </Form.Item>
                     </Col>
                   </Row>
                   <Row justify="space-between" style={{ marginBottom: 20 }}>
-                    <Col md={18} sm={12} style={{ width: '100%' }}>
-                      <Input placeholder="Search Customer" />
+                    {/* <Col md={8} sm={12} style={{ width: '100%' }}>
+                      <Form.Item initialValue="" name="vehicleNumber" label="Vehicle Number">
+                        <Select>
+                          <Select.Option value="">Select Vehicle</Select.Option>
+                          <Select.Option value="vn1">MH 13 AA 1881</Select.Option>
+                          <Select.Option value="vn2">Mh12GH2370</Select.Option>
+                          <Select.Option value="vn3">MH 17 AA 1883</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </Col> */}
+                    <Col md={8} sm={12} style={{ width: '100%' }}>
+                      <Form.Item initialValue="" name="collType" label="Coll Type">
+                        <Select>
+                          <Select.Option value="">Select Type</Select.Option>
+                          <Select.Option value="Bill">Bill</Select.Option>
+                          <Select.Option value="ToPay">To Pay</Select.Option>
+                        </Select>
+                      </Form.Item>
                     </Col>
-                    <Col md={5} sm={11}>
+                    <Col md={8} sm={12} style={{ width: '100%' }}>
+                      <Form.Item initialValue="All" name="status" label="Status">
+                        <Select>
+                          {/* <Select.Option value="">Select Pay Branch</Select.Option> */}
+                          <Select.Option value="All">All</Select.Option>
+                          <Select.Option value="Open">Open</Select.Option>
+                          <Select.Option value="Unloaded">Unloaded</Select.Option>
+                          <Select.Option value="Close">Close</Select.Option>
+                        </Select>
+                      </Form.Item>
+                    </Col>
+                    {/* <Col md={8} sm={11}>
                       <Button
                         size="default"
                         style={{ margin: 'auto', width: '100%' }}
@@ -187,7 +209,7 @@ const LorryReceiptRegister = () => {
                       >
                         Search...
                       </Button>
-                    </Col>
+                    </Col> */}
                   </Row>
                   <Divider />
                 </Form>
