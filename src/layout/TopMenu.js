@@ -208,12 +208,12 @@ const TopMenu = () => {
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={`${path}/localMemoList`} onClick={addParentActive}>
+                  <NavLink to={`${path}/billedLRStatus`} onClick={addParentActive}>
                     Billed LR Status
                   </NavLink>
                 </li>
                 <li>
-                  <NavLink to={`${path}/billList`} onClick={addParentActive}>
+                  <NavLink to={`${path}/paymentReport`} onClick={addParentActive}>
                     Payment Collection Report
                   </NavLink>
                 </li>

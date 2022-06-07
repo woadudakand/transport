@@ -47,6 +47,8 @@ const SavePCH = lazy(() => import('../../container/transactions/ptHistory/SavePC
 const LorryReceiptRegister = lazy(() => import('../../container/Reports/LR_register/LR_register'));
 const LoadingTripSheet = lazy(() => import('../../container/Reports/LT_sheet/LT_sheet'));
 const BillRegister = lazy(() => import('../../container/Reports/billRegister/billRegister'));
+const BLRstatus = lazy(() => import('../../container/Reports/BLR_status/BLR_status'));
+const PaymentReport = lazy(() => import('../../container/Reports/PC_Report/PC_report'));
 
 const DashboardRoutes = () => {
   const { path } = useRouteMatch();
@@ -98,6 +100,7 @@ const DashboardRoutes = () => {
       <Route path={`${path}/lorryReceiptRegister`} component={LorryReceiptRegister} />
       <Route path={`${path}/loadingTripSheet`} component={LoadingTripSheet} />
       <Route path={`${path}/billRegister`} component={BillRegister} />
+      <Route path={`${path}/paymentReport`} component={PaymentReport} />
     </Switch>
   );
 };
