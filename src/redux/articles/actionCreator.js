@@ -58,7 +58,7 @@ const articlesAddDispatch = (articles, onCancel) => {
   };
 };
 
-const getArticlesDispatch = (perPage = 10, currentPage = 1, callback) => {
+const getArticlesDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
       dispatch(getArticleBegin());

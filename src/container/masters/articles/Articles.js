@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useCallback } from 'react';
+import React, { useState, useEffect } from 'react';
 import { Row, Col, Table, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation } from 'react-router-dom';
@@ -39,40 +39,36 @@ const Articles = () => {
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 1,
+    pageSize: 10,
   });
 
-  const fetch = useCallback(
-    (params = {}) => {
-      if (dispatch) {
-        dispatch(
-          getArticlesDispatch(params.current, params.pageSize, total =>
-            setPagination({
-              ...pagination,
-              total,
-            }),
-          ),
-        );
-        dispatch(getBranchListDispatch());
-      }
-    },
-    [dispatch],
-  );
+  useEffect(() => {
+    dispatch(
+      getArticlesDispatch(pagination.current, pagination.pageSize, total =>
+        setPagination({
+          ...pagination,
+          total,
+        }),
+      ),
+    );
+  }, [pathname]);
 
   useEffect(() => {
-    let unmounted = false;
-    if (!unmounted) {
-      fetch({ pagination });
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
     }
+  }, [dispatch]);
 
-    return () => (unmounted = true);
-  }, [fetch]);
-
-  const handleTableChange = (pagi, filters) => {
-    fetch({
-      pagination: pagi,
-      ...filters,
-    });
+  const handleTableChange = ({ current, pageSize }) => {
+    dispatch(
+      getArticlesDispatch(current, pageSize, total =>
+        setPagination({
+          current,
+          pageSize,
+          total,
+        }),
+      ),
+    );
   };
 
   useEffect(() => {
