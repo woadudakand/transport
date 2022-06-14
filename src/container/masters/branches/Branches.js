@@ -10,7 +10,12 @@ import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
-import { getBranchDispatch, deleteBranch, getBranchesDispatch } from '../../../redux/branch/actionCreator';
+import {
+  getBranchDispatch,
+  deleteBranch,
+  getBranchesDispatch,
+  getBranchListDispatch,
+} from '../../../redux/branch/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
 
 const openNotificationWithIcon = () => {
@@ -36,13 +41,38 @@ const Branches = () => {
     };
   });
 
-  const showModalUpdate = data => {
-    setVisibleUpdate(true);
-    setUpdateBranch(data);
-  };
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 2,
+  });
 
-  const onCancelUpdate = () => {
-    setVisibleUpdate(false);
+  useEffect(() => {
+    dispatch(
+      getBranchesDispatch(pagination.current, pagination.pageSize, total =>
+        setPagination({
+          ...pagination,
+          total,
+        }),
+      ),
+    );
+  }, [pathname]);
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
+    }
+  }, [dispatch]);
+
+  const handleTableChange = ({ current, pageSize }) => {
+    dispatch(
+      getBranchesDispatch(current, pageSize, total =>
+        setPagination({
+          current,
+          pageSize,
+          total,
+        }),
+      ),
+    );
   };
 
   useEffect(() => {
@@ -53,14 +83,16 @@ const Branches = () => {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    if (dispatch) {
-      dispatch(getBranchesDispatch());
-    }
-  }, [dispatch]);
+  const showModalUpdate = data => {
+    setVisibleUpdate(true);
+    setUpdateBranch(data);
+  };
+
+  const onCancelUpdate = () => {
+    setVisibleUpdate(false);
+  };
 
   const dataSource = [];
-
   branches.map((branch, key) => {
     const { id, title, abbrevation, code, description } = branch;
     return dataSource.push({
@@ -175,9 +207,10 @@ const Branches = () => {
                 <Table
                   rowSelection={rowSelection}
                   className="table-responsive"
-                  pagination={false}
+                  pagination={pagination}
                   dataSource={dataSource}
                   columns={columns}
+                  onChange={handleTableChange}
                 />
               </TableWrapper>
             </Cards>

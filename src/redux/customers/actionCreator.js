@@ -57,11 +57,11 @@ const customerAddDispatch = customer => {
   };
 };
 
-const getCustomersDispatch = () => {
+const getCustomersDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
       dispatch(getCustomerBegin());
-      const res = await DataService.get(`/customers`);
+      const res = await DataService.get(`/customers?perPage=${perPage}&&currentPage=${currentPage}`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -71,6 +71,8 @@ const getCustomersDispatch = () => {
             type: res.data.type,
           }),
         );
+
+        callback(res.data.pagination.total);
       } else {
         await dispatch(
           getCustomerErr({

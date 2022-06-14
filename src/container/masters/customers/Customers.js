@@ -22,6 +22,7 @@ const Customers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
+
   const dispatch = useDispatch();
   const { customers, isLoading } = useSelector(state => {
     return {
@@ -30,12 +31,20 @@ const Customers = () => {
     };
   });
 
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 2,
+  });
+
   useEffect(() => {
-    if (window.innerWidth <= 375) {
-      setBlock(true);
-    } else {
-      setBlock(false);
-    }
+    dispatch(
+      getCustomersDispatch(pagination.current, pagination.pageSize, total =>
+        setPagination({
+          ...pagination,
+          total,
+        }),
+      ),
+    );
   }, [pathname]);
 
   useEffect(() => {
@@ -43,6 +52,26 @@ const Customers = () => {
       dispatch(getCustomersDispatch());
     }
   }, [dispatch]);
+
+  const handleTableChange = ({ current, pageSize }) => {
+    dispatch(
+      getCustomersDispatch(current, pageSize, total =>
+        setPagination({
+          current,
+          pageSize,
+          total,
+        }),
+      ),
+    );
+  };
+
+  useEffect(() => {
+    if (window.innerWidth <= 375) {
+      setBlock(true);
+    } else {
+      setBlock(false);
+    }
+  }, [pathname]);
 
   const dataSource = [];
 
@@ -169,9 +198,10 @@ const Customers = () => {
                 <Table
                   rowSelection={rowSelection}
                   className="table-responsive"
-                  pagination={false}
+                  pagination={pagination}
                   dataSource={dataSource}
                   columns={columns}
+                  onChange={handleTableChange}
                 />
               </TableWrapper>
             </Cards>

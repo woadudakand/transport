@@ -61,11 +61,11 @@ const branchAddDispatch = (value, callback) => {
   };
 };
 
-const getBranchesDispatch = () => {
+const getBranchesDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
       dispatch(getBranchBegin());
-      const res = await DataService.get(`/branch`);
+      const res = await DataService.get(`/branch?perPage=${perPage}&&currentPage=${currentPage}`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -75,6 +75,8 @@ const getBranchesDispatch = () => {
             type: res.data.type,
           }),
         );
+
+        callback(res.data.pagination.total);
       } else {
         await dispatch(
           getBranchErr({
@@ -84,6 +86,7 @@ const getBranchesDispatch = () => {
         );
       }
     } catch (err) {
+      console.log(err);
       dispatch(
         getBranchErr({
           message: 'Record Submit failed! Please check your connection',
