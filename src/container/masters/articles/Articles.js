@@ -39,7 +39,7 @@ const Articles = () => {
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 10,
+    pageSize: 2,
   });
 
   useEffect(() => {

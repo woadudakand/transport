@@ -59,11 +59,11 @@ const placeAddDispatch = (value, callback) => {
   };
 };
 
-const getPlacesDispatch = () => {
+const getPlacesDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
       dispatch(getPlacesBegin());
-      const res = await DataService.get(`/places`);
+      const res = await DataService.get(`/places?perPage=${perPage}&&currentPage=${currentPage}`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -73,6 +73,8 @@ const getPlacesDispatch = () => {
             type: res.data.type,
           }),
         );
+
+        callback(res.data.pagination.total);
       } else {
         await dispatch(
           getPlacesErr({

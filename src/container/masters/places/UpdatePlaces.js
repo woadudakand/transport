@@ -1,16 +1,21 @@
 import React, { useState, useEffect } from 'react';
 import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
-import { useDispatch } from 'react-redux';
+import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
 import { updatePlace } from '../../../redux/places/actionCreator';
 
-const SavePlaces = ({ visible, onCancel, place }) => {
+const UpdatePlaces = ({ visible, onCancel, place }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const { isLoader } = useSelector(state => {
+    return {
+      isLoader: state.places.loading,
+    };
+  });
   const [state, setState] = useState({
     visible,
     modalType: 'primary',
@@ -62,7 +67,7 @@ const SavePlaces = ({ visible, onCancel, place }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="updatePlace" onFinish={handleOk}>
-            <Button htmlType="submit" size="default" type="primary" key="submit">
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
               Update
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
@@ -89,10 +94,10 @@ const SavePlaces = ({ visible, onCancel, place }) => {
   );
 };
 
-SavePlaces.propTypes = {
+UpdatePlaces.propTypes = {
   visible: propTypes.bool.isRequired,
   onCancel: propTypes.func.isRequired,
   place: propTypes.object,
 };
 
-export default SavePlaces;
+export default UpdatePlaces;

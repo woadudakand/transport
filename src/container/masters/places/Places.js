@@ -12,6 +12,7 @@ import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 import { getPlacesDispatch, getPlaceDispatch, deletePlace } from '../../../redux/places/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 
 const openNotificationWithIcon = () => {
   notification.error({
@@ -21,6 +22,13 @@ const openNotificationWithIcon = () => {
 };
 
 const Places = () => {
+  const [visible, setVisible] = useState(false);
+  const [visibleUpdate, setVisibleUpdate] = useState(false);
+  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
+  const [block, setBlock] = useState(false);
+  const { pathname } = useLocation();
+  const [updatePlace, setUpdatePlace] = useState({});
+
   const dispatch = useDispatch();
   const { places, isLoader } = useSelector(state => {
     return {
@@ -29,12 +37,40 @@ const Places = () => {
     };
   });
 
-  const [visible, setVisible] = useState(false);
-  const [visibleUpdate, setVisibleUpdate] = useState(false);
-  const [selectedRowKeys, setSelectedRowKeys] = useState([]);
-  const [block, setBlock] = useState(false);
-  const { pathname } = useLocation();
-  const [updatePlace, setUpdatePlace] = useState({});
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 2,
+  });
+
+  useEffect(() => {
+    dispatch(
+      getPlacesDispatch(pagination.current, pagination.pageSize, total =>
+        setPagination({
+          ...pagination,
+          total,
+        }),
+      ),
+    );
+  }, [pathname]);
+
+  useEffect(() => {
+    if (dispatch) {
+      // dispatch(getPlacesDispatch());
+      dispatch(getBranchListDispatch());
+    }
+  }, [dispatch]);
+
+  const handleTableChange = ({ current, pageSize }) => {
+    dispatch(
+      getPlacesDispatch(current, pageSize, total =>
+        setPagination({
+          current,
+          pageSize,
+          total,
+        }),
+      ),
+    );
+  };
 
   useEffect(() => {
     if (window.innerWidth <= 375) {
@@ -44,22 +80,16 @@ const Places = () => {
     }
   }, [pathname]);
 
-  useEffect(() => {
-    if (dispatch) {
-      dispatch(getPlacesDispatch());
-    }
-  }, [dispatch]);
-
-  const dataSource = [];
-
-  const onCancelUpdate = () => {
-    setVisibleUpdate(false);
-  };
   const showModalUpdate = data => {
     setVisibleUpdate(true);
     setUpdatePlace(data);
   };
 
+  const onCancelUpdate = () => {
+    setVisibleUpdate(false);
+  };
+
+  const dataSource = [];
   places.map((place, key) => {
     const { id, title, placeabbre } = place;
     return dataSource.push({
@@ -164,6 +194,7 @@ const Places = () => {
                   pagination={false}
                   dataSource={dataSource}
                   columns={columns}
+                  onChange={handleTableChange}
                 />
               </TableWrapper>
             </Cards>

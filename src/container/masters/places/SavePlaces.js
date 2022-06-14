@@ -9,8 +9,8 @@ import { BasicFormWrapper } from '../../styled';
 import { placeAddDispatch } from '../../../redux/places/actionCreator';
 
 const SavePlaces = ({ visible, onCancel }) => {
-  const [form] = Form.useForm();
   const dispatch = useDispatch();
+  const [form] = Form.useForm();
   const { isLoader } = useSelector(state => {
     return {
       isLoader: state.places.loading,
@@ -39,6 +39,7 @@ const SavePlaces = ({ visible, onCancel }) => {
     const customValues = {
       title: values.title,
       placeabbre: values.placeabbre,
+      description: values.description,
       created_at: moment().format('YYYY-MM-DD'),
     };
 
@@ -64,7 +65,7 @@ const SavePlaces = ({ visible, onCancel }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="addPlace" onFinish={handleOk}>
-            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit">
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
               Save
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
