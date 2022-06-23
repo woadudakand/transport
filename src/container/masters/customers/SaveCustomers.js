@@ -52,6 +52,8 @@ const SaveCustomers = () => {
     }
   }, [dispatch]);
 
+  console.log(infoTableData);
+
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
       key,

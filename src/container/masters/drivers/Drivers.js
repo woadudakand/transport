@@ -10,6 +10,7 @@ import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 import { getDriversDispatch, getDriverDispatch, deleteDriver } from '../../../redux/driver/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
+// import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 
 const openNotificationWithIcon = () => {
   notification.error({
@@ -22,8 +23,8 @@ const Drivers = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
-  const dispatch = useDispatch();
 
+  const dispatch = useDispatch();
   const { drivers, isLoading } = useSelector(state => {
     return {
       drivers: state.driver.data,
@@ -31,11 +32,39 @@ const Drivers = () => {
     };
   });
 
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 2,
+  });
+
+  useEffect(() => {
+    dispatch(
+      getDriversDispatch(pagination.current, pagination.pageSize, total =>
+        setPagination({
+          ...pagination,
+          total,
+        }),
+      ),
+    );
+  }, [pathname]);
+
   useEffect(() => {
     if (dispatch) {
       dispatch(getDriversDispatch());
     }
   }, [dispatch]);
+
+  const handleTableChange = ({ current, pageSize }) => {
+    dispatch(
+      getDriversDispatch(current, pageSize, total =>
+        setPagination({
+          current,
+          pageSize,
+          total,
+        }),
+      ),
+    );
+  };
 
   useEffect(() => {
     if (window.innerWidth <= 375) {
@@ -147,9 +176,10 @@ const Drivers = () => {
                 <Table
                   rowSelection={rowSelection}
                   className="table-responsive"
-                  pagination={false}
+                  pagination={pagination}
                   dataSource={dataSource}
                   columns={columns}
+                  onChange={handleTableChange}
                 />
               </TableWrapper>
             </Cards>
