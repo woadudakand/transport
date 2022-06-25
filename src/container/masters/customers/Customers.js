@@ -33,7 +33,7 @@ const Customers = () => {
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 2,
+    pageSize: 10,
   });
 
   useEffect(() => {
