@@ -60,11 +60,11 @@ const driverAddDispatch = (value, callback) => {
   };
 };
 
-const getDriversDispatch = () => {
+const getDriversDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
       dispatch(getDriverBegin());
-      const res = await DataService.get(`/drivers`);
+      const res = await DataService.get(`/drivers?perPage=${perPage}&&currentPage=${currentPage}`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -74,6 +74,8 @@ const getDriversDispatch = () => {
             type: res.data.type,
           }),
         );
+
+        callback(res.data.pagination.total);
       } else {
         await dispatch(
           getDriverErr({

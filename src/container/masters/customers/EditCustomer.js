@@ -59,6 +59,7 @@ const EditCustomers = () => {
     setEdit(key + 1);
   };
 
+  console.log(infoTableData);
   useEffect(() => {
     if (dispatch) {
       dispatch(getBranchListDispatch());

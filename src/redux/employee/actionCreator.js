@@ -64,11 +64,11 @@ const employeeAddDispatch = (data, callback) => {
   };
 };
 
-const getEmployeesDispatch = () => {
+const getEmployeesDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
       dispatch(getEmployeeBegin());
-      const res = await DataService.get(`/employees`);
+      const res = await DataService.get(`/employees?perPage=${perPage}&&currentPage=${currentPage}`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -78,6 +78,8 @@ const getEmployeesDispatch = () => {
             type: res.data.type,
           }),
         );
+
+        callback(res.data.pagination.total);
       } else {
         await dispatch(
           getEmployeeErr({

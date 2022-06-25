@@ -1,7 +1,7 @@
 import React, { useState } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select, Table } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
 import moment from 'moment';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
@@ -15,6 +15,7 @@ const SaveVehicle = () => {
   });
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const history = useHistory();
 
   const handleFinish = values => {
     console.log({
@@ -148,9 +149,23 @@ const SaveVehicle = () => {
     }
   };
 
+  const gotoView = () => {
+    history.replace('/admin/vehicles');
+  };
+
   return (
     <>
-      <PageHeader ghost title="Save Vehicle" />
+      <PageHeader
+        ghost
+        title="Save Vehicle"
+        buttons={[
+          <div key="1" className="page-header-actions">
+            <Button onClick={gotoView} size="small" type="primary">
+              View Page
+            </Button>
+          </div>,
+        ]}
+      />
       <Main>
         <Cards headless>
           <BasicFormWrapper>
