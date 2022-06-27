@@ -1,17 +1,69 @@
 import React, { useState, useEffect } from 'react';
-import { Row, Col, Table } from 'antd';
+import { Row, Col, notification, Table, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
+import DataLoader from '../../../components/utilities/DataLoader';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
+import { getVehiclesDispatch, deleteVehicle, getVehicleDispatch } from '../../../redux/vehicles/actionCreator';
+
+const openNotificationWithIcon = () => {
+  notification.error({
+    message: 'Deleted!',
+    description: 'Please Select minimum one row.',
+  });
+};
 
 const Vehicle = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
+
+  const dispatch = useDispatch();
+  const { vehicles, isLoading } = useSelector(state => {
+    return {
+      vehicles: state.vehicle.vehicles,
+      isLoading: state.vehicle.loading,
+    };
+  });
+
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 2,
+  });
+
+  useEffect(() => {
+    dispatch(
+      getVehiclesDispatch(pagination.current, pagination.pageSize, total =>
+        setPagination({
+          ...pagination,
+          total,
+        }),
+      ),
+    );
+  }, [pathname]);
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getVehiclesDispatch());
+    }
+  }, [dispatch]);
+
+  const handleTableChange = ({ current, pageSize }) => {
+    dispatch(
+      getVehiclesDispatch(current, pageSize, total =>
+        setPagination({
+          current,
+          pageSize,
+          total,
+        }),
+      ),
+    );
+  };
 
   useEffect(() => {
     if (window.innerWidth <= 375) {
@@ -21,38 +73,61 @@ const Vehicle = () => {
     }
   }, [pathname]);
 
-  const dataSource = [
-    {
-      key: '1',
-      sn: 1,
-      vNo: 'MH 13 AA 1881',
-      OAddress: 'Hadpsar',
-      owner: 'Ravis',
-      type: 'Heavy',
+  // const dataSource = [
+  //   {
+  //     key: '1',
+  //     sn: 1,
+  //     vNo: 'MH 13 AA 1881',
+  //     OAddress: 'Hadpsar',
+  //     owner: 'Ravis',
+  //     type: 'Heavy',
+  //     action: (
+  //       <div className="table-actions">
+  //         <Link to="#" className="edit">
+  //           <FeatherIcon icon="edit" size={14} />
+  //         </Link>
+  //       </div>
+  //     ),
+  //   },
+  //   {
+  //     key: '2',
+  //     sn: 2,
+  //     vNo: 'MH12GH2370',
+  //     OAddress: 'Hadpsar',
+  //     owner: 'sastri',
+  //     type: 'Heavy',
+  //     action: (
+  //       <div className="table-actions">
+  //         <Link to="#" className="edit">
+  //           <FeatherIcon icon="edit" size={14} />
+  //         </Link>
+  //       </div>
+  //     ),
+  //   },
+  // ];
+
+  const dataSource = [];
+
+  vehicles.map((vehicle, key) => {
+    const { customer_name, correspondence_address, id, customer_email, city, telephone } = vehicle;
+    return dataSource.push({
+      key: id,
+      sn: key + 1,
+      name: customer_name,
+      address: correspondence_address,
+      email: customer_email,
+      city,
+      telephone,
+      lrCreate: '15',
       action: (
         <div className="table-actions">
-          <Link to="#" className="edit">
+          <Link to={`/admin/update-vehicles/${id}`} className="edit">
             <FeatherIcon icon="edit" size={14} />
           </Link>
         </div>
       ),
-    },
-    {
-      key: '2',
-      sn: 2,
-      vNo: 'MH12GH2370',
-      OAddress: 'Hadpsar',
-      owner: 'sastri',
-      type: 'Heavy',
-      action: (
-        <div className="table-actions">
-          <Link to="#" className="edit">
-            <FeatherIcon icon="edit" size={14} />
-          </Link>
-        </div>
-      ),
-    },
-  ];
+    });
+  });
 
   const columns = [
     {
@@ -101,8 +176,21 @@ const Vehicle = () => {
     onChange: onSelectChange,
   };
 
+  const handleDeleted = async () => {
+    if (selectedRowKeys.length) {
+      dispatch(deleteVehicle(selectedRowKeys.toString()));
+    } else {
+      openNotificationWithIcon();
+    }
+  };
+
+  const handleSearch = value => {
+    dispatch(getVehicleDispatch(value));
+  };
+
   return (
     <>
+      {isLoading ? <DataLoader /> : null}
       <PageHeader
         ghost
         title="Vehicle List"
@@ -117,10 +205,12 @@ const Vehicle = () => {
       />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <AutoComplete placeholder="Search..." onSearch={data => console.log(data)} width="200px" patterns />
-          <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
-            Delete
-          </Button>
+          <AutoComplete placeholder="Search..." onSearch={handleSearch} width="200px" patterns />
+          <Popconfirm title="Are you sure to delete this row?" onConfirm={handleDeleted} okText="Yes" cancelText="No">
+            <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+              Delete
+            </Button>
+          </Popconfirm>
         </Row>
 
         <Row>
@@ -130,9 +220,10 @@ const Vehicle = () => {
                 <Table
                   rowSelection={rowSelection}
                   className="table-responsive"
-                  pagination={false}
+                  pagination={pagination}
                   dataSource={dataSource}
                   columns={columns}
+                  onChange={handleTableChange}
                 />
               </TableWrapper>
             </Cards>

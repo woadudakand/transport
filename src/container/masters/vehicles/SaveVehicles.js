@@ -1,12 +1,15 @@
-import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Col, DatePicker, Form, Input, Row, Select, Table, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
+import { vehicleAddDispatch } from '../../../redux/vehicles/actionCreator';
 
 const SaveVehicle = () => {
   const [form] = Form.useForm();
@@ -16,16 +19,29 @@ const SaveVehicle = () => {
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const history = useHistory();
+  const dispatch = useDispatch();
+  const { branches, isLoading } = useSelector(state => {
+    return {
+      branches: state.branches.list,
+      isLoading: state.vehicle.loading,
+    };
+  });
 
-  const handleFinish = values => {
-    console.log({
-      ...values,
-      openBalance: {
-        balance: values.oBalance,
-        card: values.oCard,
-      },
-      info: dataSource,
-    });
+  const handleFinish = async values => {
+    // console.log({
+    //   ...values,
+    //   openBalance: {
+    //     balance: values.oBalance,
+    //     card: values.oCard,
+    //   },
+    //   info: dataSource,
+    // });
+    dispatch(
+      vehicleAddDispatch({
+        vehicles: { ...values, created_at: moment().format('YYYY-MM-DD') },
+        vehicleReferences: dataSource,
+      }),
+    );
   };
   const infoTableData = [];
 
@@ -38,6 +54,14 @@ const SaveVehicle = () => {
     setInfo(data);
     setEdit(key + 1);
   };
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
+    }
+  }, [dispatch]);
+
+  console.log(infoTableData);
 
   dataSource.map(({ tName, amount, pDate, eDate, description }, key) => {
     return infoTableData.push({
@@ -107,6 +131,7 @@ const SaveVehicle = () => {
     setInfo({
       ...info,
       [e.currentTarget.name]: e.currentTarget.value,
+      created_at: moment().format('YYYY-MM-DD'),
     });
   };
 
@@ -290,7 +315,7 @@ const SaveVehicle = () => {
 
               <Form.Item label="">
                 <Button type="primary" htmlType="submit">
-                  Add Vehicle
+                  Add Vehicle {isLoading && <Spin />}
                 </Button>
               </Form.Item>
             </Form>
