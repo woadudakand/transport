@@ -65,6 +65,7 @@ const getPlacesDispatch = (currentPage = 1, perPage = 10, callback) => {
       dispatch(getPlacesBegin());
       const res = await DataService.get(`/places?perPage=${perPage}&&currentPage=${currentPage}`);
 
+      console.log(res.data);
       if (res.data.status === 200) {
         await dispatch(
           getPlacesSuccess({

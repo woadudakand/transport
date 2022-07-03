@@ -1,27 +1,30 @@
 import React, { useState, useEffect } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select, Table, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { Link, useHistory } from 'react-router-dom';
+import { Link, useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-// import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
-import { vehicleAddDispatch } from '../../../redux/vehicles/actionCreator';
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
+import { updateVehicle, getSingleVehicleDispatch } from '../../../redux/vehicles/actionCreator';
 
-const SaveVehicles = () => {
+const EditVehicles = () => {
   const [form] = Form.useForm();
   const [info, setInfo] = useState({});
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
   const history = useHistory();
+  const { id } = useParams();
   const dispatch = useDispatch();
-  const { branches, isLoading } = useSelector(state => {
+
+  const { branches, isLoading, vehicles } = useSelector(state => {
     return {
       branches: state.branches.list,
       isLoading: state.vehicle.loading,
+      vehicles: state.vehicle.vehicles,
     };
   });
 
@@ -39,10 +42,15 @@ const SaveVehicles = () => {
     //   info: dataSource,
     // });
     dispatch(
-      vehicleAddDispatch({
-        vehicles: { ...values, created_at: moment().format('YYYY-MM-DD') },
-        vehicleReferences: dataSource,
-      }),
+      updateVehicle(
+        {
+          vehicles: { ...values, id, created_at: moment().format('YYYY-MM-DD') },
+          vehicleReferences: dataSource,
+        },
+        () => {
+          gotoView();
+        },
+      ),
     );
   };
   const infoTableData = [];
@@ -57,13 +65,21 @@ const SaveVehicles = () => {
     setEdit(key + 1);
   };
 
-  // useEffect(() => {
-  //   if (dispatch) {
-  //     dispatch(getBranchListDispatch());
-  //   }
-  // }, [dispatch]);
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
+      dispatch(getSingleVehicleDispatch(id));
+    }
+  }, [dispatch, id]);
 
-  console.log(infoTableData);
+  useEffect(() => {
+    if (vehicles[0]) {
+      setDataSource(vehicles[0].vehicle_references);
+      form.setFieldsValue({
+        ...vehicles[0],
+      });
+    }
+  }, [vehicles, form]);
 
   dataSource.map(({ tName, amount, pDate, eDate, description }, key) => {
     return infoTableData.push({
@@ -191,7 +207,7 @@ const SaveVehicles = () => {
         ]}
       />
       <Main>
-        {/* <Row justify="space-between" style={{ marginBottom: 20 }}>
+        <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
           <Form form={form} name="vehicle" onFinish={handleFinish}>
             <Form.Item
@@ -217,7 +233,7 @@ const SaveVehicles = () => {
               </Select>
             </Form.Item>
           </Form>
-        </Row> */}
+        </Row>
         <Cards headless>
           <BasicFormWrapper>
             <Form form={form} name="createProject" onFinish={handleFinish}>
@@ -341,7 +357,7 @@ const SaveVehicles = () => {
 
               <Form.Item label="">
                 <Button type="primary" htmlType="submit">
-                  Add Vehicle {isLoading && <Spin />}
+                  Update Vehicle {isLoading && <Spin />}
                 </Button>
               </Form.Item>
             </Form>
@@ -352,4 +368,4 @@ const SaveVehicles = () => {
   );
 };
 
-export default SaveVehicles;
+export default EditVehicles;

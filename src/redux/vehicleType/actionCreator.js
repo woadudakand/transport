@@ -10,165 +10,24 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  customerSearch,
-  customerAddBegin,
-  customerAddSuccess,
-  customerAddErr,
-  getCustomerBegin,
-  getCustomerSuccess,
-  getCustomerErr,
+  vTypeSearch,
+  vTypeAddBegin,
+  vTypeAddSuccess,
+  vTypeAddErr,
+  getVtypesBegin,
+  getVtypesSuccess,
+  getVtypesErr,
 } = actions;
 
-const customerAddDispatch = customer => {
+const vTypeAddDispatch = (value, callback) => {
   return async dispatch => {
     try {
-      dispatch(customerAddBegin());
-      const res = await DataService.post('/customers', customer);
+      dispatch(vTypeAddBegin());
+      const res = await DataService.post('/vehicle-type', value);
+      // console.log(res);
       if (res.data.status === 200) {
         await dispatch(
-          customerAddSuccess({
-            result: res.data.data,
-            message: res.data.message,
-            description: res.data.description,
-            type: res.data.type,
-          }),
-        );
-        openNotificationWithIcon('success', res.data.message, res.data.description);
-      } else {
-        await dispatch(
-          customerAddErr({
-            message: res.data.message,
-            description: res.data.description,
-            type: res.data.type,
-          }),
-        );
-        openNotificationWithIcon('error', res.data.message, res.data.description);
-      }
-    } catch (err) {
-      console.log(err);
-      dispatch(
-        customerAddErr({
-          message: 'Record Submit failed! Please check your connection',
-          type: 'error',
-        }),
-      );
-      openNotificationWithIcon('error', 'Registered!', err.toString());
-    }
-  };
-};
-
-const getCustomersDispatch = (currentPage = 1, perPage = 10, callback) => {
-  return async dispatch => {
-    try {
-      dispatch(getCustomerBegin());
-      const res = await DataService.get(`/customers?perPage=${perPage}&&currentPage=${currentPage}`);
-
-      console.log(res.data);
-      if (res.data.status === 200) {
-        await dispatch(
-          getCustomerSuccess({
-            result: res.data.data,
-            message: res.data.message,
-            type: res.data.type,
-          }),
-        );
-
-        callback(res.data.pagination.total);
-      } else {
-        await dispatch(
-          getCustomerErr({
-            message: res.data.message,
-            type: res.data.type,
-          }),
-        );
-      }
-    } catch (err) {
-      dispatch(
-        getCustomerErr({
-          message: 'Record Submit failed! Please check your connection',
-          type: 'error',
-        }),
-      );
-    }
-  };
-};
-
-const deleteCustomer = id => {
-  return async dispatch => {
-    try {
-      dispatch(getCustomerBegin());
-      const res = await DataService.delete(`/customers?id=${id}`);
-      if (res.data.status === 200) {
-        await dispatch(
-          getCustomerSuccess({
-            result: res.data.data,
-            message: res.data.message,
-            description: res.data.description,
-            type: res.data.type,
-          }),
-        );
-        openNotificationWithIcon('success', res.data.message, res.data.description);
-      } else {
-        await dispatch(
-          getCustomerErr({
-            message: res.data.message,
-            description: res.data.description,
-            type: res.data.type,
-          }),
-        );
-        openNotificationWithIcon('error', res.data.message, res.data.description);
-      }
-    } catch (err) {
-      dispatch(
-        getCustomerErr({
-          message: 'Record Submit failed! Please check your connection',
-          type: 'error',
-        }),
-      );
-      openNotificationWithIcon('error', 'Deleted!', err.toString());
-    }
-  };
-};
-
-const getCustomerDispatch = value => {
-  return async dispatch => {
-    try {
-      const res = await DataService.get(`/customers/query?data=${value}`);
-
-      if (res.data.status === 200) {
-        await dispatch(
-          customerSearch({
-            result: res.data.data,
-          }),
-        );
-      } else {
-        await dispatch(
-          getCustomerErr({
-            message: res.data.message,
-            type: res.data.type,
-          }),
-        );
-      }
-    } catch (err) {
-      dispatch(
-        getCustomerErr({
-          message: 'Record Submit failed! Please check your connection',
-          type: 'error',
-        }),
-      );
-    }
-  };
-};
-
-const updateCustomer = (customer, callback) => {
-  return async dispatch => {
-    try {
-      dispatch(customerAddBegin());
-      const res = await DataService.put('/customers', customer);
-
-      if (res.data.status === 200) {
-        await dispatch(
-          customerAddSuccess({
+          vTypeAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -179,7 +38,82 @@ const updateCustomer = (customer, callback) => {
         callback();
       } else {
         await dispatch(
-          customerAddErr({
+          vTypeAddErr({
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+        console.log(res);
+        openNotificationWithIcon('error', res.data.message, res.data.description);
+      }
+    } catch (err) {
+      console.log(err);
+      dispatch(
+        vTypeAddErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+      openNotificationWithIcon('error', 'Registered!', err.toString());
+    }
+  };
+};
+
+const getVtypesDispatch = (currentPage = 1, perPage = 10, callback) => {
+  return async dispatch => {
+    try {
+      dispatch(getVtypesBegin());
+      const res = await DataService.get(`/vehicle-type?perPage=${perPage}&&currentPage=${currentPage}`);
+      console.log(res.data);
+      if (res.data.status === 200) {
+        // console.log(res.data.description);
+        await dispatch(
+          getVtypesSuccess({
+            result: res.data.data.data,
+            message: res.data.data.message,
+            type: res.data.type,
+          }),
+        );
+
+        callback(res.data.pagination.total);
+      } else {
+        await dispatch(
+          getVtypesErr({
+            message: res.data.message,
+            type: res.data.type,
+          }),
+        );
+      }
+    } catch (err) {
+      dispatch(
+        getVtypesErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+    }
+  };
+};
+
+const deleteVtype = id => {
+  return async dispatch => {
+    try {
+      dispatch(getVtypesBegin());
+      const res = await DataService.delete(`/vehicle-type?id=${id}`);
+      if (res.data.status === 200) {
+        await dispatch(
+          getVtypesSuccess({
+            result: res.data.data,
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+        openNotificationWithIcon('success', res.data.message, res.data.description);
+      } else {
+        await dispatch(
+          getVtypesErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -189,7 +123,74 @@ const updateCustomer = (customer, callback) => {
       }
     } catch (err) {
       dispatch(
-        customerAddErr({
+        getVtypesErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+      openNotificationWithIcon('error', 'Deleted!', err.toString());
+    }
+  };
+};
+
+const getVtypeDispatch = value => {
+  return async dispatch => {
+    try {
+      const res = await DataService.get(`/vehicle-type/query?data=${value}`);
+
+      if (res.data.status === 200) {
+        await dispatch(
+          vTypeSearch({
+            result: res.data.data,
+          }),
+        );
+      } else {
+        await dispatch(
+          getVtypesErr({
+            message: res.data.message,
+            type: res.data.type,
+          }),
+        );
+      }
+    } catch (err) {
+      dispatch(
+        getVtypesErr({
+          message: 'Record Submit failed! Please check your connection',
+          type: 'error',
+        }),
+      );
+    }
+  };
+};
+
+const updateVtype = place => {
+  return async dispatch => {
+    try {
+      dispatch(vTypeAddBegin());
+      const res = await DataService.put('/vehicle-type', place);
+      if (res.data.status === 200) {
+        await dispatch(
+          vTypeAddSuccess({
+            result: res.data.data,
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+        openNotificationWithIcon('success', res.data.message, res.data.description);
+      } else {
+        await dispatch(
+          vTypeAddErr({
+            message: res.data.message,
+            description: res.data.description,
+            type: res.data.type,
+          }),
+        );
+        openNotificationWithIcon('error', res.data.message, res.data.description);
+      }
+    } catch (err) {
+      dispatch(
+        vTypeAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -199,44 +200,4 @@ const updateCustomer = (customer, callback) => {
   };
 };
 
-const getSingleCustomerDispatch = id => {
-  return async dispatch => {
-    try {
-      dispatch(getCustomerBegin());
-      const res = await DataService.put(`/customers/single`, { id });
-
-      if (res.data.status === 200) {
-        await dispatch(
-          getCustomerSuccess({
-            result: res.data.data,
-            message: res.data.message,
-            type: res.data.type,
-          }),
-        );
-      } else {
-        await dispatch(
-          getCustomerErr({
-            message: res.data.message,
-            type: res.data.type,
-          }),
-        );
-      }
-    } catch (err) {
-      dispatch(
-        getCustomerErr({
-          message: 'Record Submit failed! Please check your connection',
-          type: 'error',
-        }),
-      );
-    }
-  };
-};
-
-export {
-  getCustomersDispatch,
-  getSingleCustomerDispatch,
-  customerAddDispatch,
-  getCustomerDispatch,
-  deleteCustomer,
-  updateCustomer,
-};
+export { getVtypeDispatch, vTypeAddDispatch, getVtypesDispatch, deleteVtype, updateVtype };

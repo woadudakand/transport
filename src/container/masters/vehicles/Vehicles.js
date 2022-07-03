@@ -33,7 +33,7 @@ const Vehicle = () => {
 
   const [pagination, setPagination] = useState({
     current: 1,
-    pageSize: 2,
+    pageSize: 10,
   });
 
   useEffect(() => {
@@ -109,16 +109,15 @@ const Vehicle = () => {
   const dataSource = [];
 
   vehicles.map((vehicle, key) => {
-    const { customer_name, correspondence_address, id, customer_email, city, telephone } = vehicle;
+    const { vehicle_no, voname, vtype, correspondence_address, id, customer_email, city, telephone } = vehicle;
+    console.log(vehicle_no);
     return dataSource.push({
       key: id,
       sn: key + 1,
-      name: customer_name,
-      address: correspondence_address,
-      email: customer_email,
-      city,
-      telephone,
-      lrCreate: '15',
+      vNo: vehicle_no,
+      owner: voname,
+      oAddress: 'ownar Address',
+      type: vtype,
       action: (
         <div className="table-actions">
           <Link to={`/admin/update-vehicles/${id}`} className="edit">
@@ -128,6 +127,7 @@ const Vehicle = () => {
       ),
     });
   });
+  console.log(vehicles);
 
   const columns = [
     {
@@ -164,7 +164,7 @@ const Vehicle = () => {
   ];
   const history = useHistory();
   const showModal = () => {
-    history.replace('/admin/save-vehicle');
+    history.replace('/admin/save-vehicles');
   };
 
   const onSelectChange = selectedRowKey => {

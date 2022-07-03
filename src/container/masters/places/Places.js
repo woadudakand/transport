@@ -31,6 +31,7 @@ const Places = () => {
 
   const dispatch = useDispatch();
   const { places, isLoader } = useSelector(state => {
+    // console.log(places);
     return {
       places: state.places.places,
       isLoader: state.places.loading,
@@ -92,6 +93,7 @@ const Places = () => {
   const dataSource = [];
   places.map((place, key) => {
     const { id, title, placeabbre } = place;
+    // console.log(place);
     return dataSource.push({
       key: id,
       title,

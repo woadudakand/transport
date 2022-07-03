@@ -19,11 +19,11 @@ const {
   getVehicleErr,
 } = actions;
 
-const vehicleAddDispatch = (value, callback) => {
+const vehicleAddDispatch = vehicle => {
   return async dispatch => {
     try {
       dispatch(vehicleAddBegin());
-      const res = await DataService.post('/vehicles', value);
+      const res = await DataService.post('/vehicle', vehicle);
       // console.log(res);
       if (res.data.status === 200) {
         await dispatch(
@@ -35,7 +35,6 @@ const vehicleAddDispatch = (value, callback) => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
-        callback();
       } else {
         await dispatch(
           vehicleAddErr({
@@ -63,9 +62,11 @@ const getVehiclesDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
       dispatch(getVehicleBegin());
-      const res = await DataService.get(`/vehicles?perPage=${perPage}&&currentPage=${currentPage}`);
+      const res = await DataService.get(`/vehicle?perPage=${perPage}&&currentPage=${currentPage}`);
 
+      console.log(res.data);
       if (res.data.status === 200) {
+        console.log(res.data);
         await dispatch(
           getVehicleSuccess({
             result: res.data.data,
@@ -98,7 +99,7 @@ const deleteVehicle = id => {
   return async dispatch => {
     try {
       dispatch(getVehicleBegin());
-      const res = await DataService.delete(`/vehicles?id=${id}`);
+      const res = await DataService.delete(`/vehicle?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
           getVehicleSuccess({
@@ -134,7 +135,7 @@ const deleteVehicle = id => {
 const getVehicleDispatch = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/vehicles/query?data=${value}`);
+      const res = await DataService.get(`/vehicle/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -161,11 +162,11 @@ const getVehicleDispatch = value => {
   };
 };
 
-const updateVehicles = (value, callback) => {
+const updateVehicle = (vehicle, callback) => {
   return async dispatch => {
     try {
       dispatch(vehicleAddBegin());
-      const res = await DataService.put('/vehicles', value);
+      const res = await DataService.put('/vehicle', vehicle);
 
       if (res.data.status === 200) {
         await dispatch(
@@ -204,7 +205,7 @@ const getSingleVehicleDispatch = id => {
   return async dispatch => {
     try {
       dispatch(getVehicleBegin());
-      const res = await DataService.put(`/vehicles/single`, { id });
+      const res = await DataService.put(`/vehicle/single`, { id });
 
       if (res.data.status === 200) {
         await dispatch(
@@ -238,6 +239,6 @@ export {
   getVehiclesDispatch,
   deleteVehicle,
   getVehicleDispatch,
-  updateVehicles,
+  updateVehicle,
   getSingleVehicleDispatch,
 };

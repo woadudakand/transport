@@ -1,61 +1,60 @@
 import actions from './actions';
 
 const {
-  VEHICLES_ADD_BEGIN,
-  VEHICLES_SEARCH,
-  VEHICLES_ADD_SUCCESS,
-  VEHICLES_ADD_ERR,
-  GET_VEHICLES_BEGIN,
-  GET_VEHICLES_SUCCESS,
-  GET_VEHICLES_ERR,
+  VTYPE_ADD_BEGIN,
+  VTYPE_SEARCH,
+  VTYPE_ADD_SUCCESS,
+  VTYPE_ADD_ERR,
+  GET_VTYPE_BEGIN,
+  GET_VTYPE_SUCCESS,
+  GET_VTYPE_ERR,
 } = actions;
 
 const initState = {
-  vehicles: [],
+  vtype: [],
   loading: false,
   error: null,
 };
 
-const VehiclesReducer = (state = initState, action) => {
+const VtypeReducer = (state = initState, action) => {
   const { type, data, err } = action;
-
   switch (type) {
-    case VEHICLES_SEARCH:
+    case VTYPE_SEARCH:
       return {
         ...state,
-        vehicles: data.result,
+        vtype: data.result,
       };
 
-    case VEHICLES_ADD_BEGIN:
+    case VTYPE_ADD_BEGIN:
       return {
         ...state,
         loading: true,
       };
 
-    case VEHICLES_ADD_SUCCESS:
+    case VTYPE_ADD_SUCCESS:
       return {
         ...state,
-        vehicles: data.result,
+        vtype: data.result,
         loading: false,
       };
-    case VEHICLES_ADD_ERR:
+    case VTYPE_ADD_ERR:
       return {
         ...state,
         error: err,
         loading: false,
       };
-    case GET_VEHICLES_BEGIN:
+    case GET_VTYPE_BEGIN:
       return {
         ...state,
         loading: true,
       };
-    case GET_VEHICLES_SUCCESS:
+    case GET_VTYPE_SUCCESS:
       return {
         ...state,
-        vehicles: data.result,
+        vtype: data.result,
         loading: false,
       };
-    case GET_VEHICLES_ERR:
+    case GET_VTYPE_ERR:
       return {
         ...state,
         error: err,
@@ -65,5 +64,4 @@ const VehiclesReducer = (state = initState, action) => {
       return state;
   }
 };
-
-export default VehiclesReducer;
+export default VtypeReducer;

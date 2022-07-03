@@ -72,7 +72,7 @@ const DashboardRoutes = () => {
       <Route path={`${path}/save-employees`} component={SaveEmployees} />
       <Route path={`${path}/edit-employee/:id`} component={EditEmployee} />
       <Route path={`${path}/vehicles`} component={Vehicles} />
-      <Route path={`${path}/save-vehicle`} component={SaveVehicles} />
+      <Route path={`${path}/save-vehicles`} component={SaveVehicles} />
       <Route path={`${path}/vehiclesType`} component={VehiclesType} />
       <Route path={`${path}/supplier`} component={Supplier} />
       <Route path={`${path}/save-supplier`} component={SaveSupplier} />

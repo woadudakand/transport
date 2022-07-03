@@ -95,6 +95,7 @@ const Customers = () => {
       ),
     });
   });
+  console.log(customers);
 
   const columns = [
     {
