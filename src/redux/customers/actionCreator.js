@@ -63,7 +63,7 @@ const getCustomersDispatch = (currentPage = 1, perPage = 10, callback) => {
       dispatch(getCustomerBegin());
       const res = await DataService.get(`/customers?perPage=${perPage}&&currentPage=${currentPage}`);
 
-      console.log(res.data);
+      console.log(res.data.data);
       if (res.data.status === 200) {
         await dispatch(
           getCustomerSuccess({

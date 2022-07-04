@@ -12,6 +12,7 @@ import driversReducer from './driver/reducers';
 import customersReducer from './customers/reducers';
 import vehiclesReducer from './vehicles/reducers';
 import VtypeReducer from './vehicleType/reducers';
+import SupplierReducer from './supplier/reducers';
 
 const rootReducers = combineReducers({
   users: UsersReducer,
@@ -27,6 +28,7 @@ const rootReducers = combineReducers({
   customer: customersReducer,
   vehicle: vehiclesReducer,
   vtype: VtypeReducer,
+  suppliers: SupplierReducer,
 });
 
 export default rootReducers;

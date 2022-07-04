@@ -109,7 +109,7 @@ const Vehicle = () => {
   const dataSource = [];
 
   vehicles.map((vehicle, key) => {
-    const { vehicle_no, voname, vtype, correspondence_address, id, customer_email, city, telephone } = vehicle;
+    const { vehicle_no, voname, vtype, id } = vehicle;
     console.log(vehicle_no);
     return dataSource.push({
       key: id,

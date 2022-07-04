@@ -10,24 +10,23 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  vehicleSearch,
-  vehicleAddBegin,
-  vehicleAddSuccess,
-  vehicleAddErr,
-  getVehicleBegin,
-  getVehicleSuccess,
-  getVehicleErr,
+  supplierSearch,
+  supplierAddBegin,
+  supplierAddSuccess,
+  supplierAddErr,
+  getSupplierBegin,
+  getSupplierSuccess,
+  getSupplierErr,
 } = actions;
 
-const vehicleAddDispatch = vehicle => {
+const supplierAddDispatch = supplier => {
   return async dispatch => {
     try {
-      dispatch(vehicleAddBegin());
-      const res = await DataService.post('/vehicle', vehicle);
-      // console.log(res);
+      dispatch(supplierAddBegin());
+      const res = await DataService.post('/suplier', supplier);
       if (res.data.status === 200) {
         await dispatch(
-          vehicleAddSuccess({
+          supplierAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -37,7 +36,7 @@ const vehicleAddDispatch = vehicle => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          vehicleAddErr({
+          supplierAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -48,7 +47,7 @@ const vehicleAddDispatch = vehicle => {
     } catch (err) {
       console.log(err);
       dispatch(
-        vehicleAddErr({
+        supplierAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -58,17 +57,16 @@ const vehicleAddDispatch = vehicle => {
   };
 };
 
-const getVehiclesDispatch = (currentPage = 1, perPage = 10, callback) => {
+const getSuppliersDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
-      dispatch(getVehicleBegin());
-      const res = await DataService.get(`/vehicle?perPage=${perPage}&&currentPage=${currentPage}`);
+      dispatch(getSupplierBegin());
+      const res = await DataService.get(`/suplier?perPage=${perPage}&&currentPage=${currentPage}`);
 
-      console.log(res.data);
+      console.log(res.data.data);
       if (res.data.status === 200) {
-        // console.log(res.data);
         await dispatch(
-          getVehicleSuccess({
+          getSupplierSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -78,7 +76,7 @@ const getVehiclesDispatch = (currentPage = 1, perPage = 10, callback) => {
         callback(res.data.pagination.total);
       } else {
         await dispatch(
-          getVehicleErr({
+          getSupplierErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -86,7 +84,7 @@ const getVehiclesDispatch = (currentPage = 1, perPage = 10, callback) => {
       }
     } catch (err) {
       dispatch(
-        getVehicleErr({
+        getSupplierErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -95,14 +93,14 @@ const getVehiclesDispatch = (currentPage = 1, perPage = 10, callback) => {
   };
 };
 
-const deleteVehicle = id => {
+const deleteSupplier = id => {
   return async dispatch => {
     try {
-      dispatch(getVehicleBegin());
-      const res = await DataService.delete(`/vehicle?id=${id}`);
+      dispatch(getSupplierBegin());
+      const res = await DataService.delete(`/suplier?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
-          getVehicleSuccess({
+          getSupplierSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -112,7 +110,7 @@ const deleteVehicle = id => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          getVehicleErr({
+          getSupplierErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -122,7 +120,7 @@ const deleteVehicle = id => {
       }
     } catch (err) {
       dispatch(
-        getVehicleErr({
+        getSupplierErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -132,20 +130,20 @@ const deleteVehicle = id => {
   };
 };
 
-const getVehicleDispatch = value => {
+const getSupplierDispatch = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/vehicle/query?data=${value}`);
-      // console.log(res);
+      const res = await DataService.get(`/suplier/query?data=${value}`);
+
       if (res.data.status === 200) {
         await dispatch(
-          vehicleSearch({
+          supplierSearch({
             result: res.data.data,
           }),
         );
       } else {
         await dispatch(
-          getVehicleErr({
+          getSupplierErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -153,7 +151,7 @@ const getVehicleDispatch = value => {
       }
     } catch (err) {
       dispatch(
-        getVehicleErr({
+        getSupplierErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -162,15 +160,15 @@ const getVehicleDispatch = value => {
   };
 };
 
-const updateVehicle = (vehicle, callback) => {
+const updateSupplier = (supplier, callback) => {
   return async dispatch => {
     try {
-      dispatch(vehicleAddBegin());
-      const res = await DataService.put('/vehicle', vehicle);
+      dispatch(supplierAddBegin());
+      const res = await DataService.put('/suplier', supplier);
 
       if (res.data.status === 200) {
         await dispatch(
-          vehicleAddSuccess({
+          supplierAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -181,7 +179,7 @@ const updateVehicle = (vehicle, callback) => {
         callback();
       } else {
         await dispatch(
-          vehicleAddErr({
+          supplierAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -191,7 +189,7 @@ const updateVehicle = (vehicle, callback) => {
       }
     } catch (err) {
       dispatch(
-        vehicleAddErr({
+        supplierAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -201,15 +199,15 @@ const updateVehicle = (vehicle, callback) => {
   };
 };
 
-const getSingleVehicleDispatch = id => {
+const getSingleSupplierDispatch = id => {
   return async dispatch => {
     try {
-      dispatch(getVehicleBegin());
-      const res = await DataService.put(`/vehicle/single`, { id });
+      dispatch(getSupplierBegin());
+      const res = await DataService.put(`/suplier/single`, { id });
 
       if (res.data.status === 200) {
         await dispatch(
-          getVehicleSuccess({
+          getSupplierSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -217,7 +215,7 @@ const getSingleVehicleDispatch = id => {
         );
       } else {
         await dispatch(
-          getVehicleErr({
+          getSupplierErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -225,7 +223,7 @@ const getSingleVehicleDispatch = id => {
       }
     } catch (err) {
       dispatch(
-        getVehicleErr({
+        getSupplierErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -235,10 +233,10 @@ const getSingleVehicleDispatch = id => {
 };
 
 export {
-  vehicleAddDispatch,
-  getVehiclesDispatch,
-  deleteVehicle,
-  getVehicleDispatch,
-  updateVehicle,
-  getSingleVehicleDispatch,
+  getSuppliersDispatch,
+  getSingleSupplierDispatch,
+  supplierAddDispatch,
+  getSupplierDispatch,
+  deleteSupplier,
+  updateSupplier,
 };

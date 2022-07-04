@@ -38,10 +38,21 @@ const SaveVehicles = () => {
     //   },
     //   info: dataSource,
     // });
+
+    // dispatch(
+    //   vehicleAddDispatch({
+    //     vehicles: { ...values, created_at: moment().format('YYYY-MM-DD') },
+    //     vehicleReferences: dataSource,
+    //   }),
+    // );
     dispatch(
       vehicleAddDispatch({
-        vehicles: { ...values, created_at: moment().format('YYYY-MM-DD') },
-        vehicleReferences: dataSource,
+        ...values,
+        openBalance: {
+          balance: values.oBalance,
+          card: values.oCard,
+        },
+        info: dataSource,
       }),
     );
   };

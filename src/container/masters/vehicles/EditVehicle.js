@@ -197,7 +197,7 @@ const EditVehicles = () => {
     <>
       <PageHeader
         ghost
-        title="Save Vehicle"
+        title="Update Vehicle"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={gotoView} size="small" type="primary">

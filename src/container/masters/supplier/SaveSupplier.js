@@ -1,29 +1,45 @@
-import React, { useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table } from 'antd';
+import React, { useState, useEffect } from 'react';
+import { Col, DatePicker, Form, Input, Row, Select, Table, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { Link } from 'react-router-dom';
+import { Link, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import moment from 'moment';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
+import { supplierAddDispatch } from '../../../redux/supplier/actionCreator';
 
 const SaveSupplier = () => {
   const [form] = Form.useForm();
-  const [info, setInfo] = useState({
-    type: '',
-  });
+  const [info, setInfo] = useState({});
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { branches, isLoading } = useSelector(state => {
+    return {
+      branches: state.branches.list,
+      isLoading: state.suppliers.loading,
+    };
+  });
 
   const handleFinish = values => {
-    console.log({
-      ...values,
-      openBalance: {
-        balance: values.oBalance,
-        card: values.oCard,
-      },
-      info: dataSource,
-    });
+    // console.log({
+    //   ...values,
+    //   openBalance: {
+    //     balance: values.oBalance,
+    //     card: values.oCard,
+    //   },
+    //   info: dataSource,
+    // });
+    dispatch(
+      supplierAddDispatch({
+        suppliers: { ...values, created_at: moment().format('YYYY-MM-DD') },
+        supplierReferences: dataSource,
+      }),
+    );
   };
   const infoTableData = [];
 
@@ -36,6 +52,12 @@ const SaveSupplier = () => {
     setInfo(data);
     setEdit(key + 1);
   };
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
+    }
+  }, [dispatch]);
 
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
@@ -61,6 +83,8 @@ const SaveSupplier = () => {
       ),
     });
   });
+
+  console.log(dataSource);
 
   const columns = [
     {
@@ -116,11 +140,11 @@ const SaveSupplier = () => {
       const newData = dataSource.map((item, index) => {
         if (index === edit - 1) {
           const newItem = item;
-          newItem.tName = info.tName;
-          newItem.amount = info.amount;
-          newItem.pDate = info.pDate;
-          newItem.eDate = info.eDate;
-          newItem.description = info.description;
+          newItem.name = info.name;
+          newItem.address = info.address;
+          newItem.mobile = info.mobile;
+          newItem.email = info.email;
+          newItem.designation = info.designation;
           setEdit(false);
           setInfo({});
           return newItem;
@@ -133,10 +157,51 @@ const SaveSupplier = () => {
     }
   };
 
+  const gotoView = () => {
+    history.replace('/admin/supplier');
+  };
+
   return (
     <>
-      <PageHeader ghost title="Save Vehicle" />
+      <PageHeader
+        ghost
+        title="Save Supplier"
+        buttons={[
+          <div key="1" className="page-header-actions">
+            <Button onClick={gotoView} size="small" type="primary">
+              View Page
+            </Button>
+          </div>,
+        ]}
+      />
       <Main>
+        <Row justify="space-between" style={{ marginBottom: 20 }}>
+          <p />
+          <Form form={form} name="customer" onFinish={handleFinish}>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Select Branch',
+                },
+              ]}
+              name="branchs_id"
+              label=""
+              initialValue=""
+            >
+              <Select style={{ width: '250px' }}>
+                <Select.Option value="">Select Branch</Select.Option>
+                {branches.map(item => {
+                  return (
+                    <Select.Option key={item.id} value={item.id}>
+                      {item.title}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Form>
+        </Row>
         <Cards headless>
           <BasicFormWrapper>
             <Form form={form} name="createProject" onFinish={handleFinish}>
@@ -287,7 +352,7 @@ const SaveSupplier = () => {
 
               <Form.Item label="">
                 <Button type="primary" htmlType="submit">
-                  Add Customer
+                  Add Supplier {isLoading && <Spin />}
                 </Button>
               </Form.Item>
             </Form>
