@@ -26,6 +26,10 @@ const SaveCustomers = () => {
     };
   });
 
+  const gotoView = () => {
+    history.replace('/admin/customers');
+  };
+
   const handleFinish = async values => {
     
     dispatch(
@@ -33,7 +37,9 @@ const SaveCustomers = () => {
         customers: { ...values, created_at: moment().format('YYYY-MM-DD') },
         customerReferences: dataSource,
         },
-        function() {},
+        () => {
+          gotoView();
+        },
       ),
     );
   };
@@ -153,10 +159,6 @@ const SaveCustomers = () => {
       });
       setDataSource(newData);
     }
-  };
-
-  const gotoView = () => {
-    history.replace('/admin/customers');
   };
 
   return (
