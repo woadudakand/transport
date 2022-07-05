@@ -19,7 +19,7 @@ const {
   getCustomerErr,
 } = actions;
 
-const customerAddDispatch = customer => {
+const customerAddDispatch = (customer, callback) => {
   return async dispatch => {
     try {
       dispatch(customerAddBegin());
@@ -34,6 +34,7 @@ const customerAddDispatch = customer => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback('/admin/customers');
       } else {
         await dispatch(
           customerAddErr({
