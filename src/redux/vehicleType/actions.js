@@ -1,57 +1,57 @@
 const actions = {
-  GET_VTYPE_BEGIN: 'GET_VTYPE_BEGIN',
-  GET_VTYPE_SUCCESS: 'GET_VTYPE_SUCCESS',
-  GET_VTYPE_ERR: 'GET_VTYPE_ERR',
+  GET_VEHICLETYPE_BEGIN: 'GET_VEHICLETYPE_BEGIN',
+  GET_VEHICLETYPE_SUCCESS: 'GET_VEHICLETYPE_SUCCESS',
+  GET_VEHICLETYPE_ERR: 'GET_VEHICLETYPE_ERR',
 
-  VTYPE_ADD_BEGIN: 'VTYPE_ADD_BEGIN',
-  VTYPE_ADD_SUCCESS: 'VTYPE_ADD_SUCCESS',
-  VTYPE_ADD_ERR: 'VTYPE_ADD_ERR',
+  VEHICLETYPE_ADD_BEGIN: 'VEHICLETYPE_ADD_BEGIN',
+  VEHICLETYPE_ADD_SUCCESS: 'VEHICLETYPE_ADD_SUCCESS',
+  VEHICLETYPE_ADD_ERR: 'VEHICLETYPE_ADD_ERR',
 
-  VTYPE_SEARCH: 'VTYPE_SEARCH',
+  VEHICLETYPE_SEARCH: 'VEHICLETYPE_SEARCH',
 
-  vTypeSearch: data => {
+  vehicleTypeSearch: data => {
     return {
-      type: actions.VTYPE_SEARCH,
+      type: actions.VEHICLETYPE_SEARCH,
       data,
     };
   },
 
-  vTypeAddBegin: () => {
+  vehicleTypeAddBegin: () => {
     return {
-      type: actions.VTYPE_ADD_BEGIN,
+      type: actions.VEHICLETYPE_ADD_BEGIN,
     };
   },
 
-  vTypeAddSuccess: data => {
+  vehicleTypeAddSuccess: data => {
     return {
-      type: actions.VTYPE_ADD_SUCCESS,
+      type: actions.VEHICLETYPE_ADD_SUCCESS,
       data,
     };
   },
 
-  vTypeAddErr: err => {
+  vehicleTypeAddErr: err => {
     return {
-      type: actions.VTYPE_ADD_ERR,
+      type: actions.VEHICLETYPE_ADD_ERR,
       err,
     };
   },
 
-  getVtypesBegin: () => {
+  getVehicletypesBegin: () => {
     return {
-      type: actions.GET_VTYPE_BEGIN,
+      type: actions.GET_VEHICLETYPE_BEGIN,
     };
   },
 
-  getVtypesSuccess: data => {
+  getVehicletypesSuccess: data => {
     return {
-      type: actions.GET_VTYPE_SUCCESS,
+      type: actions.GET_VEHICLETYPE_SUCCESS,
       data,
     };
   },
 
-  getVtypesErr: err => {
+  getVehicletypesErr: err => {
     return {
-      type: actions.GET_VTYPE_ERR,
+      type: actions.GET_VEHICLETYPE_ERR,
       err,
     };
   },

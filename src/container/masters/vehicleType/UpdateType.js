@@ -2,18 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
-// import moment from 'moment';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-import { updatePlace } from '../../../redux/places/actionCreator';
+import { updateVehicleType } from '../../../redux/vehicleType/actionCreator';
 
 const UpdateType = ({ visible, onCancel, vType }) => {
   const [form] = Form.useForm();
   const dispatch = useDispatch();
   const { isLoader } = useSelector(state => {
     return {
-      isLoader: state.vtype.loading,
+      isLoader: state.vType.loading,
     };
   });
   const [state, setState] = useState({
@@ -39,14 +39,16 @@ const UpdateType = ({ visible, onCancel, vType }) => {
       id: vType.id,
       type: values.type,
       quantity: values.quantity,
-      // updated_at: moment().format('YYYY-MM-DD'),
+      updated_at: moment().format('YYYY-MM-DD'),
     };
 
     if (customValues.type) {
-      dispatch(updatePlace(customValues));
+      dispatch(updateVehicleType(customValues));
       onCancel();
     }
   };
+
+  console.log(vType);
 
   const handleCancel = () => {
     onCancel();
@@ -80,7 +82,7 @@ const UpdateType = ({ visible, onCancel, vType }) => {
     >
       <div className="project-modal">
         <BasicFormWrapper>
-          <Form form={form} name="createProject" onFinish={handleOk}>
+          <Form form={form} name="updateVehicleType" onFinish={handleOk}>
             <Form.Item initialValue={vType.type} name="type" label="">
               <Input placeholder="Vehicle Type" />
             </Form.Item>

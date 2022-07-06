@@ -110,7 +110,7 @@ const Vehicle = () => {
 
   vehicles.map((vehicle, key) => {
     const { vehicle_no, voname, vtype, id } = vehicle;
-    console.log(vehicle_no);
+    console.log(vehicle);
     return dataSource.push({
       key: id,
       sn: key + 1,

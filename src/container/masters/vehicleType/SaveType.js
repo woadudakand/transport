@@ -2,17 +2,18 @@ import React, { useState, useEffect } from 'react';
 import { Form, Input } from 'antd';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
+import moment from 'moment';
 import { Button } from '../../../components/buttons/buttons';
 import { Modal } from '../../../components/modals/antd-modals';
 import { BasicFormWrapper } from '../../styled';
-import { vTypeAddDispatch } from '../../../redux/vehicleType/actionCreator';
+import { vehicleTypeAddDispatch } from '../../../redux/vehicleType/actionCreator';
 
 const SaveType = ({ visible, onCancel }) => {
   const dispatch = useDispatch();
   const [form] = Form.useForm();
   const { isLoader } = useSelector(state => {
     return {
-      isLoader: state.vtype.loading,
+      isLoader: state.vType.loading,
     };
   });
 
@@ -39,13 +40,13 @@ const SaveType = ({ visible, onCancel }) => {
       type: values.type,
       tyre_qty: values.tyre,
       description: values.description,
-      // created_at: moment().format('YYYY-MM-DD'),
+      created_at: moment().format('YYYY-MM-DD'),
     };
 
-    console.log(customValues.type);
+    // console.log(customValues.type);
     if (customValues.type) {
       dispatch(
-        vTypeAddDispatch(customValues, () => {
+        vehicleTypeAddDispatch(customValues, () => {
           form.resetFields();
           onCancel();
         }),
@@ -64,7 +65,7 @@ const SaveType = ({ visible, onCancel }) => {
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
-          <Form form={form} name="addPlace" onFinish={handleOk}>
+          <Form form={form} name="addVehicleType" onFinish={handleOk}>
             <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
               Save
             </Button>
