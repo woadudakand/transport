@@ -25,20 +25,18 @@ const SaveSupplier = () => {
     };
   });
 
+   const gotoView = () => {
+    history.replace('/admin/supplier');
+  };
+
   const handleFinish = values => {
-    // console.log({
-    //   ...values,
-    //   openBalance: {
-    //     balance: values.oBalance,
-    //     card: values.oCard,
-    //   },
-    //   info: dataSource,
-    // });
     dispatch(
-      supplierAddDispatch({
-        suppliers: { ...values, created_at: moment().format('YYYY-MM-DD') },
-        supplierReferences: dataSource,
-      }),
+      supplierAddDispatch(
+        {
+        suppliersData: { ...values, created_at: moment().format('YYYY-MM-DD') },
+        suplierDetailsData: dataSource,
+      },
+      ),
     );
   };
   const infoTableData = [];
@@ -84,8 +82,6 @@ const SaveSupplier = () => {
     });
   });
 
-  console.log(dataSource);
-
   const columns = [
     {
       title: 'SN',
@@ -129,6 +125,7 @@ const SaveSupplier = () => {
     setInfo({
       ...info,
       [e.currentTarget.name]: e.currentTarget.value,
+      created_at: moment().format('YYYY-MM-DD'),
     });
   };
 
@@ -157,9 +154,6 @@ const SaveSupplier = () => {
     }
   };
 
-  const gotoView = () => {
-    history.replace('/admin/supplier');
-  };
 
   return (
     <>
@@ -185,7 +179,7 @@ const SaveSupplier = () => {
                   message: 'Select Branch',
                 },
               ]}
-              name="branchs_id"
+              name="branch_id"
               label=""
               initialValue=""
             >
@@ -207,13 +201,13 @@ const SaveSupplier = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="name" label="Supplier Name">
+                  <Form.Item name="supplier_name" label="Supplier Name">
                     <Input placeholder="Supplier Name" />
                   </Form.Item>
                   <Form.Item name="address" label="Address">
                     <Input placeholder="Address" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="type" label="Supplier Type">
+                  <Form.Item initialValue="" name="supplier_type" label="Supplier Type">
                     <Select>
                       <Select.Option value="">Supplier Type</Select.Option>
                       <Select.Option value="Vehicle">Vehicle</Select.Option>
@@ -239,7 +233,7 @@ const SaveSupplier = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="contact" label="Telephone">
+                  <Form.Item name="telephone" label="Telephone">
                     <Input placeholder="Telephone" />
                   </Form.Item>
                   <Form.Item
@@ -253,33 +247,33 @@ const SaveSupplier = () => {
                   >
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item name="pan" label="PAN No">
+                  <Form.Item name="pan_no" label="PAN No">
                     <Input placeholder="PAN No" />
                   </Form.Item>
-                  <Form.Item name="vendorCode" label="Vendor Code">
+                  <Form.Item name="vendor_code" label="Vendor Code">
                     <Input placeholder="Vendor Code" />
                   </Form.Item>
-                  <Form.Item name="cst" label="CST No">
+                  <Form.Item name="cst_no" label="CST No">
                     <Input placeholder="CST No." />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="vat" label="Vat No">
+                  <Form.Item name="vat_no" label="Vat No">
                     <Input placeholder="Vat No." />
                   </Form.Item>
 
-                  <Form.Item name="ecc" label="ECC No">
+                  <Form.Item name="ecc_no" label="ECC No">
                     <Input placeholder="ECC No" />
                   </Form.Item>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="oBalance" label="Opening Balance">
+                      <Form.Item name="opening_balance" label="Opening Balance">
                         <Input placeholder="Opening Balance" />
                       </Form.Item>
                     </Col>
                     <Col xs={12}>
-                      <Form.Item name="oCard" initialValue="" label="Select Card">
+                      <Form.Item name="payment_type" initialValue="" label="Select Card">
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -288,20 +282,20 @@ const SaveSupplier = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ margin: '25px 0' }} xs={24}>
-                      <Form.Item name="oDate" label="Date">
+                      <Form.Item name="opening_balance_date" label="Date">
                         <DatePicker style={{ width: '100%' }} placeholder="Date" />
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="cBalance" label="Closing Balance">
+                      <Form.Item name="closing_balance" label="Closing Balance">
                         <Input placeholder="Closing Balance" />
                       </Form.Item>
                     </Col>
 
                     <Col xs={12}>
-                      <Form.Item name="cCard" initialValue="" label="Select Card">
+                      <Form.Item name="closing_balance_type" initialValue="" label="Select Card">
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -310,7 +304,7 @@ const SaveSupplier = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ marginTop: '20px' }} xs={24}>
-                      <Form.Item name="cDate" label="Date">
+                      <Form.Item name="closing_balance_date" label="Date">
                         <DatePicker style={{ width: '100%' }} placeholder="Date" />
                       </Form.Item>
                     </Col>

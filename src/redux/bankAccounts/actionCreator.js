@@ -26,7 +26,7 @@ const getBankAccounts = () => {
   return async dispatch => {
     try {
       dispatch(getBanksAccountBegin());
-      const res = await DataService.get(`/bank-accounts`);
+      const res = await DataService.get(`/bank-accounts/?perPage=10&&currentPage=1`);
 
       if (res.data.status === 200) {
         await dispatch(
