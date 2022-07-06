@@ -10,24 +10,24 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  vTypeSearch,
-  vTypeAddBegin,
-  vTypeAddSuccess,
-  vTypeAddErr,
-  getVtypesBegin,
-  getVtypesSuccess,
-  getVtypesErr,
+  vehicleTypeSearch,
+  vehicleTypeAddBegin,
+  vehicleTypeAddSuccess,
+  vehicleTypeAddErr,
+  getVehicleTypesBegin,
+  getVehicleTypesSuccess,
+  getVehicleTypesErr,
 } = actions;
 
-const vTypeAddDispatch = (value, callback) => {
+const vehicleTypeAddDispatch = (value, callback) => {
   return async dispatch => {
     try {
-      dispatch(vTypeAddBegin());
+      dispatch(vehicleTypeAddBegin());
       const res = await DataService.post('/vehicle-type', value);
       // console.log(res);
       if (res.data.status === 200) {
         await dispatch(
-          vTypeAddSuccess({
+          vehicleTypeAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -38,7 +38,7 @@ const vTypeAddDispatch = (value, callback) => {
         callback();
       } else {
         await dispatch(
-          vTypeAddErr({
+          vehicleTypeAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -50,7 +50,7 @@ const vTypeAddDispatch = (value, callback) => {
     } catch (err) {
       console.log(err);
       dispatch(
-        vTypeAddErr({
+        vehicleTypeAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -60,16 +60,16 @@ const vTypeAddDispatch = (value, callback) => {
   };
 };
 
-const getVtypesDispatch = (currentPage = 1, perPage = 10, callback) => {
+const getVehicleTypesDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
-      dispatch(getVtypesBegin());
+      dispatch(getVehicleTypesBegin());
       const res = await DataService.get(`/vehicle-type?perPage=${perPage}&&currentPage=${currentPage}`);
       console.log(res.data);
       if (res.data.status === 200) {
         // console.log(res.data.description);
         await dispatch(
-          getVtypesSuccess({
+          getVehicleTypesSuccess({
             result: res.data.data.data,
             message: res.data.data.message,
             type: res.data.type,
@@ -79,7 +79,7 @@ const getVtypesDispatch = (currentPage = 1, perPage = 10, callback) => {
         callback(res.data.pagination.total);
       } else {
         await dispatch(
-          getVtypesErr({
+          getVehicleTypesErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -87,7 +87,7 @@ const getVtypesDispatch = (currentPage = 1, perPage = 10, callback) => {
       }
     } catch (err) {
       dispatch(
-        getVtypesErr({
+        getVehicleTypesErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -96,14 +96,14 @@ const getVtypesDispatch = (currentPage = 1, perPage = 10, callback) => {
   };
 };
 
-const deleteVtype = id => {
+const deleteVehicleType = id => {
   return async dispatch => {
     try {
-      dispatch(getVtypesBegin());
+      dispatch(getVehicleTypesBegin());
       const res = await DataService.delete(`/vehicle-type?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
-          getVtypesSuccess({
+          getVehicleTypesSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -113,7 +113,7 @@ const deleteVtype = id => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          getVtypesErr({
+          getVehicleTypesErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -123,7 +123,7 @@ const deleteVtype = id => {
       }
     } catch (err) {
       dispatch(
-        getVtypesErr({
+        getVehicleTypesErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -133,20 +133,20 @@ const deleteVtype = id => {
   };
 };
 
-const getVtypeDispatch = value => {
+const getVehicleTypeDispatch = value => {
   return async dispatch => {
     try {
       const res = await DataService.get(`/vehicle-type/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(
-          vTypeSearch({
+          vehicleTypeSearch({
             result: res.data.data,
           }),
         );
       } else {
         await dispatch(
-          getVtypesErr({
+          getVehicleTypesErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -154,7 +154,7 @@ const getVtypeDispatch = value => {
       }
     } catch (err) {
       dispatch(
-        getVtypesErr({
+        getVehicleTypesErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -163,14 +163,14 @@ const getVtypeDispatch = value => {
   };
 };
 
-const updateVtype = place => {
+const updateVehicleType = place => {
   return async dispatch => {
     try {
-      dispatch(vTypeAddBegin());
+      dispatch(vehicleTypeAddBegin());
       const res = await DataService.put('/vehicle-type', place);
       if (res.data.status === 200) {
         await dispatch(
-          vTypeAddSuccess({
+          vehicleTypeAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -180,7 +180,7 @@ const updateVtype = place => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          vTypeAddErr({
+          vehicleTypeAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -190,7 +190,7 @@ const updateVtype = place => {
       }
     } catch (err) {
       dispatch(
-        vTypeAddErr({
+        vehicleTypeAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -200,4 +200,10 @@ const updateVtype = place => {
   };
 };
 
-export { getVtypeDispatch, vTypeAddDispatch, getVtypesDispatch, deleteVtype, updateVtype };
+export {
+  getVehicleTypeDispatch,
+  vehicleTypeAddDispatch,
+  getVehicleTypesDispatch,
+  deleteVehicleType,
+  updateVehicleType,
+};

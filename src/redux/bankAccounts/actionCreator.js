@@ -59,7 +59,7 @@ const bankAccountAdd = (banks, callback) => {
   return async dispatch => {
     try {
       dispatch(bankAccountAddBegin());
-      const res = await DataService.post(`bank-accounts?banks_id=${banks.banks_id}`, banks);
+      const res = await DataService.post(`/bank-accounts?banks_id=${banks.banks_id}`, banks);
       if (res.data.status === 200) {
         await dispatch(
           bankAccountAddSuccess({
@@ -203,7 +203,8 @@ const getBankAccountList = () => {
   return async dispatch => {
     try {
       dispatch(bankAccountListBegin());
-      const res = await DataService.get(`/bankes/list`);
+      // const res = await DataService.get(`/bankes/list`);
+      const res = await DataService.get(`/bank-accounts/list`);
 
       if (res.data.status === 200) {
         await dispatch(

@@ -11,7 +11,7 @@ import bankAccountReducer from './bankAccounts/reducers';
 import driversReducer from './driver/reducers';
 import customersReducer from './customers/reducers';
 import vehiclesReducer from './vehicles/reducers';
-import VtypeReducer from './vehicleType/reducers';
+import VehicleTypeReducer from './vehicleType/reducers';
 import SupplierReducer from './supplier/reducers';
 
 const rootReducers = combineReducers({
@@ -27,7 +27,7 @@ const rootReducers = combineReducers({
   driver: driversReducer,
   customer: customersReducer,
   vehicle: vehiclesReducer,
-  vtype: VtypeReducer,
+  vehicleType: VehicleTypeReducer,
   suppliers: SupplierReducer,
 });
 

@@ -42,7 +42,7 @@ const SaveSupplier = () => {
     );
   };
   const infoTableData = [];
-
+  console.log(infoTableData);
   const handleInfoDelete = key => {
     const newData = dataSource.filter((_, index) => index !== key);
     setDataSource(newData);

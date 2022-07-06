@@ -10,7 +10,11 @@ import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
-import { getVtypesDispatch, getVtypeDispatch, deleteVtype } from '../../../redux/vehicleType/actionCreator';
+import {
+  getVehicleTypesDispatch,
+  getVehicleTypeDispatch,
+  deleteVehicleType,
+} from '../../../redux/vehicleType/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
 import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 
@@ -30,11 +34,11 @@ const VehicleType = () => {
   const [updateType, setUpdateType] = useState({});
 
   const dispatch = useDispatch();
-  const { vtype, isLoader } = useSelector(state => {
-    // console.log(vtype);
+  const { vehicleType, isLoader } = useSelector(state => {
+    console.log(vehicleType);
     return {
-      vtype: state.vtype.vtype,
-      isLoader: state.vtype.loading,
+      vehicleType: state.vehicleType.vehicleType,
+      isLoader: state.vehicleType.loading,
     };
   });
 
@@ -45,7 +49,7 @@ const VehicleType = () => {
 
   useEffect(() => {
     dispatch(
-      getVtypesDispatch(pagination.current, pagination.pageSize, total =>
+      getVehicleTypesDispatch(pagination.current, pagination.pageSize, total =>
         setPagination({
           ...pagination,
           total,
@@ -63,7 +67,7 @@ const VehicleType = () => {
 
   const handleTableChange = ({ current, pageSize }) => {
     dispatch(
-      getVtypesDispatch(current, pageSize, total =>
+      getVehicleTypesDispatch(current, pageSize, total =>
         setPagination({
           current,
           pageSize,
@@ -120,7 +124,7 @@ const VehicleType = () => {
   // ];
 
   const dataSource = [];
-  vtype.map((vType, key) => {
+  vehicleType.map((vType, key) => {
     const { id, vehicle_type, tyre_qty } = vType;
     console.log(vType);
     return dataSource.push({
@@ -180,12 +184,12 @@ const VehicleType = () => {
   };
 
   const handleSearch = value => {
-    dispatch(getVtypeDispatch(value));
+    dispatch(getVehicleTypeDispatch(value));
   };
 
   const handleDeleted = () => {
     if (selectedRowKeys.length) {
-      dispatch(deleteVtype(selectedRowKeys.toString()));
+      dispatch(deleteVehicleType(selectedRowKeys.toString()));
     } else {
       openNotificationWithIcon();
     }

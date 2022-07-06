@@ -31,11 +31,10 @@ const SaveCustomers = () => {
   };
 
   const handleFinish = async values => {
-    
     dispatch(
       customerAddDispatch({
-        customers: { ...values, created_at: moment().format('YYYY-MM-DD') },
-        customerReferences: dataSource,
+          customers: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          customerReferences: dataSource,
         },
         () => {
           gotoView();

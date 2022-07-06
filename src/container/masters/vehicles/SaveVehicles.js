@@ -39,22 +39,26 @@ const SaveVehicles = () => {
     //   info: dataSource,
     // });
 
-    // dispatch(
-    //   vehicleAddDispatch({
-    //     vehicles: { ...values, created_at: moment().format('YYYY-MM-DD') },
-    //     vehicleReferences: dataSource,
-    //   }),
-    // );
     dispatch(
       vehicleAddDispatch({
-        ...values,
-        openBalance: {
-          balance: values.oBalance,
-          card: values.oCard,
+          vehicles: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          vehicleReferences: dataSource,
         },
-        info: dataSource,
-      }),
+        () => {
+          gotoView();
+        },
+      ),
     );
+    // dispatch(
+    //   vehicleAddDispatch({
+    //     ...values,
+    //     openBalance: {
+    //       balance: values.oBalance,
+    //       card: values.oCard,
+    //     },
+    //     info: dataSource,
+    //   }),
+    // );
   };
   const infoTableData = [];
 
@@ -231,7 +235,7 @@ const SaveVehicles = () => {
         </Row> */}
         <Cards headless>
           <BasicFormWrapper>
-            <Form form={form} name="createProject" onFinish={handleFinish}>
+            <Form form={form} name="vehicle" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
                   <Form.Item initialValue="" name="owner" label="Select Owner">

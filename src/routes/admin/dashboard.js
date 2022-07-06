@@ -20,6 +20,7 @@ const EditEmployee = lazy(() => import('../../container/masters/Employee/EditEmp
 
 const Vehicles = lazy(() => import('../../container/masters/vehicles/Vehicles'));
 const SaveVehicles = lazy(() => import('../../container/masters/vehicles/SaveVehicles'));
+const UpdateVehicles = lazy(() => import('../../container/masters/vehicles/EditVehicle'));
 const VehiclesType = lazy(() => import('../../container/masters/vehicleType/VehicleType'));
 const Supplier = lazy(() => import('../../container/masters/supplier/Supplier'));
 const SaveSupplier = lazy(() => import('../../container/masters/supplier/SaveSupplier'));
@@ -74,6 +75,7 @@ const DashboardRoutes = () => {
       <Route path={`${path}/edit-employee/:id`} component={EditEmployee} />
       <Route path={`${path}/vehicles`} component={Vehicles} />
       <Route path={`${path}/save-vehicles`} component={SaveVehicles} />
+      <Route path={`${path}/update-vehicles/:id`} component={UpdateVehicles} />
       <Route path={`${path}/vehiclesType`} component={VehiclesType} />
       <Route path={`${path}/supplier`} component={Supplier} />
       <Route path={`${path}/save-supplier`} component={SaveSupplier} />
