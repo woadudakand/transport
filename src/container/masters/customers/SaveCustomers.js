@@ -32,7 +32,8 @@ const SaveCustomers = () => {
 
   const handleFinish = async values => {
     dispatch(
-      customerAddDispatch({
+      customerAddDispatch(
+        {
           customers: { ...values, created_at: moment().format('YYYY-MM-DD') },
           customerReferences: dataSource,
         },
@@ -60,7 +61,7 @@ const SaveCustomers = () => {
     }
   }, [dispatch]);
 
-  console.log(infoTableData);
+  // console.log(infoTableData);
 
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
@@ -87,6 +88,8 @@ const SaveCustomers = () => {
       ),
     });
   });
+
+  console.log(dataSource);
 
   const columns = [
     {

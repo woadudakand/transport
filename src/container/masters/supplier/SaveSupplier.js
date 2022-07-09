@@ -25,22 +25,24 @@ const SaveSupplier = () => {
     };
   });
 
-   const gotoView = () => {
+  const gotoView = () => {
     history.replace('/admin/supplier');
   };
 
-  const handleFinish = values => {
+  const handleFinish = async values => {
     dispatch(
-      supplierAddDispatch(
-        {
-        suppliersData: { ...values, created_at: moment().format('YYYY-MM-DD') },
-        suplierDetailsData: dataSource,
-      },
+      supplierAddDispatch({
+          suppliersData: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          suplierDetailsData: dataSource,
+        },
+        () => {
+          gotoView();
+        },
       ),
     );
   };
   const infoTableData = [];
-  console.log(infoTableData);
+  // console.log(infoTableData);
   const handleInfoDelete = key => {
     const newData = dataSource.filter((_, index) => index !== key);
     setDataSource(newData);
@@ -81,6 +83,8 @@ const SaveSupplier = () => {
       ),
     });
   });
+
+  console.log(dataSource);
 
   const columns = [
     {
@@ -153,7 +157,6 @@ const SaveSupplier = () => {
       setDataSource(newData);
     }
   };
-
 
   return (
     <>

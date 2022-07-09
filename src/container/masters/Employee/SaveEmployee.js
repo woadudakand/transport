@@ -84,8 +84,8 @@ const SaveEmployee = () => {
                   <Form.Item name="permanent_address" label="Permanent Address">
                     <Input placeholder="Permanent Address" />
                   </Form.Item>
-                  <Form.Item name="email" label="EmailId">
-                    <Input placeholder="EmailId" />
+                  <Form.Item name="email" label="Email Id">
+                    <Input placeholder="Email Id" />
                   </Form.Item>
                   <Form.Item name="qualification" label="Qualification">
                     <Input placeholder="Qualification" />

@@ -18,6 +18,11 @@ const SaveDrivers = () => {
       isLoading: state.driver.loading,
     };
   });
+
+  const gotoView = () => {
+    history.replace('/admin/drivers');
+  };
+
   const handleFinish = values => {
     const customValues = {
       name: values.name,
@@ -30,10 +35,6 @@ const SaveDrivers = () => {
         }),
       );
     }
-  };
-
-  const gotoView = () => {
-    history.replace('/admin/drivers');
   };
 
   return (
