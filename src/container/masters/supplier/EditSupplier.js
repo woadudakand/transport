@@ -74,8 +74,6 @@ const EditSupplier = () => {
 
   useEffect(() => {
     if (suppliers[0]) {
-      console.log(suppliers);
-      setDataSource(suppliers[0].supplier_name);
       form.setFieldsValue({
         ...suppliers[0],
       });
