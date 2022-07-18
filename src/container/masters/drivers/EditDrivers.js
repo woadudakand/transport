@@ -27,18 +27,32 @@ const UpdateDrivers = () => {
     }
   }, [dispatch, id]);
 
-  const handleFinish = values => {
+  const gotoView = () => {
+    history.replace('/admin/drivers');
+  };
+
+  const handleFinish = async values => {
     const customValues = {
       name: values.name,
     };
 
     if (customValues.name) {
-      dispatch(updateDriver({ ...values, id, updated_at: moment().format('YYYY-MM-DD') }));
+      dispatch(
+        updateDriver(
+          { ...values, id, updated_at: moment().format('YYYY-MM-DD') },
+          // function() {
+          //   form.resetFields();
+          // },
+          () => {
+            gotoView();
+          },
+        ),
+      );
     }
-  };
 
-  const gotoView = () => {
-    history.replace('/admin/drivers');
+    // if (customValues.name) {
+    //   dispatch(updateDriver({ ...values, id, updated_at: moment().format('YYYY-MM-DD') }));
+    // }
   };
 
   useEffect(() => {

@@ -31,7 +31,8 @@ const SaveSupplier = () => {
 
   const handleFinish = async values => {
     dispatch(
-      supplierAddDispatch({
+      supplierAddDispatch(
+        {
           suppliersData: { ...values, created_at: moment().format('YYYY-MM-DD') },
           suplierDetailsData: dataSource,
         },
@@ -174,7 +175,7 @@ const SaveSupplier = () => {
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
-          <Form form={form} name="customer" onFinish={handleFinish}>
+          <Form form={form} name="supplier" onFinish={handleFinish}>
             <Form.Item
               rules={[
                 {

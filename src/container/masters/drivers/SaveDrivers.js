@@ -23,16 +23,22 @@ const SaveDrivers = () => {
     history.replace('/admin/drivers');
   };
 
-  const handleFinish = values => {
+  const handleFinish = async values => {
     const customValues = {
       name: values.name,
     };
 
     if (customValues.name) {
       dispatch(
-        driverAddDispatch({ ...values, created_at: moment().format('YYYY-MM-DD') }, function() {
-          form.resetFields();
-        }),
+        driverAddDispatch(
+          { ...values, created_at: moment().format('YYYY-MM-DD') },
+          function() {
+            form.resetFields();
+          },
+          () => {
+            gotoView();
+          },
+        ),
       );
     }
   };
