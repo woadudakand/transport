@@ -29,20 +29,11 @@ const SaveVehicles = () => {
   };
 
   const handleFinish = async values => {
-    // console.log({
-    //   ...values,
-    //   openBalance: {
-    //     balance: values.oBalance,
-    //     card: values.oCard,
-    //   },
-    //   info: dataSource,
-    // });
-
     dispatch(
       vehicleAddDispatch(
         {
-          vehicleData: { ...values, created_at: moment().format('YYYY-MM-DD') },
-          vehicleTxData: dataSource,
+          vehicle: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          vehicleTx: dataSource,
         },
         () => {
           gotoView();
