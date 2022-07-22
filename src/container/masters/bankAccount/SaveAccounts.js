@@ -23,6 +23,7 @@ const SaveAccount = ({ visible, onCancel }) => {
   const [ifsc, setIfsc] = useState('ifsc');
 
   const { banks, isLoading } = useSelector(bState => {
+    console.log(bState);
     return {
       banks: bState.bank.list,
       isLoading: bState.accounts.loading,

@@ -146,7 +146,7 @@ const EditCustomers = () => {
     setInfo({
       ...info,
       [e.currentTarget.name]: e.currentTarget.value,
-      created_at: moment().format('YYYY-MM-DD'),
+      updated_at: moment().format('YYYY-MM-DD'),
     });
   };
 

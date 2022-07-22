@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select, Table, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useHistory } from 'react-router-dom';
@@ -18,9 +18,8 @@ const SaveVehicles = () => {
   const [dataSource, setDataSource] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { branches, isLoading } = useSelector(state => {
+  const { isLoading } = useSelector(state => {
     return {
-      branches: state.branches.list,
       isLoading: state.vehicle.loading,
     };
   });
@@ -40,25 +39,16 @@ const SaveVehicles = () => {
     // });
 
     dispatch(
-      vehicleAddDispatch({
-          vehicles: { ...values, created_at: moment().format('YYYY-MM-DD') },
-          vehicleReferences: dataSource,
+      vehicleAddDispatch(
+        {
+          vehicleData: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          vehicleTxData: dataSource,
         },
         () => {
           gotoView();
         },
       ),
     );
-    // dispatch(
-    //   vehicleAddDispatch({
-    //     ...values,
-    //     openBalance: {
-    //       balance: values.oBalance,
-    //       card: values.oCard,
-    //     },
-    //     info: dataSource,
-    //   }),
-    // );
   };
   const infoTableData = [];
 
@@ -72,13 +62,7 @@ const SaveVehicles = () => {
     setEdit(key + 1);
   };
 
-  // useEffect(() => {
-  //   if (dispatch) {
-  //     dispatch(getBranchListDispatch());
-  //   }
-  // }, [dispatch]);
-
-  console.log(infoTableData);
+  // console.log(infoTableData);
 
   dataSource.map(({ tName, amount, pDate, eDate, description }, key) => {
     return infoTableData.push({
@@ -206,46 +190,19 @@ const SaveVehicles = () => {
         ]}
       />
       <Main>
-        {/* <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <p />
-          <Form form={form} name="vehicle" onFinish={handleFinish}>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Select Branch',
-                },
-              ]}
-              name="branchs_id"
-              label=""
-              initialValue=""
-            >
-              <Select style={{ width: '250px' }}>
-                <Select.Option value="">Select Branch</Select.Option>
-                {branches.map(item => {
-                  return (
-                    <Select.Option key={item.id} value={item.id}>
-                      {item.title}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-          </Form>
-        </Row> */}
         <Cards headless>
           <BasicFormWrapper>
             <Form form={form} name="vehicle" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item initialValue="" name="owner" label="Select Owner">
+                  <Form.Item initialValue="" name="voname" label="Select Owner">
                     <Select showSearch>
                       <Select.Option value="">Select Owner</Select.Option>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="kamal">kamal</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="type" label="Select Vehicle Type">
+                  <Form.Item initialValue="" name="vtype" label="Select Vehicle Type">
                     <Select>
                       <Select.Option value="">Select Vehicle Type</Select.Option>
                       <Select.Option value="Mrf">Mrf</Select.Option>
@@ -253,7 +210,7 @@ const SaveVehicles = () => {
                       <Select.Option value="Mini">Mini</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="vNo" label="Vehicle NO">
+                  <Form.Item name="vehicle_no" label="Vehicle NO">
                     <Input placeholder="Vehicle NO" />
                   </Form.Item>
                   <Form.Item name="capacity" label="capacity">
@@ -265,28 +222,28 @@ const SaveVehicles = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="Description" label="Description">
+                  <Form.Item name="description" label="Description">
                     <Input placeholder="description" />
                   </Form.Item>
-                  <Form.Item name="regDate" label="Reg Date">
+                  <Form.Item name="regdate" label="Reg Date">
                     <DatePicker style={{ width: '100%' }} placeholder="Reg Date" />
                   </Form.Item>
-                  <Form.Item name="expDate" label="Exp Date">
+                  <Form.Item name="vehicle_expdate" label="Exp Date">
                     <DatePicker style={{ width: '100%' }} placeholder="Exp Date" />
                   </Form.Item>
-                  <Form.Item name="Engine No" label="Engine No">
+                  <Form.Item name="engineno" label="Engine No">
                     <Input placeholder="engineNo" />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="chasisNo" label="Chasis No">
+                  <Form.Item name="chasisno" label="Chasis No">
                     <Input placeholder="Chasis No" />
                   </Form.Item>
-                  <Form.Item name="pUCno" label="PUC No">
+                  <Form.Item name="pucno" label="PUC No">
                     <Input placeholder="PUC No" />
                   </Form.Item>
-                  <Form.Item name="pUCExp" label="PUC Exp. Date">
+                  <Form.Item name="puc_expdate" label="PUC Exp. Date">
                     <DatePicker style={{ width: '100%' }} placeholder="PUC Exp. Date" />
                   </Form.Item>
                   <Form.Item initialValue="" name="body" label="Select Body">

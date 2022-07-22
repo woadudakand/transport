@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select, Table, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { Link, useHistory } from 'react-router-dom';
@@ -8,7 +8,6 @@ import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 import { supplierAddDispatch } from '../../../redux/supplier/actionCreator';
 
 const SaveSupplier = () => {
@@ -18,9 +17,8 @@ const SaveSupplier = () => {
   const [dataSource, setDataSource] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { branches, isLoading } = useSelector(state => {
+  const { isLoading } = useSelector(state => {
     return {
-      branches: state.branches.list,
       isLoading: state.suppliers.loading,
     };
   });
@@ -53,12 +51,6 @@ const SaveSupplier = () => {
     setInfo(data);
     setEdit(key + 1);
   };
-
-  useEffect(() => {
-    if (dispatch) {
-      dispatch(getBranchListDispatch());
-    }
-  }, [dispatch]);
 
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
@@ -173,33 +165,6 @@ const SaveSupplier = () => {
         ]}
       />
       <Main>
-        <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <p />
-          <Form form={form} name="supplier" onFinish={handleFinish}>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Select Branch',
-                },
-              ]}
-              name="branch_id"
-              label=""
-              initialValue=""
-            >
-              <Select style={{ width: '250px' }}>
-                <Select.Option value="">Select Branch</Select.Option>
-                {branches.map(item => {
-                  return (
-                    <Select.Option key={item.id} value={item.id}>
-                      {item.title}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-          </Form>
-        </Row>
         <Cards headless>
           <BasicFormWrapper>
             <Form form={form} name="createProject" onFinish={handleFinish}>

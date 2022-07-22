@@ -10,7 +10,6 @@ import { Button } from '../../../components/buttons/buttons';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
 import { getDriversDispatch, getDriverDispatch, deleteDriver } from '../../../redux/driver/actionCreator';
 import DataLoader from '../../../components/utilities/DataLoader';
-// import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 
 const openNotificationWithIcon = () => {
   notification.error({
@@ -136,7 +135,7 @@ const Drivers = () => {
     dispatch(getDriverDispatch(value));
   };
 
-  const handleDeleted = () => {
+  const handleDeleted = async () => {
     if (selectedRowKeys.length) {
       dispatch(deleteDriver(selectedRowKeys.toString()));
     } else {
@@ -161,7 +160,7 @@ const Drivers = () => {
       />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <AutoComplete placeholder="Search..." onSearch={data => handleSearch(data)} width="200px" patterns />
+          <AutoComplete placeholder="Search..." onSearch={handleSearch} width="200px" patterns />
           <Popconfirm title="Are you sure to delete this row?" onConfirm={handleDeleted} okText="Yes" cancelText="No">
             <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
               Delete

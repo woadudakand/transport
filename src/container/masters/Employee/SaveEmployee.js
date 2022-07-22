@@ -15,6 +15,10 @@ const SaveEmployee = () => {
   const history = useHistory();
   const isLoading = useSelector(state => state.employees.loading);
 
+  const gotoView = () => {
+    history.replace('/admin/employees');
+  };
+
   const handleFinish = values => {
     dispatch(
       employeeAddDispatch(
@@ -22,13 +26,12 @@ const SaveEmployee = () => {
           ...values,
           created_at: moment().format('YYYY-MM-DD'),
         },
-        () => form.resetFields(),
+        // () => form.resetFields(),
+        () => {
+          gotoView();
+        },
       ),
     );
-  };
-
-  const gotoView = () => {
-    history.replace('/admin/employees');
   };
 
   return (

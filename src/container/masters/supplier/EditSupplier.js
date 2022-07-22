@@ -4,11 +4,11 @@ import FeatherIcon from 'feather-icons-react';
 import { Link, useHistory, useParams } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import moment from 'moment';
+import dayjs from 'dayjs';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
-import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 import { updateSupplier, getSingleSupplierDispatch } from '../../../redux/supplier/actionCreator';
 
 const EditSupplier = () => {
@@ -20,9 +20,8 @@ const EditSupplier = () => {
   const { id } = useParams();
   const dispatch = useDispatch();
 
-  const { branches, isLoading, suppliers } = useSelector(state => {
+  const { isLoading, suppliers } = useSelector(state => {
     return {
-      branches: state.branches.list,
       isLoading: state.suppliers.loading,
       suppliers: state.suppliers.suppliers,
     };
@@ -33,19 +32,11 @@ const EditSupplier = () => {
   };
 
   const handleFinish = async values => {
-    // console.log({
-    //   ...values,
-    //   openBalance: {
-    //     balance: values.oBalance,
-    //     card: values.oCard,
-    //   },
-    //   info: dataSource,
-    // });
     dispatch(
       updateSupplier(
         {
-          suppliers: { ...values, updated_at: moment().format('YYYY-MM-DD') },
-          supplierReferences: dataSource,
+          suppliersData: { ...values, id, updated_at: moment().format('YYYY-MM-DD') },
+          suplierDetailsData: dataSource,
         },
         () => {
           gotoView();
@@ -67,15 +58,18 @@ const EditSupplier = () => {
 
   useEffect(() => {
     if (dispatch) {
-      dispatch(getBranchListDispatch());
       dispatch(getSingleSupplierDispatch(id));
     }
   }, [dispatch, id]);
 
   useEffect(() => {
     if (suppliers[0]) {
+      console.log(suppliers);
+      setDataSource(suppliers[0].suppliers_contact_person_details);
       form.setFieldsValue({
         ...suppliers[0],
+        opening_balance_date: dayjs(suppliers[0].opening_balance_date, 'YYYY-MM-DD'),
+        closing_balance_date: dayjs(suppliers[0].closing_balance_date, 'YYYY-MM-DD'),
       });
     }
   }, [suppliers, form]);
@@ -191,33 +185,6 @@ const EditSupplier = () => {
         ]}
       />
       <Main>
-        <Row justify="space-between" style={{ marginBottom: 20 }}>
-          <p />
-          <Form form={form} name="supplier" onFinish={handleFinish}>
-            <Form.Item
-              rules={[
-                {
-                  required: true,
-                  message: 'Select Branch',
-                },
-              ]}
-              name="branchs_id"
-              label=""
-              initialValue=""
-            >
-              <Select style={{ width: '250px' }}>
-                <Select.Option value="">Select Branch</Select.Option>
-                {branches.map(item => {
-                  return (
-                    <Select.Option key={item.id} value={item.id}>
-                      {item.title}
-                    </Select.Option>
-                  );
-                })}
-              </Select>
-            </Form.Item>
-          </Form>
-        </Row>
         <Cards headless>
           <BasicFormWrapper>
             <Form form={form} name="updateProject" onFinish={handleFinish}>
@@ -326,9 +293,9 @@ const EditSupplier = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ marginTop: '20px' }} xs={24}>
-                      {/* <Form.Item name="closing_balance_date" label="Date"> */}
-                      <DatePicker style={{ width: '100%' }} placeholder="Date" />
-                      {/* </Form.Item> */}
+                      <Form.Item name="closing_balance_date" label="Date">
+                        <DatePicker style={{ width: '100%' }} placeholder="Date" />
+                      </Form.Item>
                     </Col>
                   </Row>
                 </Col>

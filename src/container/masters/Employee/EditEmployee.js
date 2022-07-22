@@ -66,7 +66,7 @@ const EditEmployee = () => {
       <Main>
         <Cards headless>
           <BasicFormWrapper>
-            <Form form={form} name="createProject" onFinish={handleFinish}>
+            <Form form={form} name="updateProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} sm={12}>
                   <Form.Item name="name" label="Employee Name">
