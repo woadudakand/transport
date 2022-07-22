@@ -21,10 +21,10 @@ const {
 
 const vehicleTypeAddDispatch = (value, callback) => {
   return async dispatch => {
+    // console.log(value);
     try {
       dispatch(vehicleTypeAddBegin());
       const res = await DataService.post('/vehicle-type', value);
-      // console.log(res);
       if (res.data.status === 200) {
         await dispatch(
           vehicleTypeAddSuccess({
@@ -44,7 +44,7 @@ const vehicleTypeAddDispatch = (value, callback) => {
             type: res.data.type,
           }),
         );
-        console.log(res);
+        // console.log(res);
         openNotificationWithIcon('error', res.data.message, res.data.description);
       }
     } catch (err) {
@@ -65,9 +65,8 @@ const getVehicleTypesDispatch = (currentPage = 1, perPage = 10, callback) => {
     try {
       dispatch(getVehicleTypesBegin());
       const res = await DataService.get(`/vehicle-type?perPage=${perPage}&&currentPage=${currentPage}`);
-      console.log(res.data);
+
       if (res.data.status === 200) {
-        // console.log(res.data.description);
         await dispatch(
           getVehicleTypesSuccess({
             result: res.data.data.data,

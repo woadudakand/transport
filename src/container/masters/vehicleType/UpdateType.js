@@ -13,7 +13,7 @@ const UpdateType = ({ visible, onCancel, vType }) => {
   const dispatch = useDispatch();
   const { isLoader } = useSelector(state => {
     return {
-      isLoader: state.vType.loading,
+      isLoader: state.vehicleType.loading,
     };
   });
   const [state, setState] = useState({
@@ -37,18 +37,16 @@ const UpdateType = ({ visible, onCancel, vType }) => {
   const handleOk = async values => {
     const customValues = {
       id: vType.id,
-      type: values.type,
-      quantity: values.quantity,
+      vehicle_type: values.type,
+      tyre_qty: values.quantity,
       updated_at: moment().format('YYYY-MM-DD'),
     };
 
-    if (customValues.type) {
+    if (customValues.vehicle_type) {
       dispatch(updateVehicleType(customValues));
       onCancel();
     }
   };
-
-  console.log(vType);
 
   const handleCancel = () => {
     onCancel();
@@ -56,7 +54,10 @@ const UpdateType = ({ visible, onCancel, vType }) => {
 
   useEffect(() => {
     if (visible) {
-      form.setFieldsValue(vType);
+      form.setFieldsValue({
+        type: vType.vehicle_type,
+        quantity: vType.tyre_qty,
+      });
     }
   }, [form, vType, visible]);
 
@@ -69,7 +70,7 @@ const UpdateType = ({ visible, onCancel, vType }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="addPlace" onFinish={handleOk}>
-            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit">
               Update
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>

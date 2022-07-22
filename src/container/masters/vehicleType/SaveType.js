@@ -1,5 +1,5 @@
 import React, { useState, useEffect } from 'react';
-import { Form, Input } from 'antd';
+import { Form, Input, InputNumber } from 'antd';
 import propTypes from 'prop-types';
 import { useDispatch, useSelector } from 'react-redux';
 import moment from 'moment';
@@ -13,7 +13,7 @@ const SaveType = ({ visible, onCancel }) => {
   const [form] = Form.useForm();
   const { isLoader } = useSelector(state => {
     return {
-      isLoader: state.vType.loading,
+      isLoader: state.vehicleType.loading,
     };
   });
 
@@ -35,16 +35,14 @@ const SaveType = ({ visible, onCancel }) => {
     };
   }, [visible]);
 
-  const handleOk = async values => {
+  const handleOk = values => {
     const customValues = {
-      type: values.type,
-      tyre_qty: values.tyre,
-      description: values.description,
+      vehicle_type: values.type,
+      tyre_qty: values.quantity,
       created_at: moment().format('YYYY-MM-DD'),
     };
-
-    // console.log(customValues.type);
-    if (customValues.type) {
+    console.log(values);
+    if (customValues.vehicle_type) {
       dispatch(
         vehicleTypeAddDispatch(customValues, () => {
           form.resetFields();
@@ -66,7 +64,7 @@ const SaveType = ({ visible, onCancel }) => {
       footer={[
         <div key="1" className="project-modal-footer">
           <Form form={form} name="addVehicleType" onFinish={handleOk}>
-            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit" onClick={handleOk}>
+            <Button disabled={isLoader} htmlType="submit" size="default" type="primary" key="submit">
               Save
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
@@ -84,7 +82,7 @@ const SaveType = ({ visible, onCancel }) => {
               <Input placeholder="Vehicle Type" />
             </Form.Item>
             <Form.Item name="quantity" label="">
-              <Input placeholder="Tyre Quantity" />
+              <InputNumber placeholder="Tyre Quantity" />
             </Form.Item>
           </Form>
         </BasicFormWrapper>

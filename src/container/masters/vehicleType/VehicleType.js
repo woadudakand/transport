@@ -35,9 +35,8 @@ const VehicleType = () => {
 
   const dispatch = useDispatch();
   const { vehicleType, isLoader } = useSelector(state => {
-    console.log(vehicleType);
     return {
-      vehicleType: state.vehicleType.vehicleType,
+      vehicleType: state.vehicleType.vtype,
       isLoader: state.vehicleType.loading,
     };
   });
@@ -94,39 +93,10 @@ const VehicleType = () => {
     setVisibleUpdate(false);
   };
 
-  // const dataSource = [
-  //   {
-  //     key: 1,
-  //     type: 'Mrf',
-  //     sn: 1,
-  //     tyre: 5,
-  //     action: (
-  //       <div className="table-actions">
-  //         <Link to="#" className="edit">
-  //           <FeatherIcon icon="edit" size={14} />
-  //         </Link>
-  //       </div>
-  //     ),
-  //   },
-  //   {
-  //     key: 2,
-  //     type: 'Heavy',
-  //     sn: 2,
-  //     tyre: 12,
-  //     action: (
-  //       <div className="table-actions">
-  //         <Link to="#" className="edit">
-  //           <FeatherIcon icon="edit" size={14} />
-  //         </Link>
-  //       </div>
-  //     ),
-  //   },
-  // ];
-
   const dataSource = [];
   vehicleType.map((vType, key) => {
     const { id, vehicle_type, tyre_qty } = vType;
-    console.log(vType);
+
     return dataSource.push({
       key: id,
       type: vehicle_type,

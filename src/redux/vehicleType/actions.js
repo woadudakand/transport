@@ -36,20 +36,20 @@ const actions = {
     };
   },
 
-  getVehicletypesBegin: () => {
+  getVehicleTypesBegin: () => {
     return {
       type: actions.GET_VEHICLETYPE_BEGIN,
     };
   },
 
-  getVehicletypesSuccess: data => {
+  getVehicleTypesSuccess: data => {
     return {
       type: actions.GET_VEHICLETYPE_SUCCESS,
       data,
     };
   },
 
-  getVehicletypesErr: err => {
+  getVehicleTypesErr: err => {
     return {
       type: actions.GET_VEHICLETYPE_ERR,
       err,
