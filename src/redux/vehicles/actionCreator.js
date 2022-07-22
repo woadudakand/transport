@@ -167,7 +167,6 @@ const updateVehicle = (vehicle, callback) => {
     try {
       dispatch(vehicleAddBegin());
       const res = await DataService.put('/vehicle', vehicle);
-
       if (res.data.status === 200) {
         await dispatch(
           vehicleAddSuccess({

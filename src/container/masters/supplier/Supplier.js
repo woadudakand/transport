@@ -73,24 +73,6 @@ const Supplier = () => {
     }
   }, [pathname]);
 
-  // const dataSource = [
-  //   {
-  //     key: '1',
-  //     sn: 1,
-  //     name: 'Ravi',
-  //     address: 'Hadpsar',
-  //     city: 'Pune',
-  //     contact: '0175555',
-  //     action: (
-  //       <div className="table-actions">
-  //         <Link to="#" className="edit">
-  //           <FeatherIcon icon="edit" size={14} />
-  //         </Link>
-  //       </div>
-  //     ),
-  //   },
-  // ];
-
   const dataSource = [];
 
   suppliers.map((supplier, key) => {
@@ -110,18 +92,8 @@ const Supplier = () => {
           </Link>
         </div>
       ),
-
-      // action: (
-      //   <div className="table-actions">
-      //     <Link to="#" className="edit">
-      //       <FeatherIcon icon="edit" size={14} />
-      //     </Link>
-      //   </div>
-      // ),
     });
   });
-
-  console.log(suppliers);
 
   const columns = [
     {

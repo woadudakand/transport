@@ -64,7 +64,6 @@ const EditSupplier = () => {
 
   useEffect(() => {
     if (suppliers[0]) {
-      console.log(suppliers);
       setDataSource(suppliers[0].suppliers_contact_person_details);
       form.setFieldsValue({
         ...suppliers[0],
@@ -77,6 +76,7 @@ const EditSupplier = () => {
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
       sn: key + 1,
+      key: key + 1,
       name,
       email,
       designation,

@@ -63,7 +63,6 @@ const getSuppliersDispatch = (currentPage = 1, perPage = 10, callback) => {
       dispatch(getSupplierBegin());
       const res = await DataService.get(`/suplier?perPage=${perPage}&&currentPage=${currentPage}`);
 
-      console.log(res.data.data);
       if (res.data.status === 200) {
         await dispatch(
           getSupplierSuccess({
