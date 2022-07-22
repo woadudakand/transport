@@ -64,7 +64,6 @@ const EditSupplier = () => {
 
   useEffect(() => {
     if (suppliers[0]) {
-      console.log(suppliers);
       setDataSource(suppliers[0].suppliers_contact_person_details);
       form.setFieldsValue({
         ...suppliers[0],
