@@ -23,6 +23,7 @@ const vehicleAddDispatch = vehicle => {
   return async dispatch => {
     try {
       dispatch(vehicleAddBegin());
+
       const res = await DataService.post('/vehicle', vehicle);
       // console.log(res);
       if (res.data.status === 200) {
@@ -64,7 +65,6 @@ const getVehiclesDispatch = (currentPage = 1, perPage = 10, callback) => {
       dispatch(getVehicleBegin());
       const res = await DataService.get(`/vehicle?perPage=${perPage}&&currentPage=${currentPage}`);
 
-      console.log(res.data);
       if (res.data.status === 200) {
         // console.log(res.data);
         await dispatch(

@@ -55,19 +55,19 @@ const SaveVehicles = () => {
 
   // console.log(infoTableData);
 
-  dataSource.map(({ tName, amount, pDate, eDate, description }, key) => {
+  dataSource.map(({ tax_type, tax_amount, tax_start_date, tax_end_date, tax_description }, key) => {
     return infoTableData.push({
       key,
       sn: key + 1,
-      tName,
-      amount,
-      pDate,
-      eDate,
-      description,
+      tax_type,
+      tax_amount,
+      tax_start_date,
+      tax_end_date,
+      tax_description,
       action: (
         <div className="table-actions">
           <Link
-            onClick={() => handleInfoEdit({ tName, amount, pDate, eDate, description }, key)}
+            onClick={() => handleInfoEdit({ tax_type, tax_amount, tax_start_date, tax_end_date, tax_description }, key)}
             to="#"
             className="edit"
           >
@@ -89,29 +89,29 @@ const SaveVehicles = () => {
     },
     {
       title: 'Taxi Name',
-      dataIndex: 'tName',
-      key: 'tName',
+      dataIndex: 'tax_type',
+      key: 'tax_type',
     },
     {
       title: 'Amount',
-      dataIndex: 'amount',
-      key: 'amount',
+      dataIndex: 'tax_amount',
+      key: 'tax_amount',
     },
 
     {
       title: 'Paid Date',
-      dataIndex: 'pDate',
-      key: 'pDate',
+      dataIndex: 'tax_start_date',
+      key: 'tax_start_date',
     },
     {
       title: 'Expiry Date',
-      dataIndex: 'eDate',
-      key: 'eDate',
+      dataIndex: 'tax_end_date',
+      key: 'tax_end_date',
     },
     {
       title: 'Description',
-      dataIndex: 'description',
-      key: 'description',
+      dataIndex: 'tax_description',
+      key: 'tax_description',
     },
     {
       title: 'Actions',
@@ -136,11 +136,11 @@ const SaveVehicles = () => {
       const newData = dataSource.map((item, index) => {
         if (index === edit - 1) {
           const newItem = item;
-          newItem.tName = info.tName;
-          newItem.amount = info.amount;
-          newItem.pDate = info.pDate;
-          newItem.eDate = info.eDate;
-          newItem.description = info.description;
+          newItem.tax_type = info.tax_type;
+          newItem.tax_amount = info.tax_amount;
+          newItem.tax_start_date = info.tax_start_date;
+          newItem.tax_end_date = info.tax_end_date;
+          newItem.tax_description = info.tax_description;
           setEdit(false);
           setInfo({});
           return newItem;
@@ -248,9 +248,9 @@ const SaveVehicles = () => {
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Tax Details">
                     <Select
-                      onChange={value => handleSelectChange(value, 'tName')}
+                      onChange={value => handleSelectChange(value, 'tax_type')}
                       style={{ width: '100%' }}
-                      name="tName"
+                      name="tax_type"
                       defaultValue=""
                       showSearch
                     >
@@ -259,27 +259,27 @@ const SaveVehicles = () => {
                       <Select.Option value="RoadText">RoadText</Select.Option>
                     </Select>
                     <br /> <br />
-                    <Input name="amount" value={info.amount} onChange={handleChange} placeholder="Amount" />
+                    <Input name="tax_amount" value={info.tax_amount} onChange={handleChange} placeholder="Amount" />
                     <br /> <br />
                     <DatePicker
                       style={{ width: '100%' }}
-                      name="pDate"
-                      value={moment(info.pDate)}
-                      onChange={value => handleDateChange(value, 'pDate')}
+                      name="tax_start_date"
+                      value={info.tax_start_date ? moment(info.tax_start_date) : ''}
+                      onChange={value => handleDateChange(value, 'tax_start_date')}
                       placeholder="Paid Date"
                     />
                     <br /> <br />
                     <DatePicker
                       style={{ width: '100%' }}
-                      name="eDate"
-                      value={moment(info.eDate)}
-                      onChange={value => handleDateChange(value, 'eDate')}
+                      name="tax_end_date"
+                      value={info.tax_end_date ? moment(info.tax_end_date) : ''}
+                      onChange={value => handleDateChange(value, 'tax_end_date')}
                       placeholder="Expire Date"
                     />
                     <br /> <br />
                     <Input.TextArea
-                      name="description"
-                      value={info.description}
+                      name="tax_description"
+                      value={info.tax_description}
                       onChange={handleChange}
                       placeholder="Description"
                     />

@@ -73,44 +73,11 @@ const Vehicle = () => {
     }
   }, [pathname]);
 
-  // const dataSource = [
-  //   {
-  //     key: '1',
-  //     sn: 1,
-  //     vNo: 'MH 13 AA 1881',
-  //     OAddress: 'Hadpsar',
-  //     owner: 'Ravis',
-  //     type: 'Heavy',
-  //     action: (
-  //       <div className="table-actions">
-  //         <Link to="#" className="edit">
-  //           <FeatherIcon icon="edit" size={14} />
-  //         </Link>
-  //       </div>
-  //     ),
-  //   },
-  //   {
-  //     key: '2',
-  //     sn: 2,
-  //     vNo: 'MH12GH2370',
-  //     OAddress: 'Hadpsar',
-  //     owner: 'sastri',
-  //     type: 'Heavy',
-  //     action: (
-  //       <div className="table-actions">
-  //         <Link to="#" className="edit">
-  //           <FeatherIcon icon="edit" size={14} />
-  //         </Link>
-  //       </div>
-  //     ),
-  //   },
-  // ];
-
   const dataSource = [];
 
   vehicles.map((vehicle, key) => {
     const { vehicle_no, voname, vtype, id } = vehicle;
-    console.log(vehicle);
+
     return dataSource.push({
       key: id,
       sn: key + 1,
@@ -127,7 +94,6 @@ const Vehicle = () => {
       ),
     });
   });
-  console.log(vehicles);
 
   const columns = [
     {
