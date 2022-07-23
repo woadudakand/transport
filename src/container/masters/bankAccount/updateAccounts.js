@@ -91,7 +91,7 @@ const UpdateAccount = ({ visible, onCancel, account }) => {
   return (
     <Modal
       type={state.modalType}
-      title="Save Bank Account"
+      title="Update Bank Account"
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
@@ -104,7 +104,7 @@ const UpdateAccount = ({ visible, onCancel, account }) => {
               key="submit"
               onClick={handleOk}
             >
-              Save
+              Update
             </Button>
             <Button size="default" type="white" key="back" outlined onClick={handleCancel}>
               Cancel
@@ -172,7 +172,8 @@ const UpdateAccount = ({ visible, onCancel, account }) => {
             </Form.Item>
 
             <Form.Item valuePropName={ifsc} initialValue={ifsc} name="ifsc" label="IFSC">
-              <Input value={ifsc} disabled />
+              {/* <Input value={ifsc} disabled /> */}
+              <Input placeholder="ifsc" disabled />
             </Form.Item>
             <Form.Item
               rules={[

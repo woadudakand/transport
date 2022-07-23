@@ -19,7 +19,7 @@ const {
   getVehicleErr,
 } = actions;
 
-const vehicleAddDispatch = vehicle => {
+const vehicleAddDispatch = (vehicle, callback) => {
   return async dispatch => {
     try {
       dispatch(vehicleAddBegin());
@@ -36,6 +36,7 @@ const vehicleAddDispatch = vehicle => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
           vehicleAddErr({

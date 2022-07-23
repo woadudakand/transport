@@ -38,7 +38,7 @@ const SaveCustomers = () => {
           customerReferences: dataSource,
         },
         () => {
-          gotoView();
+          form.resetFields();
         },
       ),
     );
@@ -433,7 +433,22 @@ const SaveCustomers = () => {
                 </Col>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
-                    <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
+                    {/* <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" /> */}
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Contact person name',
+                        },
+                        {
+                          type: 'name',
+                        },
+                      ]}
+                      // name="name"
+                      label="Person Name"
+                    >
+                      <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />
+                    </Form.Item>
                     <br /> <br />
                     <Input name="address" value={info.address} onChange={handleChange} placeholder="Address" />
                     <br /> <br />

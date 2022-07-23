@@ -36,7 +36,7 @@ const SaveVehicles = () => {
           vehicleTx: dataSource,
         },
         () => {
-          gotoView();
+          form.resetFields();
         },
       ),
     );

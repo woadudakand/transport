@@ -199,7 +199,7 @@ const getEmployeeDispatch = value => {
   };
 };
 
-const updateEmployee = value => {
+const updateEmployee = (value, callback) => {
   return async dispatch => {
     try {
       dispatch(employeeAddBegin());
@@ -214,6 +214,7 @@ const updateEmployee = value => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
           employeeAddErr({

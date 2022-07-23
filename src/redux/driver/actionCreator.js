@@ -193,7 +193,7 @@ const getDriverSingle = id => {
   };
 };
 
-const updateDriver = value => {
+const updateDriver = (value, callback) => {
   return async dispatch => {
     try {
       dispatch(driverAddBegin());
@@ -208,6 +208,7 @@ const updateDriver = value => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
           driverAddErr({

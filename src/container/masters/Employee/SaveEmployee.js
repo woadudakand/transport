@@ -26,10 +26,7 @@ const SaveEmployee = () => {
           ...values,
           created_at: moment().format('YYYY-MM-DD'),
         },
-        // () => form.resetFields(),
-        () => {
-          gotoView();
-        },
+        () => form.resetFields(),
       ),
     );
   };

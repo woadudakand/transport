@@ -35,7 +35,7 @@ const SaveSupplier = () => {
           suplierDetailsData: dataSource,
         },
         () => {
-          gotoView();
+          form.resetFields();
         },
       ),
     );

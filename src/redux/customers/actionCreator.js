@@ -34,7 +34,7 @@ const customerAddDispatch = (customer, callback) => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
-        callback('/admin/customers');
+        callback();
       } else {
         await dispatch(
           customerAddErr({

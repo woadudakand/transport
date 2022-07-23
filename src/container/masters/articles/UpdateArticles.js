@@ -65,7 +65,7 @@ const UpdateArticles = ({ visible, onCancel, article }) => {
   return (
     <Modal
       type={state.modalType}
-      title="Edit Articles"
+      title="Update Articles"
       visible={state.visible}
       forcerender
       footer={[

@@ -11,7 +11,6 @@ import { Cards } from '../../../components/cards/frame/cards-frame';
 import indianStates from '../../../demoData/indianStats.json';
 import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
 import { updateCustomer, getSingleCustomerDispatch } from '../../../redux/customers/actionCreator';
-// import DataLoader from '../../../components/utilities/DataLoader';
 
 const EditCustomers = () => {
   const [form] = Form.useForm();

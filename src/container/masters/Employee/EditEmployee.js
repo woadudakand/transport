@@ -19,6 +19,10 @@ const EditEmployee = () => {
   const employee = useSelector(state => state.employees.employee);
   const { id } = useParams();
 
+  const gotoView = () => {
+    history.replace('/admin/employees');
+  };
+
   useEffect(() => {
     if (dispatch) {
       dispatch(singleEmployee(id));
@@ -27,16 +31,17 @@ const EditEmployee = () => {
 
   const handleFinish = values => {
     dispatch(
-      updateEmployee({
-        ...values,
-        id,
-        updated_at: moment().format('YYYY-MM-DD'),
-      }),
+      updateEmployee(
+        {
+          ...values,
+          id,
+          updated_at: moment().format('YYYY-MM-DD'),
+        },
+        () => {
+          gotoView();
+        },
+      ),
     );
-  };
-
-  const gotoView = () => {
-    history.replace('/admin/employees');
   };
 
   useEffect(() => {
@@ -54,7 +59,7 @@ const EditEmployee = () => {
       {isLoading ? <DataLoader /> : null}
       <PageHeader
         ghost
-        title="Edit Employee"
+        title="Update Employee"
         buttons={[
           <div key="1" className="page-header-actions">
             <Button onClick={gotoView} size="small" type="primary">

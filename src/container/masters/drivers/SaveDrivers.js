@@ -30,15 +30,9 @@ const SaveDrivers = () => {
 
     if (customValues.name) {
       dispatch(
-        driverAddDispatch(
-          { ...values, created_at: moment().format('YYYY-MM-DD') },
-          function() {
-            form.resetFields();
-          },
-          () => {
-            gotoView();
-          },
-        ),
+        driverAddDispatch({ ...values, created_at: moment().format('YYYY-MM-DD') }, () => {
+          form.resetFields();
+        }),
       );
     }
   };

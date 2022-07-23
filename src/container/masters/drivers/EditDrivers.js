@@ -38,15 +38,9 @@ const UpdateDrivers = () => {
 
     if (customValues.name) {
       dispatch(
-        updateDriver(
-          { ...values, id, updated_at: moment().format('YYYY-MM-DD') },
-          // function() {
-          //   form.resetFields();
-          // },
-          () => {
-            gotoView();
-          },
-        ),
+        updateDriver({ ...values, id, updated_at: moment().format('YYYY-MM-DD') }, () => {
+          gotoView();
+        }),
       );
     }
 

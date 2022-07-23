@@ -19,7 +19,7 @@ const {
   getSupplierErr,
 } = actions;
 
-const supplierAddDispatch = supplier => {
+const supplierAddDispatch = (supplier, callback) => {
   return async dispatch => {
     try {
       dispatch(supplierAddBegin());
@@ -34,6 +34,7 @@ const supplierAddDispatch = supplier => {
           }),
         );
         openNotificationWithIcon('success', res.data.message, res.data.description);
+        callback();
       } else {
         await dispatch(
           supplierAddErr({
