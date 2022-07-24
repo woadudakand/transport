@@ -206,14 +206,34 @@ const EditVehicles = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item initialValue="" name="voname" label="Select Owner">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select Owner',
+                      },
+                    ]}
+                    initialValue=""
+                    name="voname"
+                    label="Select Owner"
+                  >
                     <Select showSearch>
                       <Select.Option value="">Select Owner</Select.Option>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="kamal">kamal</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="vtype" label="Select Vehicle Type">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select Vehicle Type',
+                      },
+                    ]}
+                    initialValue=""
+                    name="vtype"
+                    label="Select Vehicle Type"
+                  >
                     <Select>
                       <Select.Option value="">Select Vehicle Type</Select.Option>
                       <Select.Option value="Mrf">Mrf</Select.Option>
@@ -221,7 +241,16 @@ const EditVehicles = () => {
                       <Select.Option value="Mini">Mini</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="vehicle_no" label="Vehicle NO">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Vehicle No',
+                      },
+                    ]}
+                    name="vehicle_no"
+                    label="Vehicle NO"
+                  >
                     <Input placeholder="Vehicle NO" />
                   </Form.Item>
                   <Form.Item name="capacity" label="capacity">
@@ -236,28 +265,92 @@ const EditVehicles = () => {
                   <Form.Item name="description" label="Description">
                     <Input placeholder="description" />
                   </Form.Item>
-                  <Form.Item name="regdate" label="Reg Date">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select Reg Date',
+                      },
+                    ]}
+                    name="regdate"
+                    label="Reg Date"
+                  >
                     <DatePicker style={{ width: '100%' }} placeholder="Reg Date" />
                   </Form.Item>
-                  <Form.Item name="vehicle_expdate" label="Exp Date">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select Exp Date',
+                      },
+                    ]}
+                    name="vehicle_expdate"
+                    label="Exp Date"
+                  >
                     <DatePicker style={{ width: '100%' }} placeholder="Exp Date" />
                   </Form.Item>
-                  <Form.Item name="engineno" label="Engine No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Engine No',
+                      },
+                    ]}
+                    name="engineno"
+                    label="Engine No"
+                  >
                     <Input placeholder="engineNo" />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="chasisno" label="Chasis No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Chasis No',
+                      },
+                    ]}
+                    name="chasisno"
+                    label="Chasis No"
+                  >
                     <Input placeholder="Chasis No" />
                   </Form.Item>
-                  <Form.Item name="pucno" label="PUC No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input PUC No',
+                      },
+                    ]}
+                    name="pucno"
+                    label="PUC No"
+                  >
                     <Input placeholder="PUC No" />
                   </Form.Item>
-                  <Form.Item name="puc_expdate" label="PUC Exp. Date">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select PUC Exp Date',
+                      },
+                    ]}
+                    name="puc_expdate"
+                    label="PUC Exp. Date"
+                  >
                     <DatePicker style={{ width: '100%' }} placeholder="PUC Exp. Date" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="body" label="Select Body">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select Body',
+                      },
+                    ]}
+                    initialValue=""
+                    name="body"
+                    label="Select Body"
+                  >
                     <Select>
                       <Select.Option value="">Select Body</Select.Option>
                       <Select.Option value="Open">Open</Select.Option>

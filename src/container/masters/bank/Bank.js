@@ -2,7 +2,7 @@
 import React, { useState, useEffect } from 'react';
 import { Row, Col, Table, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { Link, useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation } from 'react-router-dom';
 import { useDispatch, useSelector } from 'react-redux';
 import SaveBank from './SaveBank';
 import UpdateBankModal from './UpdateBank';

@@ -50,16 +50,52 @@ const SaveEmployee = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} sm={12}>
-                  <Form.Item name="name" label="Employee Name">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Employee name',
+                      },
+                    ]}
+                    name="name"
+                    label="Employee Name"
+                  >
                     <Input placeholder="Employee Name" />
                   </Form.Item>
-                  <Form.Item name="dob" label="Date of Birth">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select Date of Birth',
+                      },
+                    ]}
+                    name="dob"
+                    label="Date of Birth"
+                  >
                     <DatePicker style={{ width: '100%' }} placeholder="yyyy/mm/dd" />
                   </Form.Item>
-                  <Form.Item name="mobileno" label="Mobile">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Mobile number',
+                      },
+                    ]}
+                    name="mobileno"
+                    label="Mobile"
+                  >
                     <Input placeholder="Mobile" />
                   </Form.Item>
-                  <Form.Item name="joiningdate" label="Join Date">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select Join Date',
+                      },
+                    ]}
+                    name="joiningdate"
+                    label="Join Date"
+                  >
                     <DatePicker style={{ width: '100%' }} placeholder="yyyy/mm/dd" />
                   </Form.Item>
                   <Form.Item initialValue="" name="bloodgroup" label="Blood Group">
@@ -78,19 +114,64 @@ const SaveEmployee = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} sm={12}>
-                  <Form.Item name="address" label="Correspondence Address">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Correspondence Address',
+                      },
+                    ]}
+                    name="address"
+                    label="Correspondence Address"
+                  >
                     <Input placeholder="Correspondence Address" />
                   </Form.Item>
-                  <Form.Item name="permanent_address" label="Permanent Address">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Permanent Address',
+                      },
+                    ]}
+                    name="permanent_address"
+                    label="Permanent Address"
+                  >
                     <Input placeholder="Permanent Address" />
                   </Form.Item>
-                  <Form.Item name="email" label="Email Id">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Email',
+                      },
+                    ]}
+                    name="email"
+                    label="Email Id"
+                  >
                     <Input placeholder="Email Id" />
                   </Form.Item>
-                  <Form.Item name="qualification" label="Qualification">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Qualification',
+                      },
+                    ]}
+                    name="qualification"
+                    label="Qualification"
+                  >
                     <Input placeholder="Qualification" />
                   </Form.Item>
-                  <Form.Item name="designation" label="Designation">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Designation',
+                      },
+                    ]}
+                    name="designation"
+                    label="Designation"
+                  >
                     <Input placeholder="Designation" />
                   </Form.Item>
                 </Col>

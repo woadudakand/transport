@@ -170,13 +170,41 @@ const SaveSupplier = () => {
             <Form form={form} name="createProject" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="supplier_name" label="Supplier Name">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input supplier name',
+                      },
+                    ]}
+                    name="supplier_name"
+                    label="Supplier Name"
+                  >
                     <Input placeholder="Supplier Name" />
                   </Form.Item>
-                  <Form.Item name="address" label="Address">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input address',
+                      },
+                    ]}
+                    name="address"
+                    label="Address"
+                  >
                     <Input placeholder="Address" />
                   </Form.Item>
-                  <Form.Item initialValue="" name="supplier_type" label="Supplier Type">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select supplier type',
+                      },
+                    ]}
+                    initialValue=""
+                    name="supplier_type"
+                    label="Supplier Type"
+                  >
                     <Select>
                       <Select.Option value="">Supplier Type</Select.Option>
                       <Select.Option value="Vehicle">Vehicle</Select.Option>
@@ -184,7 +212,17 @@ const SaveSupplier = () => {
                       <Select.Option value="Pump">Pump</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="state" label="Select State">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select state',
+                      },
+                    ]}
+                    initialValue=""
+                    name="state"
+                    label="Select State"
+                  >
                     <Select>
                       <Select.Option value="">Select State</Select.Option>
                       <Select.Option value="Pune">Pune</Select.Option>
@@ -192,7 +230,17 @@ const SaveSupplier = () => {
                       <Select.Option value="Rajastan">Rajastan</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item initialValue="" name="city" label="Select City">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Select city',
+                      },
+                    ]}
+                    initialValue=""
+                    name="city"
+                    label="Select City"
+                  >
                     <Select>
                       <Select.Option value="">Select City</Select.Option>
                       <Select.Option value="pune">Pune</Select.Option>
@@ -202,12 +250,25 @@ const SaveSupplier = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="telephone" label="Telephone">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input telephone number',
+                      },
+                    ]}
+                    name="telephone"
+                    label="Telephone"
+                  >
                     <Input placeholder="Telephone" />
                   </Form.Item>
                   <Form.Item
                     name="email"
                     rules={[
+                      {
+                        required: true,
+                        message: 'Input Email',
+                      },
                       {
                         type: 'email',
                       },
@@ -216,33 +277,97 @@ const SaveSupplier = () => {
                   >
                     <Input placeholder="Email" />
                   </Form.Item>
-                  <Form.Item name="pan_no" label="PAN No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input PAN no',
+                      },
+                    ]}
+                    name="pan_no"
+                    label="PAN No"
+                  >
                     <Input placeholder="PAN No" />
                   </Form.Item>
-                  <Form.Item name="vendor_code" label="Vendor Code">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input vendor code',
+                      },
+                    ]}
+                    name="vendor_code"
+                    label="Vendor Code"
+                  >
                     <Input placeholder="Vendor Code" />
                   </Form.Item>
-                  <Form.Item name="cst_no" label="CST No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input CST No',
+                      },
+                    ]}
+                    name="cst_no"
+                    label="CST No"
+                  >
                     <Input placeholder="CST No." />
                   </Form.Item>
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item name="vat_no" label="Vat No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input Vat No',
+                      },
+                    ]}
+                    name="vat_no"
+                    label="Vat No"
+                  >
                     <Input placeholder="Vat No." />
                   </Form.Item>
 
-                  <Form.Item name="ecc_no" label="ECC No">
+                  <Form.Item
+                    rules={[
+                      {
+                        required: true,
+                        message: 'Input ECC No',
+                      },
+                    ]}
+                    name="ecc_no"
+                    label="ECC No"
+                  >
                     <Input placeholder="ECC No" />
                   </Form.Item>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="opening_balance" label="Opening Balance">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Input opening balance',
+                          },
+                        ]}
+                        name="opening_balance"
+                        label="Opening Balance"
+                      >
                         <Input placeholder="Opening Balance" />
                       </Form.Item>
                     </Col>
                     <Col xs={12}>
-                      <Form.Item name="payment_type" initialValue="" label="Select Card">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select Card',
+                          },
+                        ]}
+                        name="payment_type"
+                        initialValue=""
+                        label="Select Card"
+                      >
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -251,20 +376,48 @@ const SaveSupplier = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ margin: '25px 0' }} xs={24}>
-                      <Form.Item name="opening_balance_date" label="Date">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select Date',
+                          },
+                        ]}
+                        name="opening_balance_date"
+                        label="Date"
+                      >
                         <DatePicker style={{ width: '100%' }} placeholder="Date" />
                       </Form.Item>
                     </Col>
                   </Row>
                   <Row gutter={15}>
                     <Col xs={12}>
-                      <Form.Item name="closing_balance" label="Closing Balance">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Input closing balance',
+                          },
+                        ]}
+                        name="closing_balance"
+                        label="Closing Balance"
+                      >
                         <Input placeholder="Closing Balance" />
                       </Form.Item>
                     </Col>
 
                     <Col xs={12}>
-                      <Form.Item name="closing_balance_type" initialValue="" label="Select Card">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select Card',
+                          },
+                        ]}
+                        name="closing_balance_type"
+                        initialValue=""
+                        label="Select Card"
+                      >
                         <Select>
                           <Select.Option value="">Select Card</Select.Option>
                           <Select.Option value="credit">Credit</Select.Option>
@@ -273,7 +426,16 @@ const SaveSupplier = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ marginTop: '20px' }} xs={24}>
-                      <Form.Item name="closing_balance_date" label="Date">
+                      <Form.Item
+                        rules={[
+                          {
+                            required: true,
+                            message: 'Select Date',
+                          },
+                        ]}
+                        name="closing_balance_date"
+                        label="Date"
+                      >
                         <DatePicker style={{ width: '100%' }} placeholder="Date" />
                       </Form.Item>
                     </Col>

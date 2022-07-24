@@ -71,7 +71,7 @@ const SaveBank = ({ visible, onCancel, bank }) => {
   return (
     <Modal
       type={state.modalType}
-      title="Edit Bank"
+      title="Update Bank"
       visible={state.visible}
       footer={[
         <div key="1" className="project-modal-footer">
@@ -97,10 +97,28 @@ const SaveBank = ({ visible, onCancel, bank }) => {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="editBank" onFinish={handleOk}>
-            <Form.Item name="bank_name" label="Bank Name">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input bank name',
+                },
+              ]}
+              name="bank_name"
+              label="Bank Name"
+            >
               <Input />
             </Form.Item>
-            <Form.Item name="branch_name" label="Branch Name">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input branch name',
+                },
+              ]}
+              name="branch_name"
+              label="Branch Name"
+            >
               <Input />
             </Form.Item>
             <Form.Item
@@ -115,20 +133,65 @@ const SaveBank = ({ visible, onCancel, bank }) => {
             >
               <Input />
             </Form.Item>
-            <Form.Item name="ifsc_code" label="IFSC Code">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input IFSC code',
+                },
+              ]}
+              name="ifsc_code"
+              label="IFSC Code"
+            >
               <Input />
             </Form.Item>
-            <Form.Item name="micr_code" label="MICR Code">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input MICR code',
+                },
+              ]}
+              name="micr_code"
+              label="MICR Code"
+            >
               <Input />
             </Form.Item>
-            <Form.Item name="telephone" label="Telephone">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Telephone number',
+                },
+              ]}
+              name="telephone"
+              label="Telephone"
+            >
               <Input />
             </Form.Item>
-            <Form.Item name="email" label="Email">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input email',
+                },
+              ]}
+              name="email"
+              label="Email"
+            >
               <Input />
             </Form.Item>
 
-            <Form.Item name="address" label="Address">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input address',
+                },
+              ]}
+              name="address"
+              label="Address"
+            >
               <Input.TextArea />
             </Form.Item>
           </Form>

@@ -84,10 +84,30 @@ const UpdateType = ({ visible, onCancel, vType }) => {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="updateVehicleType" onFinish={handleOk}>
-            <Form.Item initialValue={vType.type} name="type" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Vehicle Type',
+                },
+              ]}
+              initialValue={vType.type}
+              name="type"
+              label="Vehicle Type"
+            >
               <Input placeholder="Vehicle Type" />
             </Form.Item>
-            <Form.Item initialValue={vType.quantity} name="quantity" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Tyre Quantity',
+                },
+              ]}
+              initialValue={vType.quantity}
+              name="quantity"
+              label="Tyre Quantity"
+            >
               <Input placeholder="Tyre Quantity" />
             </Form.Item>
           </Form>

@@ -78,10 +78,28 @@ const SaveType = ({ visible, onCancel }) => {
       <div className="project-modal">
         <BasicFormWrapper>
           <Form form={form} name="createProject" onFinish={handleOk}>
-            <Form.Item name="type" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Vehicle Type',
+                },
+              ]}
+              name="type"
+              label="Vehicle Type"
+            >
               <Input placeholder="Vehicle Type" />
             </Form.Item>
-            <Form.Item name="quantity" label="">
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Input Tyre Quantity',
+                },
+              ]}
+              name="quantity"
+              label="Tyre Quantity"
+            >
               <InputNumber placeholder="Tyre Quantity" />
             </Form.Item>
           </Form>
