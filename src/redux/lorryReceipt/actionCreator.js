@@ -10,31 +10,23 @@ const openNotificationWithIcon = (type, message, description) => {
 };
 
 const {
-  employeeSearch,
-  employeeAddBegin,
-  employeeAddSuccess,
-  employeeAddErr,
-  getEmployeeBegin,
-  getEmployeeSuccess,
-  getEmployeeErr,
-
-  getEmployeeListBegin,
-  getEmployeeListSuccess,
-  getEmployeeListErr,
-
-  getSingleEmployeeBegin,
-  getSingleEmployeeSuccess,
-  getSingleEmployeeErr,
+  lorryReceiptSearch,
+  lorryReceiptAddBegin,
+  lorryReceiptAddSuccess,
+  lorryReceiptAddErr,
+  getLorryReceiptBegin,
+  getLorryReceiptSuccess,
+  getLorryReceiptErr,
 } = actions;
 
-const employeeAddDispatch = (data, callback) => {
+const lorryReceiptAddDispatch = (lorryReceipt, callback) => {
   return async dispatch => {
     try {
-      dispatch(employeeAddBegin());
-      const res = await DataService.post('/employees', data);
+      dispatch(lorryReceiptAddBegin());
+      const res = await DataService.post('/lr', lorryReceipt);
       if (res.data.status === 200) {
         await dispatch(
-          employeeAddSuccess({
+          lorryReceiptAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -45,7 +37,7 @@ const employeeAddDispatch = (data, callback) => {
         callback();
       } else {
         await dispatch(
-          employeeAddErr({
+          lorryReceiptAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -54,8 +46,9 @@ const employeeAddDispatch = (data, callback) => {
         openNotificationWithIcon('error', res.data.message, res.data.description);
       }
     } catch (err) {
+      console.log(err);
       dispatch(
-        employeeAddErr({
+        lorryReceiptAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -65,15 +58,16 @@ const employeeAddDispatch = (data, callback) => {
   };
 };
 
-const getEmployeesDispatch = (currentPage = 1, perPage = 10, callback) => {
+const getLorryReceiptsDispatch = (currentPage = 1, perPage = 10, callback) => {
   return async dispatch => {
     try {
-      dispatch(getEmployeeBegin());
-      const res = await DataService.get(`/employees?perPage=${perPage}&&currentPage=${currentPage}`);
+      dispatch(getLorryReceiptBegin());
+      const res = await DataService.get(`/lr?perPage=${perPage}&&currentPage=${currentPage}`);
 
+      console.log(res.data.data);
       if (res.data.status === 200) {
         await dispatch(
-          getEmployeeSuccess({
+          getLorryReceiptSuccess({
             result: res.data.data,
             message: res.data.message,
             type: res.data.type,
@@ -83,7 +77,7 @@ const getEmployeesDispatch = (currentPage = 1, perPage = 10, callback) => {
         callback(res.data.pagination.total);
       } else {
         await dispatch(
-          getEmployeeErr({
+          getLorryReceiptErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -91,7 +85,7 @@ const getEmployeesDispatch = (currentPage = 1, perPage = 10, callback) => {
       }
     } catch (err) {
       dispatch(
-        getEmployeeErr({
+        getLorryReceiptErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -100,47 +94,14 @@ const getEmployeesDispatch = (currentPage = 1, perPage = 10, callback) => {
   };
 };
 
-const getEmployeeListDispatch = () => {
+const deleteLorryReceipt = id => {
   return async dispatch => {
     try {
-      dispatch(getEmployeeListBegin());
-      const res = await DataService.get(`/employee/list`);
-
+      dispatch(getLorryReceiptBegin());
+      const res = await DataService.delete(`/lr?id=${id}`);
       if (res.data.status === 200) {
         await dispatch(
-          getEmployeeListSuccess({
-            result: res.data.data,
-            message: res.data.message,
-            type: res.data.type,
-          }),
-        );
-      } else {
-        await dispatch(
-          getEmployeeListErr({
-            message: res.data.message,
-            type: res.data.type,
-          }),
-        );
-      }
-    } catch (err) {
-      dispatch(
-        getEmployeeListErr({
-          message: 'Record Submit failed! Please check your connection',
-          type: 'error',
-        }),
-      );
-    }
-  };
-};
-
-const deleteEmployee = id => {
-  return async dispatch => {
-    try {
-      dispatch(getEmployeeBegin());
-      const res = await DataService.delete(`/employees?id=${id}`);
-      if (res.data.status === 200) {
-        await dispatch(
-          getEmployeeSuccess({
+          getLorryReceiptSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -150,7 +111,7 @@ const deleteEmployee = id => {
         openNotificationWithIcon('success', res.data.message, res.data.description);
       } else {
         await dispatch(
-          getEmployeeErr({
+          getLorryReceiptErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -160,7 +121,7 @@ const deleteEmployee = id => {
       }
     } catch (err) {
       dispatch(
-        getEmployeeErr({
+        getLorryReceiptErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -170,20 +131,20 @@ const deleteEmployee = id => {
   };
 };
 
-const getEmployeeDispatch = value => {
+const getLorryReceiptDispatch = value => {
   return async dispatch => {
     try {
-      const res = await DataService.get(`/employees/query?data=${value}`);
+      const res = await DataService.get(`/lr/query?data=${value}`);
 
       if (res.data.status === 200) {
         await dispatch(
-          employeeSearch({
+          lorryReceiptSearch({
             result: res.data.data,
           }),
         );
       } else {
         await dispatch(
-          getEmployeeErr({
+          getLorryReceiptErr({
             message: res.data.message,
             type: res.data.type,
           }),
@@ -191,7 +152,7 @@ const getEmployeeDispatch = value => {
       }
     } catch (err) {
       dispatch(
-        getEmployeeErr({
+        getLorryReceiptErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -200,14 +161,15 @@ const getEmployeeDispatch = value => {
   };
 };
 
-const updateEmployee = (value, callback) => {
+const updateLorryReceipt = (lorry, callback) => {
   return async dispatch => {
     try {
-      dispatch(employeeAddBegin());
-      const res = await DataService.put('/employees', value);
+      dispatch(lorryReceiptAddBegin());
+      const res = await DataService.put('/lr', lorry);
+
       if (res.data.status === 200) {
         await dispatch(
-          employeeAddSuccess({
+          lorryReceiptAddSuccess({
             result: res.data.data,
             message: res.data.message,
             description: res.data.description,
@@ -218,7 +180,7 @@ const updateEmployee = (value, callback) => {
         callback();
       } else {
         await dispatch(
-          employeeAddErr({
+          lorryReceiptAddErr({
             message: res.data.message,
             description: res.data.description,
             type: res.data.type,
@@ -228,7 +190,7 @@ const updateEmployee = (value, callback) => {
       }
     } catch (err) {
       dispatch(
-        employeeAddErr({
+        lorryReceiptAddErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -238,32 +200,31 @@ const updateEmployee = (value, callback) => {
   };
 };
 
-const singleEmployee = id => {
+const getSingleLorryReceiptDispatch = id => {
   return async dispatch => {
     try {
-      dispatch(getSingleEmployeeBegin());
-      const res = await DataService.put('/employees/single', { id });
+      dispatch(getLorryReceiptBegin());
+      const res = await DataService.put(`/lr/single`, { id });
+
       if (res.data.status === 200) {
         await dispatch(
-          getSingleEmployeeSuccess({
+          getLorryReceiptSuccess({
             result: res.data.data,
             message: res.data.message,
-            description: res.data.description,
             type: res.data.type,
           }),
         );
       } else {
         await dispatch(
-          getSingleEmployeeErr({
+          getLorryReceiptErr({
             message: res.data.message,
-            description: res.data.description,
             type: res.data.type,
           }),
         );
       }
     } catch (err) {
       dispatch(
-        getSingleEmployeeErr({
+        getLorryReceiptErr({
           message: 'Record Submit failed! Please check your connection',
           type: 'error',
         }),
@@ -273,11 +234,10 @@ const singleEmployee = id => {
 };
 
 export {
-  getEmployeeListDispatch,
-  getEmployeesDispatch,
-  employeeAddDispatch,
-  getEmployeeDispatch,
-  deleteEmployee,
-  updateEmployee,
-  singleEmployee,
+  getLorryReceiptsDispatch,
+  getSingleLorryReceiptDispatch,
+  lorryReceiptAddDispatch,
+  getLorryReceiptDispatch,
+  deleteLorryReceipt,
+  updateLorryReceipt,
 };

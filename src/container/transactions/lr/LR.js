@@ -1,20 +1,75 @@
 import React, { useState, useEffect } from 'react';
 // import Radium, {StyleRoot} from 'radium';
-import { Row, Col, Table, Select } from 'antd';
+import { Row, Col, Table, Select, notification, Popconfirm } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { useLocation, useHistory } from 'react-router-dom';
+import { Link, useLocation, useHistory } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
 import { WrapperRight } from './Style';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
 import { Button } from '../../../components/buttons/buttons';
+import DataLoader from '../../../components/utilities/DataLoader';
 import { AutoComplete } from '../../../components/autoComplete/autoComplete';
+import {
+  getLorryReceiptsDispatch,
+  deleteLorryReceipt,
+  getLorryReceiptDispatch,
+} from '../../../redux/lorryReceipt/actionCreator';
+
+const openNotificationWithIcon = () => {
+  notification.error({
+    message: 'Deleted!',
+    description: 'Please Select minimum one row.',
+  });
+};
 
 const LorryReceipt = () => {
   const [selectedRowKeys, setSelectedRowKeys] = useState([]);
   const [block, setBlock] = useState(false);
   const { pathname } = useLocation();
 
+  const dispatch = useDispatch();
+  const { lorryReceipt, isLoading } = useSelector(state => {
+    return {
+      lorryReceipt: state.lorryReceipt.lorryReceipt,
+      isLoading: state.lorryReceipt.loading,
+    };
+  });
+
+  const [pagination, setPagination] = useState({
+    current: 1,
+    pageSize: 10,
+  });
+
+  useEffect(() => {
+    dispatch(
+      getLorryReceiptsDispatch(pagination.current, pagination.pageSize, total =>
+        setPagination({
+          ...pagination,
+          total,
+        }),
+      ),
+    );
+  }, [pathname]);
+
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getLorryReceiptsDispatch());
+    }
+  }, [dispatch]);
+
+  const handleTableChange = ({ current, pageSize }) => {
+    dispatch(
+      getLorryReceiptsDispatch(current, pageSize, total =>
+        setPagination({
+          current,
+          pageSize,
+          total,
+        }),
+      ),
+    );
+  };
   useEffect(() => {
     if (window.innerWidth <= 375) {
       setBlock(true);
@@ -24,6 +79,30 @@ const LorryReceipt = () => {
   }, [pathname]);
 
   const dataSource = [];
+
+  lorryReceipt.map((lrorry, key) => {
+    const { id } = lrorry;
+    return dataSource.push({
+      key: id,
+      sn: key + 1,
+      lrNo: 0,
+      date: 0,
+      consigner: 0,
+      from: 0,
+      consignee: 0,
+      to: '15',
+      payType: 0,
+      grandTotal: 0,
+      action: (
+        <div className="table-actions">
+          <Link to={`/admin/update-lr/${id}`} className="edit">
+            <FeatherIcon icon="edit" size={14} />
+          </Link>
+        </div>
+      ),
+    });
+  });
+  // console.log(lorryReceipt);
 
   const columns = [
     {
@@ -92,6 +171,18 @@ const LorryReceipt = () => {
     onChange: onSelectChange,
   };
 
+  const handleDeleted = async () => {
+    if (selectedRowKeys.length) {
+      dispatch(deleteLorryReceipt(selectedRowKeys.toString()));
+    } else {
+      openNotificationWithIcon();
+    }
+  };
+
+  const handleSearch = value => {
+    dispatch(getLorryReceiptDispatch(value));
+  };
+
   // Inline Styling
   // const branchStyle = {
   //   width: 'auto',
@@ -102,6 +193,7 @@ const LorryReceipt = () => {
 
   return (
     <>
+      {isLoading ? <DataLoader /> : null}
       <PageHeader
         ghost
         title="Lorry Receipt"
@@ -124,10 +216,12 @@ const LorryReceipt = () => {
             </Select>
           </div>
           <WrapperRight className="right">
-            <AutoComplete placeholder="Search..." onSearch={data => console.log(data)} width="200px" patterns />
-            <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
-              Delete
-            </Button>
+            <AutoComplete placeholder="Search..." onSearch={handleSearch} width="200px" patterns />
+            <Popconfirm title="Are you sure to delete this row?" onConfirm={handleDeleted} okText="Yes" cancelText="No">
+              <Button block={block} type="dark" style={{ marginTop: block ? 15 : 0 }}>
+                Delete
+              </Button>
+            </Popconfirm>
           </WrapperRight>
         </Row>
 
@@ -138,9 +232,10 @@ const LorryReceipt = () => {
                 <Table
                   rowSelection={rowSelection}
                   className="table-responsive"
-                  pagination={false}
+                  pagination={pagination}
                   dataSource={dataSource}
                   columns={columns}
+                  onChange={handleTableChange}
                 />
               </TableWrapper>
             </Cards>

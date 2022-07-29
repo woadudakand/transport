@@ -13,6 +13,7 @@ import customersReducer from './customers/reducers';
 import vehiclesReducer from './vehicles/reducers';
 import VehicleTypeReducer from './vehicleType/reducers';
 import SupplierReducer from './supplier/reducers';
+import LorryReceiptReducer from './lorryReceipt/reducers';
 
 const rootReducers = combineReducers({
   users: UsersReducer,
@@ -29,6 +30,7 @@ const rootReducers = combineReducers({
   vehicle: vehiclesReducer,
   vehicleType: VehicleTypeReducer,
   suppliers: SupplierReducer,
+  lorryReceipt: LorryReceiptReducer,
 });
 
 export default rootReducers;

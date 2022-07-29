@@ -1,27 +1,46 @@
-import React, { useState } from 'react';
+import React, { useEffect, useState } from 'react';
 import { Col, DatePicker, Form, Input, Row, Select, Table, InputNumber, Divider } from 'antd';
 import FeatherIcon from 'feather-icons-react';
-import { Link } from 'react-router-dom';
+import { useSelector, useDispatch } from 'react-redux';
+import { Link, useHistory } from 'react-router-dom';
+import moment from 'moment';
 import { Main, TableWrapper, BasicFormWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Button } from '../../../components/buttons/buttons';
 import { Cards } from '../../../components/cards/frame/cards-frame';
+import { getBranchListDispatch } from '../../../redux/branch/actionCreator';
+import { lorryReceiptAddDispatch } from '../../../redux/lorryReceipt/actionCreator';
 
 const SavePlaces = () => {
   const [form] = Form.useForm();
   const [info, setInfo] = useState({});
   const [edit, setEdit] = useState(false);
   const [dataSource, setDataSource] = useState([]);
+  const history = useHistory();
+  const dispatch = useDispatch();
+  const { branches, isLoading } = useSelector(state => {
+    return {
+      branches: state.branches.list,
+      isLoading: state.customer.loading,
+    };
+  });
+
+  const gotoView = () => {
+    history.replace('/admin/lorryReceipt');
+  };
 
   const handleFinish = values => {
-    console.log({
-      ...values,
-      openBalance: {
-        balance: values.oBalance,
-        card: values.oCard,
-      },
-      info: dataSource,
-    });
+    dispatch(
+      lorryReceiptAddDispatch(
+        {
+          lorryReceiptData: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          lorryReceiptReferences: dataSource,
+        },
+        () => {
+          form.resetFields();
+        },
+      ),
+    );
   };
   const infoTableData = [];
 
@@ -35,14 +54,23 @@ const SavePlaces = () => {
     setEdit(key + 1);
   };
 
+  useEffect(() => {
+    if (dispatch) {
+      dispatch(getBranchListDispatch());
+    }
+  }, [dispatch]);
+
   dataSource.map(({ name, email, designation, address, mobile }, key) => {
     return infoTableData.push({
+      key,
       sn: key + 1,
-      name,
-      email,
-      designation,
-      address,
-      mobile,
+      articles: 'aritcale',
+      noArticles: 32,
+      description: 'description',
+      actualWeight: 325,
+      ratePer: 'kg',
+      rate: 500,
+      freight: 'freight',
       action: (
         <div className="table-actions">
           <Link
@@ -118,6 +146,7 @@ const SavePlaces = () => {
     setInfo({
       ...info,
       [e.currentTarget.name]: e.currentTarget.value,
+      created_at: moment().format('YYYY-MM-DD'),
     });
   };
 
@@ -148,7 +177,17 @@ const SavePlaces = () => {
 
   return (
     <>
-      <PageHeader ghost title="Lorry Receipt Details" />
+      <PageHeader
+        ghost
+        title="Lorry Receipt Details"
+        buttons={[
+          <div key="1" className="page-header-actions">
+            <Button onClick={gotoView} size="small" type="primary">
+              View Page
+            </Button>
+          </div>,
+        ]}
+      />
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
@@ -190,7 +229,7 @@ const SavePlaces = () => {
                   <Form.Item name="fromGst" label="Consignor's GST No">
                     <Input placeholder="Consignor's GST No" />
                   </Form.Item>
-                  <Form.Item name="fromAddress" label="Consignee Address:">
+                  <Form.Item name="fromAddress" label="Consignor Address:">
                     <Input placeholder="Consignee Address:" />
                   </Form.Item>
 
@@ -210,14 +249,14 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item initialValue="Ravi" name="toConsignor" label="Consignor">
+                  <Form.Item initialValue="Ravi" name="toConsignee" label="Consignee">
                     <Select>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="Amit">Amit</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="toGst" label="Consignor's GST No">
-                    <Input placeholder="Consignor's GST No" />
+                  <Form.Item name="toGst" label="Consignee's GST No">
+                    <Input placeholder="Consignee's GST No" />
                   </Form.Item>
                   <Form.Item name="toAddress" label="Consignee Address:">
                     <Input placeholder="Consignee Address:" />

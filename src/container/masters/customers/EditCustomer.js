@@ -444,8 +444,18 @@ const EditCustomers = () => {
                 </Col>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Contact Person">
-                    <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '}
-                    <br /> <br />
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          whitespace: true,
+                          message: 'Please input contact person name',
+                        },
+                      ]}
+                      name=""
+                    >
+                      <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />
+                    </Form.Item>
                     <Input name="address" value={info.address} onChange={handleChange} placeholder="Address" />
                     <br /> <br />
                     <Input name="email" value={info.email} onChange={handleChange} placeholder="Email" />
