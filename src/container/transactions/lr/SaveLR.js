@@ -21,7 +21,7 @@ const SavePlaces = () => {
   const { branches, isLoading } = useSelector(state => {
     return {
       branches: state.branches.list,
-      isLoading: state.customer.loading,
+      isLoading: state.lorryReceipt.loading,
     };
   });
 
@@ -34,7 +34,9 @@ const SavePlaces = () => {
       lorryReceiptAddDispatch(
         {
           lorryReceiptData: { ...values, created_at: moment().format('YYYY-MM-DD') },
-          lorryReceiptReferences: dataSource,
+          lorryTransactionData: dataSource,
+          lorryFreightData: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          lorryBillingData: { ...values, created_at: moment().format('YYYY-MM-DD') },
         },
         () => {
           form.resetFields();
@@ -60,21 +62,21 @@ const SavePlaces = () => {
     }
   }, [dispatch]);
 
-  dataSource.map(({ name, email, designation, address, mobile }, key) => {
+  dataSource.map(({ no_of_article, description, weight, rate_per, rate, freight }, key) => {
     return infoTableData.push({
       key,
       sn: key + 1,
       articles: 'aritcale',
-      noArticles: 32,
-      description: 'description',
-      actualWeight: 325,
-      ratePer: 'kg',
-      rate: 500,
-      freight: 'freight',
+      noArticles: no_of_article,
+      description,
+      actualWeight: weight,
+      ratePer: rate_per,
+      rate,
+      freight,
       action: (
         <div className="table-actions">
           <Link
-            onClick={() => handleInfoEdit({ name, email, designation, address, mobile }, key)}
+            onClick={() => handleInfoEdit({ no_of_article, description, weight, rate_per, rate, freight }, key)}
             to="#"
             className="edit"
           >
@@ -158,11 +160,13 @@ const SavePlaces = () => {
       const newData = dataSource.map((item, index) => {
         if (index === edit - 1) {
           const newItem = item;
-          newItem.name = info.name;
-          newItem.address = info.address;
-          newItem.mobile = info.mobile;
-          newItem.email = info.email;
-          newItem.designation = info.designation;
+          newItem.articles = info.articles;
+          newItem.noArticles = info.no_of_article;
+          newItem.description = info.description;
+          newItem.actualWeight = info.weight;
+          newItem.ratePer = info.rate_per;
+          newItem.rate = info.rate;
+          newItem.freight = info.freight;
           setEdit(false);
           setInfo({});
           return newItem;
@@ -191,27 +195,46 @@ const SavePlaces = () => {
       <Main>
         <Row justify="space-between" style={{ marginBottom: 20 }}>
           <p />
-          <Select style={{ width: '250px' }} defaultValue="">
-            <Select.Option value="">Select Branch</Select.Option>
-            <Select.Option value="pune">Pune</Select.Option>
-            <Select.Option value="kallam">Kallam</Select.Option>
-          </Select>
+          <Form form={form} name="lorryReceipt" onFinish={handleFinish}>
+            <Form.Item
+              rules={[
+                {
+                  required: true,
+                  message: 'Select Branch',
+                },
+              ]}
+              name="branchs_id"
+              label=""
+              initialValue=""
+            >
+              <Select style={{ width: '250px' }}>
+                <Select.Option value="">Select Branch</Select.Option>
+                {branches.map(item => {
+                  return (
+                    <Select.Option key={item.id} value={item.id}>
+                      {item.title}
+                    </Select.Option>
+                  );
+                })}
+              </Select>
+            </Form.Item>
+          </Form>
         </Row>
         <Cards headless>
           <BasicFormWrapper>
             <Form form={form} name="lorryReceipt" onFinish={handleFinish}>
               <Row gutter={24}>
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item name="lrNo" label="LR No:">
+                  <Form.Item name="lr_id" label="LR No:">
                     <Input placeholder="LR No: " />
                   </Form.Item>
                   <Form.Item name="date" label="Date">
                     <DatePicker style={{ width: '100%' }} placeholder="date" />
                   </Form.Item>
-                  <Form.Item name="invoice" label="Invoice No:">
+                  <Form.Item name="invoice_no" label="Invoice No:">
                     <Input placeholder="Invoice No:" />
                   </Form.Item>
-                  <Form.Item initialValue="MH 13 AA 1881" name="state" label="Truck/Tempo No:">
+                  <Form.Item initialValue="MH 13 AA 1881" name="vehicle_id" label="Truck/Tempo No:">
                     <Select>
                       <Select.Option value="MH 13 AA 1881">MH 13 AA 1881</Select.Option>
                       <Select.Option value="MH12GH2370">MH12GH2370</Select.Option>
@@ -220,49 +243,42 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12}>
-                  <Form.Item initialValue="Ravi" name="fromConsignor" label="Consignor">
+                  <Form.Item initialValue="Ravi" name="customer_id_from" label="Consignor">
                     <Select>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="Amit">Amit</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="fromGst" label="Consignor's GST No">
+                  <Form.Item name="consignorgst_from" label="Consignor's GST No">
                     <Input placeholder="Consignor's GST No" />
                   </Form.Item>
-                  <Form.Item name="fromAddress" label="Consignor Address:">
+                  <Form.Item name="consigner_address_from" label="Consignor Address:">
                     <Input placeholder="Consignee Address:" />
                   </Form.Item>
 
-                  <Form.Item initialValue="pune" name="from" label="From">
+                  <Form.Item initialValue="pune" name="place_id_from" label="From">
                     <Select>
                       <Select.Option value="pune">Pune</Select.Option>
                       <Select.Option value="kallam">Kallam</Select.Option>
                     </Select>
                   </Form.Item>
-
-                  {/* <Form.Item initialValue="kallam" name="to" label="To">
-                    <Select>
-                      <Select.Option value="pune">Pune</Select.Option>
-                      <Select.Option value="kallam">Kallam</Select.Option>
-                    </Select>
-                  </Form.Item> */}
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={8} sm={12} xs={24}>
-                  <Form.Item initialValue="Ravi" name="toConsignee" label="Consignee">
+                  <Form.Item initialValue="Ravi" name="customer_id_to" label="Consignee">
                     <Select>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="Amit">Amit</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="toGst" label="Consignee's GST No">
+                  <Form.Item name="consignorgst_to" label="Consignee's GST No">
                     <Input placeholder="Consignee's GST No" />
                   </Form.Item>
-                  <Form.Item name="toAddress" label="Consignee Address:">
+                  <Form.Item name="consigner_address_to" label="Consignee Address:">
                     <Input placeholder="Consignee Address:" />
                   </Form.Item>
 
-                  <Form.Item initialValue="pune" name="to" label="To">
+                  <Form.Item initialValue="pune" name="place_id_to" label="To">
                     <Select>
                       <Select.Option value="pune">Pune</Select.Option>
                       <Select.Option value="kallam">Kallam</Select.Option>
@@ -271,14 +287,14 @@ const SavePlaces = () => {
                 </Col>
 
                 <Col style={{ marginBottom: '20px' }} md={12} sm={12} xs={24}>
-                  <Form.Item initialValue="" name="delivery" label="Delivery At:">
+                  <Form.Item initialValue="" name="delivery_at" label="Delivery At:">
                     <Select>
                       <Select.Option value="">Select Deliver Person</Select.Option>
                       <Select.Option value="Ravi">Ravi</Select.Option>
                       <Select.Option value="Amit">Amit</Select.Option>
                     </Select>
                   </Form.Item>
-                  <Form.Item name="address" label="Address:">
+                  <Form.Item name="delivery_address" label="Address:">
                     <Input placeholder="Delivery Address" />
                   </Form.Item>
                   <Form.Item name="city" label="City:">
@@ -287,22 +303,8 @@ const SavePlaces = () => {
                 </Col>
                 <Col style={{ marginBottom: '20px' }} md={12} sm={24} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Transactions Details">
-                    {/* <Input name="name" value={info.name} onChange={handleChange} placeholder="Contact Person Name" />{' '} */}
-                    <Form.Item initialValue="Articles" name="articles">
-                      <Select
-                        // showSearch
-                        // style={{ cursor: 'pointer' }}
-                        // optionFilterProp="children"
-                        // filterOption={(input, option) =>
-                        //   option.children.toLowerCase().indexOf(input.toLowerCase()) >= 0
-                        // }
-                        // filterSort={(optionA, optionB) =>
-                        //   optionA.children.toLowerCase().localeCompare(optionB.children.toLowerCase())
-                        // }
-                        // placeholder="Articles"
-                        // value={info.articles}
-                        value={info.articles}
-                      >
+                    <Form.Item initialValue="Articles" name="articale_id">
+                      <Select value={info.articles}>
                         <Select.Option value="pune">Box</Select.Option>
                         <Select.Option value="bag">Bag</Select.Option>
                         <Select.Option value="buccket">buccket</Select.Option>
@@ -312,7 +314,7 @@ const SavePlaces = () => {
                       </Select>
                     </Form.Item>
                     <Input
-                      name="noArticles"
+                      name="no_of_article"
                       value={info.noArticles}
                       onChange={handleChange}
                       placeholder="No. Articles"
@@ -334,7 +336,7 @@ const SavePlaces = () => {
                       type="number"
                     />
                     <br /> <br />
-                    <Form.Item initialValue="Rate Per" name="ratePer">
+                    <Form.Item initialValue="Rate Per" name="rate_per">
                       <Select value={info.ratePer}>
                         <Select.Option value="pune">Fixed</Select.Option>
                         <Select.Option value="bag">Kg</Select.Option>
@@ -376,7 +378,7 @@ const SavePlaces = () => {
                 </Col>
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Freight Details">
-                    <Form.Item name="totalFreight" label="Total Freight:">
+                    <Form.Item name="total_freight" label="Total Freight:">
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="osc" label="O. S. C">
@@ -385,10 +387,10 @@ const SavePlaces = () => {
                     <Form.Item name="door" label="Door/Del_Char">
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
-                    <Form.Item name="otherChar" label="Other Char">
+                    <Form.Item name="other_charges" label="Other Char">
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
-                    <Form.Item name="varai" label="Varai/Hamali">
+                    <Form.Item name="hamali" label="Varai/Hamali">
                       <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
                     </Form.Item>
                     <Form.Item name="statistical" label="Statistical">
@@ -404,12 +406,12 @@ const SavePlaces = () => {
                 <br />
                 <Cards bodyStyle={{ backgroundColor: '#f4f5f7', justifyContent: 'spaceBetween', display: 'flex' }}>
                   <Col md={12} sm={12}>
-                    <Form.Item name="totalNoArticle" label="Total No. of Articles">
+                    <Form.Item name="total_no_article" label="Total No. of Articles">
                       <Input placeholder="0" type="number" />
                     </Form.Item>
                   </Col>
                   <Col md={12} sm={12}>
-                    <Form.Item name="totalWeight" label="Total Weight">
+                    <Form.Item name="total_weight" label="Total Weight">
                       <Input placeholder="0" type="number" />
                     </Form.Item>
                   </Col>
@@ -419,20 +421,20 @@ const SavePlaces = () => {
                 <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Billing Details">
                   <Row>
                     <Col md={12} sm={12}>
-                      <Form.Item name="materialCost" label="Material Cost">
+                      <Form.Item name="material_cost" label="Material Cost">
                         <Input placeholder="Material Cost" type="number" />
                       </Form.Item>
-                      <Form.Item initialValue="Door" name="deliveryType" label="Delivery Type">
+                      <Form.Item initialValue="Door" name="delivery_type" label="Delivery Type">
                         <Select>
                           <Select.Option value="door">Door</Select.Option>
                           <Select.Option value="godwan">Godwan</Select.Option>
                           <Select.Option value="office">Office</Select.Option>
                         </Select>
                       </Form.Item>
-                      <Form.Item name="inDays" label="Delivery (in days)">
+                      <Form.Item name="delivery_days" label="Delivery (in days)">
                         <Input placeholder="0" type="number" />
                       </Form.Item>
-                      <Form.Item initialValue="TTB" name="payType" label="Pay Type">
+                      <Form.Item initialValue="TTB" name="pay_type" label="Pay Type">
                         <Select>
                           <Select.Option value="ttb">TTB</Select.Option>
                           <Select.Option value="toPay">To Pay</Select.Option>
@@ -441,14 +443,14 @@ const SavePlaces = () => {
                       </Form.Item>
                     </Col>
                     <Col style={{ marginLeft: 'auto' }} md={11} sm={11}>
-                      <Form.Item initialValue="Consignor" name="toBilled" label="To Billed">
+                      <Form.Item initialValue="Consignor" name="to_billed" label="To Billed">
                         <Select>
                           <Select.Option value="consignor">Consignor</Select.Option>
                           <Select.Option value="consignee">Consignee</Select.Option>
                           <Select.Option value="thirdParty">Third Party</Select.Option>
                         </Select>
                       </Form.Item>
-                      <Form.Item initialValue="Consignor" name="collectAt" label="Collect At">
+                      <Form.Item initialValue="Consignor" name="collect_at_branch" label="Collect At">
                         <Select>
                           <Select.Option value="pune">Pune</Select.Option>
                           <Select.Option value="kallam">Kallam</Select.Option>
@@ -457,7 +459,7 @@ const SavePlaces = () => {
                           <Select.Option value="mumbai">Mumbai</Select.Option>
                         </Select>
                       </Form.Item>
-                      <Form.Item initialValue="" name="serviceTax" label="Service Tax By">
+                      <Form.Item initialValue="" name="service_tax_by" label="Service Tax By">
                         <Select>
                           <Select.Option value="consignor">Consignor</Select.Option>
                           <Select.Option value="consignee">Consignee</Select.Option>
@@ -468,24 +470,15 @@ const SavePlaces = () => {
                       </Form.Item>
                     </Col>
                   </Row>
-                  {/* <Row gutter={24} style={{ margin: '0 auto', justifyContent: 'center' }}>
-                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
-                      {!edit ? 'Save' : 'Update'}
-                    </Button>
-                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
-                      {!edit ? 'Origional Print' : 'Update'}
-                    </Button>
-                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
-                      {!edit ? 'Print Without Value' : 'Update'}
-                    </Button>
-                    <Button style={{ margin: '10px' }} onClick={handleContactInfo} size="large" type="primary">
-                      {!edit ? 'cancel' : 'Update'}
-                    </Button>
-                  </Row> */}
                   <Divider />
                   <Row gutter={24} style={{ justifyContent: 'center' }}>
                     <Col md={6} sm={12}>
-                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                      <Button
+                        style={{ margin: '10px auto', width: '100%' }}
+                        // onClick={handleContactInfo}
+                        type="primary"
+                        htmlType="submit"
+                      >
                         Save
                       </Button>
                     </Col>
