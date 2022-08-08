@@ -30,13 +30,51 @@ const SavePlaces = () => {
   };
 
   const handleFinish = values => {
+    console.log(`Lorry Receipit : ${values}`);
     dispatch(
       lorryReceiptAddDispatch(
         {
-          lorryReceiptData: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          lorryReceiptData: {
+            // id: 1,
+            branche_id: values.branchs_id,
+            lr_id: values.lr_id,
+            invoice_no: values.invoice_no,
+            vehicle_id: values.vehicle_id,
+            customer_id_from: values.customer_id_from,
+            consignorgst_from: values.consignorgst_from,
+            consigner_address_from: values.consigner_address_from,
+            place_id_from: values.place_id_from,
+            customer_id_to: values.customer_id_to,
+            consignorgst_to: values.consignorgst_to,
+            consigner_address_to: values.consigner_address_to,
+            place_id_to: values.place_id_to,
+            delivery_at: values.delivery_at,
+            delivery_address: values.delivery_address,
+            city: values.city,
+            created_at: moment().format('YYYY-MM-DD'),
+          },
           lorryTransactionData: dataSource,
-          lorryFreightData: { ...values, created_at: moment().format('YYYY-MM-DD') },
-          lorryBillingData: { ...values, created_at: moment().format('YYYY-MM-DD') },
+          lorryFreightData: {
+            total_freight: values.total_freight,
+            osc: values.osc,
+            door: values.door,
+            other_charges: values.other_charges,
+            hamali: values.hamali,
+            statistical: values.statistical,
+            total: values.total,
+            created_at: moment().format('YYYY-MM-DD'),
+          },
+          lorryBillingData: {
+            material_cost: values.material_cost,
+            delivery_type: values.delivery_type,
+            delivery_days: values.delivery_days,
+            pay_type: values.pay_type,
+            to_billed: values.to_billed,
+            collect_at_branch: values.collect_at_branch,
+            service_tax_by: values.service_tax_by,
+            remark: values.remark,
+            created_at: moment().format('YYYY-MM-DD'),
+          },
         },
         () => {
           form.resetFields();
@@ -62,11 +100,11 @@ const SavePlaces = () => {
     }
   }, [dispatch]);
 
-  dataSource.map(({ no_of_article, description, weight, rate_per, rate, freight }, key) => {
+  dataSource.map(({ articale_id, no_of_article, description, weight, rate_per, rate, freight }, key) => {
     return infoTableData.push({
       key,
       sn: key + 1,
-      articles: 'aritcale',
+      articles: articale_id,
       noArticles: no_of_article,
       description,
       actualWeight: weight,
@@ -228,14 +266,15 @@ const SavePlaces = () => {
                   <Form.Item name="lr_id" label="LR No:">
                     <Input placeholder="LR No: " />
                   </Form.Item>
-                  <Form.Item name="date" label="Date">
+                  <Form.Item name="created_at" label="Date">
                     <DatePicker style={{ width: '100%' }} placeholder="date" />
                   </Form.Item>
                   <Form.Item name="invoice_no" label="Invoice No:">
                     <Input placeholder="Invoice No:" />
                   </Form.Item>
-                  <Form.Item initialValue="MH 13 AA 1881" name="vehicle_id" label="Truck/Tempo No:">
+                  <Form.Item initialValue="" name="vehicle_id" label="Truck/Tempo No:">
                     <Select>
+                      <Select.Option value="">Slect Truck / Tempo No:</Select.Option>
                       <Select.Option value="MH 13 AA 1881">MH 13 AA 1881</Select.Option>
                       <Select.Option value="MH12GH2370">MH12GH2370</Select.Option>
                     </Select>
@@ -256,8 +295,9 @@ const SavePlaces = () => {
                     <Input placeholder="Consignee Address:" />
                   </Form.Item>
 
-                  <Form.Item initialValue="pune" name="place_id_from" label="From">
+                  <Form.Item initialValue="" name="place_id_from" label="From">
                     <Select>
+                      <Select.Option value="">Select a place</Select.Option>
                       <Select.Option value="pune">Pune</Select.Option>
                       <Select.Option value="kallam">Kallam</Select.Option>
                     </Select>
@@ -278,8 +318,9 @@ const SavePlaces = () => {
                     <Input placeholder="Consignee Address:" />
                   </Form.Item>
 
-                  <Form.Item initialValue="pune" name="place_id_to" label="To">
+                  <Form.Item initialValue="" name="place_id_to" label="To">
                     <Select>
+                      <Select.Option value="">Select a place</Select.Option>
                       <Select.Option value="pune">Pune</Select.Option>
                       <Select.Option value="kallam">Kallam</Select.Option>
                     </Select>
@@ -379,25 +420,26 @@ const SavePlaces = () => {
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Freight Details">
                     <Form.Item name="total_freight" label="Total Freight:">
-                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
+                      {/* <InputNumber size="small" min={0} max={10} defaultValue={0} /> */}
+                      <Input placeholder="Basic Testing" type="number" />
                     </Form.Item>
                     <Form.Item name="osc" label="O. S. C">
-                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} />
                     </Form.Item>
                     <Form.Item name="door" label="Door/Del_Char">
-                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} />
                     </Form.Item>
                     <Form.Item name="other_charges" label="Other Char">
-                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} />
                     </Form.Item>
                     <Form.Item name="hamali" label="Varai/Hamali">
-                      <InputNumber size="small" min={0} max={10} defaultValue={0} onChange={onInputChange} />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} />
                     </Form.Item>
                     <Form.Item name="statistical" label="Statistical">
-                      <InputNumber size="small" min={0} max={1000} defaultValue={25} onChange={onInputChange} />
+                      <InputNumber size="small" min={0} max={1000} defaultValue={25} />
                     </Form.Item>
                     <Form.Item name="total" label="Total">
-                      <InputNumber size="small" min={0} max={1000} defaultValue={25} onChange={onInputChange} />
+                      <InputNumber size="small" min={0} max={1000} defaultValue={25} />
                     </Form.Item>
                   </Cards>
                 </Col>
@@ -424,8 +466,9 @@ const SavePlaces = () => {
                       <Form.Item name="material_cost" label="Material Cost">
                         <Input placeholder="Material Cost" type="number" />
                       </Form.Item>
-                      <Form.Item initialValue="Door" name="delivery_type" label="Delivery Type">
+                      <Form.Item initialValue="" name="delivery_type" label="Delivery Type">
                         <Select>
+                          <Select.Option value="">Select delivery type</Select.Option>
                           <Select.Option value="door">Door</Select.Option>
                           <Select.Option value="godwan">Godwan</Select.Option>
                           <Select.Option value="office">Office</Select.Option>
@@ -434,8 +477,9 @@ const SavePlaces = () => {
                       <Form.Item name="delivery_days" label="Delivery (in days)">
                         <Input placeholder="0" type="number" />
                       </Form.Item>
-                      <Form.Item initialValue="TTB" name="pay_type" label="Pay Type">
+                      <Form.Item initialValue="" name="pay_type" label="Pay Type">
                         <Select>
+                          <Select.Option value="">Select pay type</Select.Option>
                           <Select.Option value="ttb">TTB</Select.Option>
                           <Select.Option value="toPay">To Pay</Select.Option>
                           <Select.Option value="paid">Paid</Select.Option>
@@ -450,7 +494,7 @@ const SavePlaces = () => {
                           <Select.Option value="thirdParty">Third Party</Select.Option>
                         </Select>
                       </Form.Item>
-                      <Form.Item initialValue="Consignor" name="collect_at_branch" label="Collect At">
+                      <Form.Item initialValue="" name="collect_at_branch" label="Collect At">
                         <Select>
                           <Select.Option value="pune">Pune</Select.Option>
                           <Select.Option value="kallam">Kallam</Select.Option>
