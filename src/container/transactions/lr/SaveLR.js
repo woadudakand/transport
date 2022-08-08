@@ -30,7 +30,6 @@ const SavePlaces = () => {
   };
 
   const handleFinish = values => {
-    console.log(`Lorry Receipit : ${values}`);
     dispatch(
       lorryReceiptAddDispatch(
         {
@@ -192,17 +191,29 @@ const SavePlaces = () => {
 
   const handleContactInfo = () => {
     if (!edit) {
-      setDataSource([...dataSource, info]);
+      setDataSource([
+        ...dataSource,
+        {
+          ...info,
+          articale_id: 'hello',
+          rate: '1',
+          no_of_article: 'jkjkdj',
+          rate_per: 'kdk',
+          freight: 'dkjdfj',
+          total_no_article: '22',
+          total_weight: '111',
+        },
+      ]);
       setInfo({});
     } else {
       const newData = dataSource.map((item, index) => {
         if (index === edit - 1) {
           const newItem = item;
-          newItem.articles = info.articles;
-          newItem.noArticles = info.no_of_article;
+          newItem.articale_id = info.articles;
+          newItem.no_of_article = info.no_of_article;
           newItem.description = info.description;
           newItem.actualWeight = info.weight;
-          newItem.ratePer = info.rate_per;
+          newItem.rate_per = info.rate_per;
           newItem.rate = info.rate;
           newItem.freight = info.freight;
           setEdit(false);
