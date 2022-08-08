@@ -158,6 +158,7 @@ const LorryReceipt = () => {
     },
   ];
   const history = useHistory();
+
   const showModal = () => {
     history.replace('/admin/save-lr');
   };
@@ -182,14 +183,6 @@ const LorryReceipt = () => {
   const handleSearch = value => {
     dispatch(getLorryReceiptDispatch(value));
   };
-
-  // Inline Styling
-  // const branchStyle = {
-  //   width: 'auto',
-  //   '@media (max-width: 768px)': {
-  //     width: '100%',
-  //   },
-  // };
 
   return (
     <>
