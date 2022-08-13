@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react';
-import { Col, DatePicker, Form, Input, Row, Select, Table, InputNumber, Divider } from 'antd';
+import { Col, DatePicker, Form, Input, Row, Select, Table, InputNumber, Divider, Spin } from 'antd';
 import FeatherIcon from 'feather-icons-react';
 import { useSelector, useDispatch } from 'react-redux';
 import { Link, useHistory } from 'react-router-dom';
@@ -18,9 +18,10 @@ const SavePlaces = () => {
   const [dataSource, setDataSource] = useState([]);
   const history = useHistory();
   const dispatch = useDispatch();
-  const { branches, isLoading } = useSelector(state => {
+  const { branches, articles, isLoading } = useSelector(state => {
     return {
       branches: state.branches.list,
+      articles: state.articles.list,
       isLoading: state.lorryReceipt.loading,
     };
   });
@@ -99,7 +100,9 @@ const SavePlaces = () => {
     }
   }, [dispatch]);
 
-  dataSource.map(({ articale_id, no_of_article, description, weight, rate_per, rate, freight }, key) => {
+  dataSource.map((transaction_details, key) => {
+    const { articale_id, no_of_article, description, weight, rate_per, rate, freight } = transaction_details;
+    console.log(transaction_details);
     return infoTableData.push({
       key,
       sn: key + 1,
@@ -113,7 +116,9 @@ const SavePlaces = () => {
       action: (
         <div className="table-actions">
           <Link
-            onClick={() => handleInfoEdit({ no_of_article, description, weight, rate_per, rate, freight }, key)}
+            onClick={() =>
+              handleInfoEdit({ articale_id, no_of_article, description, weight, rate_per, rate, freight }, key)
+            }
             to="#"
             className="edit"
           >
@@ -193,16 +198,17 @@ const SavePlaces = () => {
     if (!edit) {
       setDataSource([
         ...dataSource,
-        {
-          ...info,
-          articale_id: 'hello',
-          rate: '1',
-          no_of_article: 'jkjkdj',
-          rate_per: 'kdk',
-          freight: 'dkjdfj',
-          total_no_article: '22',
-          total_weight: '111',
-        },
+        info,
+        // {
+        //   ...info,
+        //   articale_id: dataSource.articles,
+        //   rate: '1',
+        //   no_of_article: 'jkjkdj',
+        //   rate_per: 'kdk',
+        //   freight: 'dkjdfj',
+        //   total_no_article: '22',
+        //   total_weight: '111',
+        // },
       ]);
       setInfo({});
     } else {
@@ -210,10 +216,10 @@ const SavePlaces = () => {
         if (index === edit - 1) {
           const newItem = item;
           newItem.articale_id = info.articles;
-          newItem.no_of_article = info.no_of_article;
+          newItem.no_of_article = info.noArticles;
           newItem.description = info.description;
-          newItem.actualWeight = info.weight;
-          newItem.rate_per = info.rate_per;
+          newItem.actualWeight = info.actualWeight;
+          newItem.rate_per = info.ratePer;
           newItem.rate = info.rate;
           newItem.freight = info.freight;
           setEdit(false);
@@ -285,7 +291,7 @@ const SavePlaces = () => {
                   </Form.Item>
                   <Form.Item initialValue="" name="vehicle_id" label="Truck/Tempo No:">
                     <Select>
-                      <Select.Option value="">Slect Truck / Tempo No:</Select.Option>
+                      <Select.Option value="">Select Truck / Tempo No:</Select.Option>
                       <Select.Option value="MH 13 AA 1881">MH 13 AA 1881</Select.Option>
                       <Select.Option value="MH12GH2370">MH12GH2370</Select.Option>
                     </Select>
@@ -355,14 +361,37 @@ const SavePlaces = () => {
                 </Col>
                 <Col style={{ marginBottom: '20px' }} md={12} sm={24} xs={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Transactions Details">
-                    <Form.Item initialValue="Articles" name="articale_id">
+                    <Form.Item
+                      rules={[
+                        {
+                          required: true,
+                          message: 'Select Articles',
+                        },
+                        {
+                          type: 'article',
+                        },
+                      ]}
+                      initialValue=""
+                      name="articale_id"
+                      // name="articles"
+                      label=""
+                    >
                       <Select value={info.articles}>
-                        <Select.Option value="pune">Box</Select.Option>
+                        {/* <Select> */}
+                        <Select.Option value="">Slect Articles</Select.Option>
+                        {/* <Select.Option value="pune">Box</Select.Option>
                         <Select.Option value="bag">Bag</Select.Option>
                         <Select.Option value="buccket">buccket</Select.Option>
                         <Select.Option value="buckets">Buckets</Select.Option>
                         <Select.Option value="yogini">yogini</Select.Option>
-                        <Select.Option value="pramod">pramod</Select.Option>
+                        <Select.Option value="pramod">pramod</Select.Option> */}
+                        {articles.map(item => {
+                          return (
+                            <Select.Option key={item.id} value={item.id}>
+                              {item.title}
+                            </Select.Option>
+                          );
+                        })}
                       </Select>
                     </Form.Item>
                     <Input
@@ -382,7 +411,7 @@ const SavePlaces = () => {
                     <br /> <br />
                     <Input
                       name="weight"
-                      value={info.weight}
+                      value={info.actualWeight}
                       onChange={handleChange}
                       placeholder="Weight"
                       type="number"
@@ -431,8 +460,7 @@ const SavePlaces = () => {
                 <Col style={{ marginBottom: '20px' }} md={6} sm={24}>
                   <Cards bodyStyle={{ backgroundColor: '#f4f5f7' }} headless title="Freight Details">
                     <Form.Item name="total_freight" label="Total Freight:">
-                      {/* <InputNumber size="small" min={0} max={10} defaultValue={0} /> */}
-                      <Input placeholder="Basic Testing" type="number" />
+                      <InputNumber size="small" min={0} max={10} defaultValue={0} />
                     </Form.Item>
                     <Form.Item name="osc" label="O. S. C">
                       <InputNumber size="small" min={0} max={10} defaultValue={0} />
@@ -528,27 +556,29 @@ const SavePlaces = () => {
                   <Divider />
                   <Row gutter={24} style={{ justifyContent: 'center' }}>
                     <Col md={6} sm={12}>
-                      <Button
-                        style={{ margin: '10px auto', width: '100%' }}
-                        // onClick={handleContactInfo}
-                        type="primary"
-                        htmlType="submit"
-                      >
-                        Save
-                      </Button>
+                      <Form.Item label="">
+                        <Button
+                          style={{ margin: '10px auto', width: '100%' }}
+                          // onClick={handleContactInfo}
+                          type="primary"
+                          htmlType="submit"
+                        >
+                          Save {isLoading && <Spin />}
+                        </Button>
+                      </Form.Item>
                     </Col>
                     <Col md={6} sm={12}>
-                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                      <Button style={{ margin: '10px auto', width: '100%' }} type="primary">
                         Origional Print
                       </Button>
                     </Col>
                     <Col md={6} sm={12}>
-                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                      <Button style={{ margin: '10px auto', width: '100%' }} type="primary">
                         Print Without Value
                       </Button>
                     </Col>
                     <Col md={6} sm={12}>
-                      <Button style={{ margin: '10px auto', width: '100%' }} onClick={handleContactInfo} type="primary">
+                      <Button style={{ margin: '10px auto', width: '100%' }} type="primary">
                         Cancel
                       </Button>
                     </Col>

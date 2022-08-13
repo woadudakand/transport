@@ -4,6 +4,7 @@ import FeatherIcon from 'feather-icons-react';
 import { Link, useLocation, useHistory } from 'react-router-dom';
 import { useSelector, useDispatch } from 'react-redux';
 import { WrapperRight } from './Style';
+import moment from 'moment';
 import { Main, TableWrapper } from '../../styled';
 import { PageHeader } from '../../../components/page-headers/page-headers';
 import { Cards } from '../../../components/cards/frame/cards-frame';
@@ -80,18 +81,29 @@ const LorryReceipt = () => {
   const dataSource = [];
 
   lorryReceipt.map((lrorry, key) => {
-    const { id } = lrorry;
+    const {
+      id,
+      invoice_no,
+      created_at,
+      customer_id_from,
+      consigner_address_from,
+      customer_id_to,
+      consigner_address_to,
+      lorry_billings,
+      lorry_freights,
+    } = lrorry;
+    console.log(lrorry);
     return dataSource.push({
       key: id,
       sn: key + 1,
-      lrNo: 0,
-      date: 0,
-      consigner: 0,
-      from: 0,
-      consignee: 0,
-      to: '15',
-      payType: 0,
-      grandTotal: 0,
+      lrNo: invoice_no,
+      date: moment(created_at).format('YYYY-MM-DD'),
+      consigner: customer_id_from,
+      from: consigner_address_from,
+      consignee: customer_id_to,
+      to: consigner_address_to,
+      payType: lorry_billings.pay_type,
+      // grandTotal: lorry_freights.total,
       action: (
         <div className="table-actions">
           <Link to={`/admin/update-lr/${id}`} className="edit">
